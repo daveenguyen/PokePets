@@ -2,6 +2,7 @@
 #define POKEMONSPECIES_H
 
 #include <string>
+using namespace std;
 
 class PokemonSpecies
 {
@@ -29,9 +30,7 @@ class PokemonSpecies
 
         // training based
         int    _baseExp;
-        /*
         int    _onDeathEVs[6];
-        */
         double _capRate;
         int    _baseHappiness;
         Growth _rate;

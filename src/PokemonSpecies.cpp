@@ -7,6 +7,8 @@
 PokemonSpecies::PokemonSpecies(int dexNum) {
     /* parse database file based on pokedex number
        then set these variables */
+    DBParser species(dexNum);
+
     _name         = ;
     _types[2]     = ;
     _abilities[2] = ;
