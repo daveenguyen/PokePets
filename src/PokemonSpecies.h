@@ -4,6 +4,7 @@
 #include <string>
 using namespace std;
 
+/* Stuff that every Pokemon of the same species share */
 class PokemonSpecies
 {
     public:
@@ -22,11 +23,15 @@ class PokemonSpecies
 
     private:
 
+        int     _dexNum;
         string  _name;
+
         Types   _types[2];
         Ability _abilities[2];
         double  _genderRatio;
         int     _baseStats[6];
+
+        // move set
 
         // training based
         int    _baseExp;
