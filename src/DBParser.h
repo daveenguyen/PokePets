@@ -28,6 +28,12 @@ struct _dbPokeSpecies {
     int    _conquest_order;
 };
 
+struct _dbPokeStats {
+    int _id;
+    int _base_stat[6];
+    int _effort[6];
+};
+
 class DBParser
 {
     public:
@@ -46,8 +52,10 @@ class DBParser
         // void parseSpecies(ifstream &ifs);
         // void parseSpecies(ifstream &ifs, int dexNum);
         void parsePokeSpecies(_dbPokeSpecies* _pokeSpecies, int dexNum=0);
+        void parsePokeStats(_dbPokeStats* _pokeStats, int dexNum=0);
 
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
+        void clearStruct(_dbPokeStats* _pokeStats);
 
 };
 

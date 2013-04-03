@@ -7,6 +7,7 @@ using namespace std;
 #include "DBParser.h"
 
 #define POKEMON_SPECIES_CSV "../data/csv/pokemon_species.csv"
+#define POKEMON_STATS_CSV "../data/csv/pokemon_stats.csv"
 #define DEBUG
 
 #define MAX_POKES 151
@@ -16,6 +17,8 @@ DBParser::DBParser(int dexNum) {
     if (dexNum == 0) maxPoke = MAX_POKES;
     _dbPokeSpecies _pokeSpecies[maxPoke];
     parsePokeSpecies(_pokeSpecies, dexNum);
+    _dbPokeStats _pokeStats[maxPoke];
+    parsePokeStats(_pokeStats, dexNum);
 }
 
 DBParser::~DBParser(){}
@@ -107,6 +110,74 @@ void DBParser::parsePokeSpecies(_dbPokeSpecies* _pokeSpecies, int dexNum){
     }
 }
 
+
+void DBParser::parsePokeStats(_dbPokeStats* _pokeStats, int dexNum){
+
+    // open file for parsing
+    ifstream ifs(POKEMON_STATS_CSV);
+    if(!ifs.is_open())
+    {
+        cout << "Could not open " << POKEMON_STATS_CSV;
+        exit(1);
+    }
+
+    /* read a line */
+    string line;           // string to store line
+
+    getline(ifs, line);     // get rid of title line
+
+    for (int i = 1; i < dexNum; ++i) {
+        for (int j = 0; j < 6; ++j)
+        getline(ifs, line); // discards line before dexNum if doing singles
+    }
+
+    for (int i = 0; i < MAX_POKES; ++i) {
+        clearStruct(&_pokeStats[i]);
+        for (int j = 0; j < 6; ++j) {
+            getline(ifs, line);    // get line
+
+            // use stringstream to tokenize line
+            stringstream ss(line);
+
+            // clear pokespecies first
+
+            // parse the line by commas and store into second argument
+            parseLine(ss, _pokeStats[i]._id);
+            parseLine(ss, _pokeStats[i]._base_stat[j]); // stat_id just placeholder to get
+            parseLine(ss, _pokeStats[i]._base_stat[j]); // replaced by this line
+            parseLine(ss, _pokeStats[i]._effort[j]);
+            // for debugging
+        }
+        #ifdef DEBUG
+            cout << _pokeStats[i]._id << endl;
+            cout << 0 << '\t';
+            cout << _pokeStats[i]._base_stat[0] << '\t';
+            cout << _pokeStats[i]._effort[0] << endl;
+
+            cout << 1 << '\t';
+            cout << _pokeStats[i]._base_stat[1] << '\t';
+            cout << _pokeStats[i]._effort[1] << endl;
+
+            cout << 2 << '\t';
+            cout << _pokeStats[i]._base_stat[2] << '\t';
+            cout << _pokeStats[i]._effort[2] << endl;
+
+            cout << 3 << '\t';
+            cout << _pokeStats[i]._base_stat[3] << '\t';
+            cout << _pokeStats[i]._effort[3] << endl;
+
+            cout << 4 << '\t';
+            cout << _pokeStats[i]._base_stat[4] << '\t';
+            cout << _pokeStats[i]._effort[4] << endl;
+
+            cout << 5 << '\t';
+            cout << _pokeStats[i]._base_stat[5] << '\t';
+            cout << _pokeStats[i]._effort[5] << endl;
+        #endif
+        if (dexNum != 0) break; // break out if not doing all pokemons
+    }
+}
+
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies){
     _pokeSpecies->_id = 0;
     _pokeSpecies->_identifier = "";
@@ -126,6 +197,24 @@ void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies){
     _pokeSpecies->_forms_switchable = 0;
     _pokeSpecies->_order = 0;
     _pokeSpecies->_conquest_order = 0;
+}
+
+
+
+void DBParser::clearStruct(_dbPokeStats* _pokeStats){
+    _pokeStats->_id           = 0;
+    _pokeStats->_base_stat[0] = 0;
+    _pokeStats->_base_stat[1] = 0;
+    _pokeStats->_base_stat[2] = 0;
+    _pokeStats->_base_stat[3] = 0;
+    _pokeStats->_base_stat[4] = 0;
+    _pokeStats->_base_stat[5] = 0;
+    _pokeStats->_effort[0]    = 0;
+    _pokeStats->_effort[1]    = 0;
+    _pokeStats->_effort[2]    = 0;
+    _pokeStats->_effort[3]    = 0;
+    _pokeStats->_effort[4]    = 0;
+    _pokeStats->_effort[5]    = 0;
 }
 
 
