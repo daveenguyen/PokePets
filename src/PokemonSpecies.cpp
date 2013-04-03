@@ -1,35 +1,23 @@
 #include "PokemonSpecies.h"
 
-
-/**
- *
- */
 PokemonSpecies::PokemonSpecies(int dexNum) {
     /* parse database file based on pokedex number
        then set these variables */
-    DBParser species(dexNum);
+    DBParser species(dexNum) = ;
 
-    _name         = ;
-    _types[2]     = ;
-    _abilities[2] = ;
-    _genderRatio  = ;
-    _baseStats[6] = ;
+    _dexNum       = dexNum;
+    _name         = ; // pokemon_species
+
+    _types[2]     = ; // pokemon_types
+    _abilities[3] = ; // pokemon_abilities
+    _genderRate   = ; // pokemon_species
+    _baseStats[6] = ; // pokemon_stats
+
+    // training based
+    _baseExp       = ;
+    _onDeathEVs[6] = ; // pokemon_stats
+    _capRate       = ; // pokemon_species
+    _baseHappiness = ; // pokemon_species
+    _growthRate    = ; // pokemon_species
 
 }
-
-/*
-        string  getName();
-        Type    getType(int index); // or gettypes?
-        Type[]  getTypes();
-        Ability getAbilities(int index);
-        double  getGenderRatio();
-        int     getBaseStat(int index);
-        int[]   getBaseStats();
-
-    private:
-        string  _name;
-        Types   _types[2];
-        Ability _abilities[2];
-        double  _genderRatio;
-        int     _baseStats[6];
-*/
