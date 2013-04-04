@@ -9,6 +9,7 @@ using namespace std;
 #define POKEMON_ABILITIES_CSV "../data/csv/pokemon_abilities.csv"
 #define POKEMON_SPECIES_CSV "../data/csv/pokemon_species.csv"
 #define POKEMON_STATS_CSV "../data/csv/pokemon_stats.csv"
+#define POKEMON_TYPES_CSV "../data/csv/pokemon_types.csv"
 #define DEBUG
 
 #define MAX_POKES 151
@@ -28,6 +29,10 @@ DBParser::DBParser(int dexNum) {
     cout << endl << "** ABILITIES **" << endl;
     _dbPokeAbilities _pokeAbilities[maxPoke];
     parsePokeAbilities(_pokeAbilities, dexNum);
+
+    cout << endl << "** TYPES **" << endl;
+    _dbPokeTypes _pokeTypes[maxPoke];
+    parsePokeTypes(_pokeTypes, dexNum);
 }
 
 DBParser::~DBParser(){}
@@ -285,6 +290,96 @@ void DBParser::parsePokeAbilities(_dbPokeAbilities* _pokeAbilities, int dexNum){
         // if (dexNum != 0) break; // break out if not doing all pokemons
 }
 
+void DBParser::parsePokeTypes(_dbPokeTypes* _pokeTypes, int dexNum){
+    // open file for parsing
+    ifstream ifs(POKEMON_TYPES_CSV);
+    if(!ifs.is_open())
+    {
+        cout << "Could not open " << POKEMON_TYPES_CSV;
+        exit(1);
+    }
+
+    /* read a line */
+    string line;            // string to store line
+    getline(ifs, line);     // get rid of title line
+
+
+
+    int i = 0;
+    clearStruct(&_pokeTypes[i]);
+
+    while (i < MAX_POKES) {
+
+        stringstream ss;        // stringstream for storing tokenized value
+        int this_poke_id;
+
+        do {
+            getline(ifs, line);    // get line
+            ss.str(line);
+            parseLine(ss, this_poke_id);
+        } while (dexNum!=0 && this_poke_id < dexNum);
+
+        if (dexNum == 0) {
+            if (i == 0) {
+                if (this_poke_id != 1) {
+
+                    // for debugging
+                    #ifdef DEBUG
+                        cout << "id: " << _pokeTypes[i]._pokemon_id << endl;
+                        cout << "1: "  << _pokeTypes[i]._types[0] << endl;
+                        cout << "2: "  << _pokeTypes[i]._types[1] << endl;
+                    #endif
+
+                    ++i;
+                    // cout << i << " INCREMENT " << this_poke_id << endl;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_pokeTypes[i]);
+                }
+            }
+            else {
+                if (this_poke_id != _pokeTypes[i]._pokemon_id) {
+
+                    // for debugging
+                    #ifdef DEBUG
+                        cout << "id: " << _pokeTypes[i]._pokemon_id << endl;
+                        cout << "1: "  << _pokeTypes[i]._types[0] << endl;
+                        cout << "2: "  << _pokeTypes[i]._types[1] << endl;
+                    #endif
+
+                    ++i;
+                    // cout << i << " INCREMENT " << this_poke_id << endl;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_pokeTypes[i]);
+                }
+            }
+        } else {
+            if (this_poke_id != dexNum) {
+
+                // for debugging
+                #ifdef DEBUG
+                        cout << "id: " << _pokeTypes[i]._pokemon_id << endl;
+                        cout << "1: "  << _pokeTypes[i]._types[0] << endl;
+                        cout << "2: "  << _pokeTypes[i]._types[1] << endl;
+                #endif
+
+                break;
+            }
+        }
+
+        int this_type_id = 0;
+        int this_slot = 0;
+
+        parseLine(ss, this_type_id);
+        parseLine(ss, this_slot);
+
+
+        _pokeTypes[i]._pokemon_id         = this_poke_id;
+        _pokeTypes[i]._types[this_slot-1] = this_type_id;
+    }
+}
+
+
+
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_id = 0;
     _pokeSpecies->_identifier = "";
@@ -306,7 +401,6 @@ void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_conquest_order = 0;
 }
 
-
 void DBParser::clearStruct(_dbPokeStats* _pokeStats) {
     _pokeStats->_pokemon_id   = 0;
     _pokeStats->_base_stat[0] = 0;
@@ -324,10 +418,15 @@ void DBParser::clearStruct(_dbPokeStats* _pokeStats) {
 }
 
 void DBParser::clearStruct(_dbPokeAbilities* _pokeAbilities) {
-    _pokeAbilities->_pokemon_id           = 0;
+    _pokeAbilities->_pokemon_id   = 0;
     _pokeAbilities->_abilities[0] = 0;
     _pokeAbilities->_abilities[1] = 0;
-    _pokeAbilities->_abilities[2] = 0;
+}
+
+void DBParser::clearStruct(_dbPokeTypes* _pokeTypes) {
+    _pokeTypes->_pokemon_id = 0;
+    _pokeTypes->_types[0]   = 0;
+    _pokeTypes->_types[1]   = 0;
 }
 
 // testing

@@ -39,6 +39,11 @@ struct _dbPokeAbilities {
     int _abilities[3];
 };
 
+struct _dbPokeTypes {
+    int _pokemon_id;
+    int _types[2];
+};
+
 class DBParser
 {
     public:
@@ -51,18 +56,15 @@ class DBParser
         template <class T>
         void parseLine(stringstream &ss, T &t);
 
-        // void parseLine(stringstream &ss, int &t);
-        // void parseLine(stringstream &ss, string &t);
-
-        // void parseSpecies(ifstream &ifs);
-        // void parseSpecies(ifstream &ifs, int dexNum);
         void parsePokeSpecies(_dbPokeSpecies* _pokeSpecies, int dexNum=0);
         void parsePokeStats(_dbPokeStats* _pokeStats, int dexNum=0);
         void parsePokeAbilities(_dbPokeAbilities* _pokeAbilities, int dexNum=0);
+        void parsePokeTypes(_dbPokeTypes* _pokeTypes, int dexNum=0);
 
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
         void clearStruct(_dbPokeStats* _pokeStats);
         void clearStruct(_dbPokeAbilities* _pokeAbilities);
+        void clearStruct(_dbPokeTypes* _pokeTypes);
 
 };
 
