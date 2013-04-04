@@ -29,9 +29,14 @@ struct _dbPokeSpecies {
 };
 
 struct _dbPokeStats {
-    int _id;
+    int _pokemon_id;
     int _base_stat[6];
     int _effort[6];
+};
+
+struct _dbPokeAbilities {
+    int _pokemon_id;
+    int _abilities[3];
 };
 
 class DBParser
@@ -53,9 +58,11 @@ class DBParser
         // void parseSpecies(ifstream &ifs, int dexNum);
         void parsePokeSpecies(_dbPokeSpecies* _pokeSpecies, int dexNum=0);
         void parsePokeStats(_dbPokeStats* _pokeStats, int dexNum=0);
+        void parsePokeAbilities(_dbPokeAbilities* _pokeAbilities, int dexNum=0);
 
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
         void clearStruct(_dbPokeStats* _pokeStats);
+        void clearStruct(_dbPokeAbilities* _pokeAbilities);
 
 };
 
