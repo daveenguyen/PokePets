@@ -199,81 +199,90 @@ void DBParser::parsePokeAbilities(_dbPokeAbilities* _pokeAbilities, int dexNum){
     }
 
     /* read a line */
-    string line;           // string to store line
-
+    string line;            // string to store line
     getline(ifs, line);     // get rid of title line
 
-    stringstream dex;
-    dex << dexNum;
 
-    // for (int i = 1; i < dexNum; ++i) {
-    // while (ifs.peek() != dex.str()) {
-    //     if (dexNum == 0) break;
-    //     getline(ifs, line); // discards line before dexNum if doing singles
-    //     // if (ifs.peek() != dexNum) {
-    //     //     cout << "ERROR PARSEPOKEABILITIES PROBLEM" << endl;
-    //     //     cout << ifs.peek() << endl;
-    //     //     exit(1);
-    //     // }
-    // }
 
-    for (int i = 0; i < MAX_POKES; ++i) {
-        clearStruct(&_pokeAbilities[i]);
+    int i = 0;
+    clearStruct(&_pokeAbilities[i]);
 
-        int abilities_count = 0;
+    while (i < MAX_POKES) {
 
-        while (_pokeAbilities[i]._abilities[2] == 0) {
+        stringstream ss;        // stringstream for storing tokenized value
+        int this_poke_id;
 
-            // variables for checking
-            int this_poke_id = 0;
-            int this_ability_id = 0;
-            int this_ishidden = 0;
-            int this_slot = 0;
-
+        do {
             getline(ifs, line);    // get line
+            ss.str(line);
+            parseLine(ss, this_poke_id);
+        } while (dexNum!=0 && this_poke_id < dexNum);
 
-            // use stringstream to tokenize line
-            stringstream ss(line);
+        if (dexNum == 0) {
+            if (i == 0) {
+                if (this_poke_id != 1) {
 
-            // parse the line by commas and store into second argument
-            while (true) {
-                parseLine(ss, this_poke_id);
-                if (dexNum != 0) {
-                    if (this_poke_id != dexNum) {
-                        getline(ifs, line);    // get line
-                        ss.str(line);
-                        // cout << "DEBUGGING: " << ss.str() << endl;
-                        // cout << line << endl;
-                    } else {
-                        break;
-                    }
-                } else {
-                    break;
+                    // for debugging
+                    #ifdef DEBUG
+                        cout << "id: " << _pokeAbilities[i]._pokemon_id << endl;
+                        cout << "1: "  << _pokeAbilities[i]._abilities[0] << endl;
+                        cout << "2: "  << _pokeAbilities[i]._abilities[1] << endl;
+                        cout << "3: "  << _pokeAbilities[i]._abilities[2] << endl << endl;
+                    #endif
+
+                    ++i;
+                    // cout << i << " INCREMENT " << this_poke_id << endl;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_pokeAbilities[i]);
                 }
             }
+            else {
+                if (this_poke_id != _pokeAbilities[i]._pokemon_id) {
 
-            parseLine(ss, this_ability_id);
-            parseLine(ss, this_ishidden);
-            parseLine(ss, this_slot);
-            if (this_ishidden==1 && this_slot!=3) {
-                cout << "ERROR PARSEPOKEABILITIES PROBLEM" << endl;
-                cout << "this_ishidden = " << this_ishidden << endl;
-                cout << "this_slot = " << this_slot << endl;
-                exit(1);
+                    // for debugging
+                    #ifdef DEBUG
+                        cout << "id: " << _pokeAbilities[i]._pokemon_id << endl;
+                        cout << "1: "  << _pokeAbilities[i]._abilities[0] << endl;
+                        cout << "2: "  << _pokeAbilities[i]._abilities[1] << endl;
+                        cout << "3: "  << _pokeAbilities[i]._abilities[2] << endl << endl;
+                    #endif
+
+                    ++i;
+                    // cout << i << " INCREMENT " << this_poke_id << endl;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_pokeAbilities[i]);
+                }
             }
-            _pokeAbilities[i]._pokemon_id           = this_poke_id;
-            _pokeAbilities[i]._abilities[this_slot-1] = this_ability_id;
+        } else {
+            if (this_poke_id != dexNum) {
+
+                // for debugging
+                #ifdef DEBUG
+                    cout << "id: " << _pokeAbilities[i]._pokemon_id << endl;
+                    cout << "1: "  << _pokeAbilities[i]._abilities[0] << endl;
+                    cout << "2: "  << _pokeAbilities[i]._abilities[1] << endl;
+                    cout << "3: "  << _pokeAbilities[i]._abilities[2] << endl << endl;
+                #endif
+
+                break;
+            }
         }
 
-        // for debugging
-        #ifdef DEBUG
-            cout << "id: " << _pokeAbilities[i]._pokemon_id << endl;
-            cout << "1: "  << _pokeAbilities[i]._abilities[0] << endl;
-            cout << "2: "  << _pokeAbilities[i]._abilities[1] << endl;
-            cout << "3: "  << _pokeAbilities[i]._abilities[2] << endl;
-        #endif
-        if (dexNum != 0) break; // break out if not doing all pokemons
+        int this_ability_id = 0;
+        int this_ishidden = 0;
+        int this_slot = 0;
+
+        parseLine(ss, this_ability_id);
+        parseLine(ss, this_ishidden);
+        parseLine(ss, this_slot);
+
+
+        _pokeAbilities[i]._pokemon_id             = this_poke_id;
+        _pokeAbilities[i]._abilities[this_slot-1] = this_ability_id;
     }
+
+        // cout << "DONE STORING ABILITY" << endl;
+        // if (dexNum != 0) break; // break out if not doing all pokemons
 }
 
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
