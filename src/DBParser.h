@@ -1,6 +1,9 @@
 #ifndef DBPARSER_H
 #define DBPARSER_H
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <string>
 using namespace std;
 
@@ -44,12 +47,31 @@ struct _dbPokeTypes {
     int _types[2];
 };
 
+struct _dbPoke {
+    int _id;
+    int _species_id;
+    int _height;
+    int _weight;
+    int _base_experience;
+    int _order;
+    int _is_default;
+};
+
 class DBParser
 {
     public:
         DBParser(int dexNum=0);
         ~DBParser();
         string getName();
+        int    getTypes(int i);
+        int    getAbilities(int i);
+        int    getGenderRate();
+        int    getBaseStats(int i);
+        int    getBaseExp();
+        int    getOnDeathEVs(int i);
+        int    getCapRate();
+        int    getBaseHappiness();
+        int    getGrowthRate();
 
     private:
 
@@ -60,11 +82,28 @@ class DBParser
         void parsePokeStats(_dbPokeStats* _pokeStats, int dexNum=0);
         void parsePokeAbilities(_dbPokeAbilities* _pokeAbilities, int dexNum=0);
         void parsePokeTypes(_dbPokeTypes* _pokeTypes, int dexNum=0);
+        void parsePoke(_dbPoke* _poke, int dexNum=0);
 
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
         void clearStruct(_dbPokeStats* _pokeStats);
         void clearStruct(_dbPokeAbilities* _pokeAbilities);
         void clearStruct(_dbPokeTypes* _pokeTypes);
+        void clearStruct(_dbPoke* _poke);
+
+
+        string cur_name;
+
+        int cur_types[2];      // pokemon_types
+        int cur_abilities[3];  // pokemon_abilities
+        int cur_genderRate;    // pokemon_species
+        int cur_baseStats[6];  // pokemon_stats
+
+        // training based
+        int cur_baseExp;
+        int cur_onDeathEVs[6]; // pokemon_stats
+        int cur_capRate;       // pokemon_species
+        int cur_baseHappiness; // pokemon_species
+        int cur_growthRate;    // pokemon_species
 
 };
 

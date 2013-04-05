@@ -9,9 +9,9 @@ class PokemonSpecies
 {
     public:
 
-        Pokemon(int dexNum);
+        PokemonSpecies(int dexNum);
 
-        ~Pokemon();
+        ~PokemonSpecies();
 
     private:
 

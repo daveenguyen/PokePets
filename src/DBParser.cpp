@@ -6,36 +6,154 @@ using namespace std;
 
 #include "DBParser.h"
 
+#define POKEMON_CSV "../data/csv/pokemon.csv"
 #define POKEMON_ABILITIES_CSV "../data/csv/pokemon_abilities.csv"
 #define POKEMON_SPECIES_CSV "../data/csv/pokemon_species.csv"
 #define POKEMON_STATS_CSV "../data/csv/pokemon_stats.csv"
 #define POKEMON_TYPES_CSV "../data/csv/pokemon_types.csv"
-#define DEBUG
+// #define DEBUG
 
 #define MAX_POKES 151
 
 DBParser::DBParser(int dexNum) {
+    if (dexNum==0) exit(1); // let's not bother with doing a range
     int maxPoke = 1;
     if (dexNum == 0) maxPoke = MAX_POKES;
 
-    cout << endl << "** SPECIES **" << endl;
+    #ifdef DEBUG
+        cout << endl << "** SPECIES **" << endl;
+    #endif
     _dbPokeSpecies _pokeSpecies[maxPoke];
     parsePokeSpecies(_pokeSpecies, dexNum);
 
-    cout << endl << "** STATS **" << endl;
+    #ifdef DEBUG
+        cout << endl << "** STATS **" << endl;
+    #endif
     _dbPokeStats _pokeStats[maxPoke];
     parsePokeStats(_pokeStats, dexNum);
 
-    cout << endl << "** ABILITIES **" << endl;
+    #ifdef DEBUG
+        cout << endl << "** ABILITIES **" << endl;
+    #endif
     _dbPokeAbilities _pokeAbilities[maxPoke];
     parsePokeAbilities(_pokeAbilities, dexNum);
 
-    cout << endl << "** TYPES **" << endl;
+    #ifdef DEBUG
+        cout << endl << "** TYPES **" << endl;
+    #endif
     _dbPokeTypes _pokeTypes[maxPoke];
     parsePokeTypes(_pokeTypes, dexNum);
+
+    #ifdef DEBUG
+        cout << endl << "** POKES **" << endl;
+    #endif
+    _dbPoke _poke[maxPoke];
+    parsePoke(_poke, dexNum);
+
+    cur_name          = _pokeSpecies[0]._identifier;
+    cur_types[0]      = _pokeTypes[0]._types[0];
+    cur_types[1]      = _pokeTypes[0]._types[1];
+    cur_abilities[0]  = _pokeAbilities[0]._abilities[0];
+    cur_abilities[1]  = _pokeAbilities[0]._abilities[1];
+    cur_abilities[2]  = _pokeAbilities[0]._abilities[2];
+    cur_genderRate    = _pokeSpecies[0]._gender_rate;
+    cur_baseStats[0]  = _pokeStats[0]._base_stat[0];
+    cur_baseStats[1]  = _pokeStats[0]._base_stat[1];
+    cur_baseStats[2]  = _pokeStats[0]._base_stat[2];
+    cur_baseStats[3]  = _pokeStats[0]._base_stat[3];
+    cur_baseStats[4]  = _pokeStats[0]._base_stat[4];
+    cur_baseStats[5]  = _pokeStats[0]._base_stat[5];
+    cur_baseExp       = _poke[0]._base_experience;
+    cur_onDeathEVs[0] = _pokeStats[0]._effort[0];
+    cur_onDeathEVs[1] = _pokeStats[0]._effort[1];
+    cur_onDeathEVs[2] = _pokeStats[0]._effort[2];
+    cur_onDeathEVs[3] = _pokeStats[0]._effort[3];
+    cur_onDeathEVs[4] = _pokeStats[0]._effort[4];
+    cur_onDeathEVs[5] = _pokeStats[0]._effort[5];
+    cur_capRate       = _pokeSpecies[0]._capture_rate;
+    cur_baseHappiness = _pokeSpecies[0]._base_happiness;
+    cur_growthRate    = _pokeSpecies[0]._growth_rate_id;
+
+    #ifdef DEBUG
+        cout << "** THIS POKEMON **" << endl;
+        cout << "cur_name         : " << cur_name          << endl;
+        cout << "cur_types[0]     : " << cur_types[0]      << endl;
+        cout << "cur_types[1]     : " << cur_types[1]      << endl;
+        cout << "cur_abilities[0] : " << cur_abilities[0]  << endl;
+        cout << "cur_abilities[1] : " << cur_abilities[1]  << endl;
+        cout << "cur_abilities[2] : " << cur_abilities[2]  << endl;
+        cout << "cur_genderRate   : " << cur_genderRate    << endl;
+        cout << "cur_baseStats[0] : " << cur_baseStats[0]  << endl;
+        cout << "cur_baseStats[1] : " << cur_baseStats[1]  << endl;
+        cout << "cur_baseStats[2] : " << cur_baseStats[2]  << endl;
+        cout << "cur_baseStats[3] : " << cur_baseStats[3]  << endl;
+        cout << "cur_baseStats[4] : " << cur_baseStats[4]  << endl;
+        cout << "cur_baseStats[5] : " << cur_baseStats[5]  << endl;
+        cout << "cur_baseExp      : " << cur_baseExp       << endl;
+        cout << "cur_onDeathEVs[0]: " << cur_onDeathEVs[0] << endl;
+        cout << "cur_onDeathEVs[1]: " << cur_onDeathEVs[1] << endl;
+        cout << "cur_onDeathEVs[2]: " << cur_onDeathEVs[2] << endl;
+        cout << "cur_onDeathEVs[3]: " << cur_onDeathEVs[3] << endl;
+        cout << "cur_onDeathEVs[4]: " << cur_onDeathEVs[4] << endl;
+        cout << "cur_onDeathEVs[5]: " << cur_onDeathEVs[5] << endl;
+        cout << "cur_capRate      : " << cur_capRate       << endl;
+        cout << "cur_baseHappines : " << cur_baseHappiness << endl;
+        cout << "cur_growthRate   : " << cur_growthRate    << endl;
+    #endif
 }
 
 DBParser::~DBParser(){}
+
+string DBParser::getName(){
+    return cur_name;
+}
+int    DBParser::getTypes(int i){
+    if (i != 0 && i != 1) {
+        cout << "ERROR ON getTypes" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return cur_types[i];
+}
+int    DBParser::getAbilities(int i){
+    if (i < 0 || i > 2) {
+        cout << "ERROR ON getAbilities" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return cur_abilities[i];
+}
+int    DBParser::getGenderRate(){
+    return cur_genderRate;
+}
+int    DBParser::getBaseStats(int i){
+    if (i < 0 || i > 5) {
+        cout << "ERROR ON getBaseStats" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return cur_baseStats[i];
+}
+int    DBParser::getBaseExp(){
+    return cur_baseExp;
+}
+int    DBParser::getOnDeathEVs(int i){
+    if (i < 0 || i > 5) {
+        cout << "ERROR ON getOnDeathEVs" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return cur_onDeathEVs[i];
+}
+int    DBParser::getCapRate(){
+    return cur_capRate;
+}
+int    DBParser::getBaseHappiness(){
+    return cur_baseHappiness;
+}
+int    DBParser::getGrowthRate(){
+    return cur_growthRate;
+}
 
 template <class T>
 void DBParser::parseLine(stringstream &ss, T &t) {
@@ -378,7 +496,74 @@ void DBParser::parsePokeTypes(_dbPokeTypes* _pokeTypes, int dexNum){
     }
 }
 
+void DBParser::parsePoke(_dbPoke* _poke, int dexNum){
+    // open file for parsing
+    ifstream ifs(POKEMON_CSV);
+    if(!ifs.is_open())
+    {
+        cout << "Could not open " << POKEMON_CSV;
+        exit(1);
+    }
 
+    /* read a line */
+    string line;            // string to store line
+    getline(ifs, line);     // get rid of title line
+
+
+    int i = 0;
+    clearStruct(&_poke[i]);
+
+    while (i < MAX_POKES) {
+
+        stringstream ss;        // stringstream for storing tokenized value
+        int this_id;
+
+        do {
+            getline(ifs, line);    // get line
+            ss.str(line);
+            parseLine(ss, this_id);
+        } while (dexNum!=0 && this_id < dexNum);
+
+        if (dexNum == 0) {
+            if (i == 0) {
+                if (this_id != 1) {
+                    ++i;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_poke[i]);
+                }
+            }
+            else {
+                if (this_id != _poke[i]._id) {
+                    ++i;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_poke[i]);
+                }
+            }
+        } else {
+            if (this_id != dexNum) {
+                // for debugging
+                #ifdef DEBUG
+                    cout << "             _id: " << _poke[i]._id << endl;
+                    cout << "     _species_id: " << _poke[i]._species_id << endl;
+                    cout << "         _height: " << _poke[i]._height << endl;
+                    cout << "         _weight: " << _poke[i]._weight << endl;
+                    cout << "_base_experience: " << _poke[i]._base_experience << endl;
+                    cout << "          _order: " << _poke[i]._order << endl;
+                    cout << "     _is_default: " << _poke[i]._is_default << endl;
+                #endif
+                break;
+            }
+        }
+
+        _poke[i]._id         = this_id;
+        parseLine(ss, _poke[i]._species_id);
+        parseLine(ss, _poke[i]._height);
+        parseLine(ss, _poke[i]._weight);
+        parseLine(ss, _poke[i]._base_experience);
+        parseLine(ss, _poke[i]._order);
+        parseLine(ss, _poke[i]._is_default);
+    }
+}
 
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_id = 0;
@@ -429,12 +614,23 @@ void DBParser::clearStruct(_dbPokeTypes* _pokeTypes) {
     _pokeTypes->_types[1]   = 0;
 }
 
-// testing
-int main() {
-    cout << "Enter a pokedex number or 0 for all: ";
-    int dexNum;
-    cin  >> dexNum;
-    cout << endl;
-    DBParser db(dexNum);
-    return 0;
+void DBParser::clearStruct(_dbPoke* _poke) {
+    _poke->_id = 0;
+    _poke->_species_id = 0;
+    _poke->_height = 0;
+    _poke->_weight = 0;
+    _poke->_base_experience = 0;
+    _poke->_order = 0;
+    _poke->_is_default = 0;
 }
+
+
+// // testing
+// int main() {
+//     cout << "Enter a pokedex number or 0 for all: ";
+//     int dexNum;
+//     cin  >> dexNum;
+//     cout << endl;
+//     DBParser db(dexNum);
+//     return 0;
+// }
