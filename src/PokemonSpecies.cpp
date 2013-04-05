@@ -1,3 +1,7 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
 #include "PokemonSpecies.h"
 #include "DBParser.h"
 
@@ -36,42 +40,98 @@ PokemonSpecies::PokemonSpecies(int dexNum) {
     _capRate       = species.getCapRate();       // pokemon_species
     _baseHappiness = species.getBaseHappiness(); // pokemon_species
     _growthRate    = species.getGrowthRate();    // pokemon_species
-
-    cout << "_dexNum       : " << _dexNum << endl;
-    cout << "_name         : " << _name << endl;
-    cout << "_types[0]     : " << _types[0] << endl;
-    cout << "_types[1]     : " << _types[1] << endl;
-    cout << "_abilities[0] : " << _abilities[0] << endl;
-    cout << "_abilities[1] : " << _abilities[1] << endl;
-    cout << "_abilities[2] : " << _abilities[2] << endl;
-    cout << "_genderRate   : " << _genderRate << endl;
-    cout << "_baseStats[0] : " << _baseStats[0] << endl;
-    cout << "_baseStats[1] : " << _baseStats[1] << endl;
-    cout << "_baseStats[2] : " << _baseStats[2] << endl;
-    cout << "_baseStats[3] : " << _baseStats[3] << endl;
-    cout << "_baseStats[4] : " << _baseStats[4] << endl;
-    cout << "_baseStats[5] : " << _baseStats[5] << endl;
-    cout << "_baseExp      : " << _baseExp << endl;
-    cout << "_onDeathEVs[0]: " << _onDeathEVs[0] << endl;
-    cout << "_onDeathEVs[1]: " << _onDeathEVs[1] << endl;
-    cout << "_onDeathEVs[2]: " << _onDeathEVs[2] << endl;
-    cout << "_onDeathEVs[3]: " << _onDeathEVs[3] << endl;
-    cout << "_onDeathEVs[4]: " << _onDeathEVs[4] << endl;
-    cout << "_onDeathEVs[5]: " << _onDeathEVs[5] << endl;
-    cout << "_capRate      : " << _capRate << endl;
-    cout << "_baseHappiness: " << _baseHappiness << endl;
-    cout << "_growthRate   : " << _growthRate << endl;
-
 }
 
 PokemonSpecies::~PokemonSpecies() {}
 
-// testing
-int main() {
-    cout << "Enter a pokedex number or 0 for all: ";
-    int dexNum;
-    cin  >> dexNum;
-    cout << endl;
-    PokemonSpecies myPokemon(dexNum);
-    return 0;
+
+int PokemonSpecies::getDexNum() {
+    return _dexNum;
 }
+
+string PokemonSpecies::getName() {
+    return _name;
+}
+
+int PokemonSpecies::getTypes(int i) {
+    if (i != 0 && i != 1) {
+        cout << "ERROR ON getTypes" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return _types[i];
+}
+int PokemonSpecies::getAbilities(int i) {
+    if (i < 0 || i > 2) {
+        cout << "ERROR ON getAbilities" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return _abilities[i];
+}
+int PokemonSpecies::getGenderRate() {
+    return _genderRate;
+}
+int PokemonSpecies::getBaseStats(int i) {
+    if (i < 0 || i > 5) {
+        cout << "ERROR ON getBaseStats" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return _baseStats[i];
+}
+int PokemonSpecies::getBaseExp() {
+    return _baseExp;
+}
+int PokemonSpecies::getOnDeathEVs(int i) {
+    if (i < 0 || i > 5) {
+        cout << "ERROR ON getOnDeathEVs" << endl;
+        cout << "index: " << i << endl;
+        exit(1);
+    }
+    return _onDeathEVs[i];
+}
+int PokemonSpecies::getCapRate() {
+    return _capRate;
+}
+int PokemonSpecies::getBaseHappiness() {
+    return _baseHappiness;
+}
+int PokemonSpecies::getGrowthRate() {
+    return _growthRate;
+}
+
+// // testing
+// int main() {
+//     cout << "Enter a pokedex number or 0 for all: ";
+//     int dexNum;
+//     cin  >> dexNum;
+//     cout << endl;
+//     PokemonSpecies myPokemon(dexNum);
+
+//     cout << "myPokemon_dexNum       : " << myPokemon.getDexNum() << endl;
+//     cout << "myPokemon_name         : " << myPokemon.getName() << endl;
+//     cout << "myPokemon_types[0]     : " << myPokemon.getTypes(0) << endl;
+//     cout << "myPokemon_types[1]     : " << myPokemon.getTypes(1) << endl;
+//     cout << "myPokemon_abilities[0] : " << myPokemon.getAbilities(0) << endl;
+//     cout << "myPokemon_abilities[1] : " << myPokemon.getAbilities(1) << endl;
+//     cout << "myPokemon_abilities[2] : " << myPokemon.getAbilities(2) << endl;
+//     cout << "myPokemon_genderRate   : " << myPokemon.getGenderRate() << endl;
+//     cout << "myPokemon_baseStats[0] : " << myPokemon.getBaseStats(0) << endl;
+//     cout << "myPokemon_baseStats[1] : " << myPokemon.getBaseStats(1) << endl;
+//     cout << "myPokemon_baseStats[2] : " << myPokemon.getBaseStats(2) << endl;
+//     cout << "myPokemon_baseStats[3] : " << myPokemon.getBaseStats(3) << endl;
+//     cout << "myPokemon_baseStats[4] : " << myPokemon.getBaseStats(4) << endl;
+//     cout << "myPokemon_baseStats[5] : " << myPokemon.getBaseStats(5) << endl;
+//     cout << "myPokemon_baseExp      : " << myPokemon.getBaseExp() << endl;
+//     cout << "myPokemon_onDeathEVs[0]: " << myPokemon.getOnDeathEVs(0) << endl;
+//     cout << "myPokemon_onDeathEVs[1]: " << myPokemon.getOnDeathEVs(1) << endl;
+//     cout << "myPokemon_onDeathEVs[2]: " << myPokemon.getOnDeathEVs(2) << endl;
+//     cout << "myPokemon_onDeathEVs[3]: " << myPokemon.getOnDeathEVs(3) << endl;
+//     cout << "myPokemon_onDeathEVs[4]: " << myPokemon.getOnDeathEVs(4) << endl;
+//     cout << "myPokemon_onDeathEVs[5]: " << myPokemon.getOnDeathEVs(5) << endl;
+//     cout << "myPokemon_capRate      : " << myPokemon.getCapRate() << endl;
+//     cout << "myPokemon_baseHappiness: " << myPokemon.getBaseHappiness() << endl;
+//     cout << "myPokemon_growthRate   : " << myPokemon.getGrowthRate() << endl;
+//     return 0;
+// }

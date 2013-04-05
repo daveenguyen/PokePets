@@ -39,6 +39,7 @@
 
 
 * gender ratio
+    * http://www.psypokes.com/lab/gvguide.php
     * -1 [genderless]
     * 0 [male only]
     * 1 [1f:7m]

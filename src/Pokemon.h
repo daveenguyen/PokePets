@@ -3,33 +3,44 @@
 
 #include <string>
 
-class Pokemon
+class Pokemon : public PokemonSpecies
 {
     public:
 
-        Pokemon(Species species);
-
+        Pokemon(int dexNum, int level=1);
         ~Pokemon();
+
+        void getNickname();
+        void getGender();
+        void getAbility();
+        void getNature();
+        void getLevel();
+        void getCurExp();
+        void getIVs(int i);
+        void getEVs(int i);
+        void getMoves(int i);
+        void getCurHP();
+        void getStatus();
+        int  getStats(int i);
 
     private:
 
         string  _nickname;
 
-        Species _species;
-        Gender  _gender;
-        Ability _ability;
-        Nature  _nature;
+        int _genderValue;
+        int _abilityIndex;
+        int _nature;
 
-        int     _level;
-        int     _stats[6];
-        int     _IVs[6];
-        int     _EVs[6];
+        int _level;
+        int _curExp;
+        int _IVs[6];
+        int _EVs[6];
 
-        Move    _moves[4];
-        int     _curHP;
+        int _moves[4];
+        int _curHP;
 
-        Status _status;
+        int _status;
 
-        };
+};
 
 #endif // POKEMON_H

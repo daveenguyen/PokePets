@@ -13,6 +13,18 @@ class PokemonSpecies
 
         ~PokemonSpecies();
 
+        int    getDexNum();
+        string getName();
+        int    getTypes(int i);
+        int    getAbilities(int i);
+        int    getGenderRate();
+        int    getBaseStats(int i);
+        int    getBaseExp();
+        int    getOnDeathEVs(int i);
+        int    getCapRate();
+        int    getBaseHappiness();
+        int    getGrowthRate();
+
     private:
 
         int     _dexNum;
