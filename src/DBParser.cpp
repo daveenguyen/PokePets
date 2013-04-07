@@ -11,6 +11,8 @@ using namespace std;
 #define POKEMON_SPECIES_CSV "../data/csv/pokemon_species.csv"
 #define POKEMON_STATS_CSV "../data/csv/pokemon_stats.csv"
 #define POKEMON_TYPES_CSV "../data/csv/pokemon_types.csv"
+
+#define POKEMON_MOVES_CSV "../data/csv/pokemon_moves_edited.csv"
 // #define DEBUG
 
 #define MAX_POKES 151

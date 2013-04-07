@@ -40,35 +40,36 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum) {
     _curHP        = getStats(0);
     _status       = 0;
 
-    cout << "_nickname     = " << _nickname     << endl;
-    cout << "_genderValue  = " << _genderValue  << endl;
-    cout << "_abilityIndex = " << _abilityIndex << endl;
-    cout << "_nature       = " << _nature       << endl;
-    cout << "_level        = " << _level        << endl;
-    cout << "_curExp       = " << _curExp       << endl;
-    cout << "_IVs[0]       = " << _IVs[0]       << endl;
-    cout << "_IVs[1]       = " << _IVs[1]       << endl;
-    cout << "_IVs[2]       = " << _IVs[2]       << endl;
-    cout << "_IVs[3]       = " << _IVs[3]       << endl;
-    cout << "_IVs[4]       = " << _IVs[4]       << endl;
-    cout << "_IVs[5]       = " << _IVs[5]       << endl;
-    cout << "_EVs[0]       = " << _EVs[0]       << endl;
-    cout << "_EVs[1]       = " << _EVs[1]       << endl;
-    cout << "_EVs[2]       = " << _EVs[2]       << endl;
-    cout << "_EVs[3]       = " << _EVs[3]       << endl;
-    cout << "_EVs[4]       = " << _EVs[4]       << endl;
-    cout << "_EVs[5]       = " << _EVs[5]       << endl;
-    cout << "_moves[0]     = " << _moves[0]     << endl;
-    cout << "_moves[1]     = " << _moves[1]     << endl;
-    cout << "_moves[2]     = " << _moves[2]     << endl;
-    cout << "_moves[3]     = " << _moves[3]     << endl;
-    cout << "_curHP        = " << _curHP        << endl;
-    cout << "_status       = " << _status       << endl;
+    // cout << "_nickname     = " << _nickname     << endl;
+    // cout << "_genderValue  = " << _genderValue  << endl;
+    // cout << "_abilityIndex = " << _abilityIndex << endl;
+    // cout << "_nature       = " << _nature       << endl;
+    // cout << "_level        = " << _level        << endl;
+    // cout << "_curExp       = " << _curExp       << endl;
+    // cout << "_IVs[0]       = " << _IVs[0]       << endl;
+    // cout << "_IVs[1]       = " << _IVs[1]       << endl;
+    // cout << "_IVs[2]       = " << _IVs[2]       << endl;
+    // cout << "_IVs[3]       = " << _IVs[3]       << endl;
+    // cout << "_IVs[4]       = " << _IVs[4]       << endl;
+    // cout << "_IVs[5]       = " << _IVs[5]       << endl;
+    // cout << "_EVs[0]       = " << _EVs[0]       << endl;
+    // cout << "_EVs[1]       = " << _EVs[1]       << endl;
+    // cout << "_EVs[2]       = " << _EVs[2]       << endl;
+    // cout << "_EVs[3]       = " << _EVs[3]       << endl;
+    // cout << "_EVs[4]       = " << _EVs[4]       << endl;
+    // cout << "_EVs[5]       = " << _EVs[5]       << endl;
+    // cout << "_moves[0]     = " << _moves[0]     << endl;
+    // cout << "_moves[1]     = " << _moves[1]     << endl;
+    // cout << "_moves[2]     = " << _moves[2]     << endl;
+    // cout << "_moves[3]     = " << _moves[3]     << endl;
+    // cout << "_curHP        = " << _curHP        << endl;
+    // cout << "_status       = " << _status       << endl;
 }
 
 Pokemon::~Pokemon() {}
 
 void Pokemon::getNickname(){
+    cout << "NICKNAME: ";
     cout << _nickname << endl;
 }
 
@@ -131,6 +132,7 @@ void Pokemon::getGender(){
             break;
         }
     }
+    cout << "GENDER:  ";
     if (thisGender == -1)
         cout << "GENDERLESS" << endl;
     else if (thisGender == 0)
@@ -147,48 +149,58 @@ void Pokemon::getAbility(){
     if (_abilityIndex != 0) {
         // check if it has ability 2
         if (getAbilities(1) != 0) {
-            cout << _abilityIndex << endl;
+            // cout << _abilityIndex << endl;
         }
         else {
-            cout << '0' << endl;
+            // cout << '0' << endl;
+            _abilityIndex = 0;
         }
     }
+    cout << "ABILITY: ";
     cout << _abilityIndex << endl;
 }
 
 void Pokemon::getNature(){
-    cout << "NATURE: " << _nature << endl;
+    cout << "NATURE:  " << _nature << endl;
 }
 
 void Pokemon::getLevel(){
+    cout << "LEVEL:   ";
     cout << _level << endl;
 }
 
 void Pokemon::getCurExp(){
+    cout << "CUR EXP: ";
     cout << _curExp << endl;
 }
 
 void Pokemon::getIVs(int i){
+    cout << "IV[" << i << "]: ";
     cout << _IVs[i] << endl;
 }
 
 void Pokemon::getEVs(int i){
+    cout << "EV[" << i << "]: ";
     cout << _EVs[i] << endl;
 }
 
 void Pokemon::getMoves(int i){
+    cout << "MOVE[" << i << "]: ";
     cout << _moves[i] << endl;
 }
 
 void Pokemon::getCurHP(){
+    cout << "CUR HP:  ";
     cout << _curHP << endl;
 }
 
 void Pokemon::getStatus(){
+    cout << "STATUS:  ";
     cout << _status << endl;
 }
 
 int Pokemon::getStats(int i){
+    cout << "STAT[" << i << "]: ";
     // The stat is rounded down if the result is a decimal.
     // It is also rounded down before the Nature multiplier, if any, is applied.
     int calc_stat=0;

@@ -48,5 +48,13 @@
     * 6 [3f:1m]
     * 8 [female only]
 
+* TODO
+    * moves
+    * evolutions
+    * nature multipliers
+    * catch calculation
+    * items
+    * damage calculation
+
 http://bulbapedia.bulbagarden.net/wiki/Catch_rate
 http://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_wild_held_item
