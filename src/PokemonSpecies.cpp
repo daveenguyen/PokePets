@@ -8,6 +8,12 @@ using namespace std;
 PokemonSpecies::PokemonSpecies(int dexNum) {
     /* parse database file based on pokedex number
        then set these variables */
+    initFromParser(dexNum);
+}
+
+PokemonSpecies::~PokemonSpecies() {}
+
+void PokemonSpecies::initFromParser(int dexNum) {
     DBParser species(dexNum);
 
     _dexNum       = dexNum;
@@ -40,10 +46,59 @@ PokemonSpecies::PokemonSpecies(int dexNum) {
     _capRate       = species.getCapRate();       // pokemon_species
     _baseHappiness = species.getBaseHappiness(); // pokemon_species
     _growthRate    = species.getGrowthRate();    // pokemon_species
+
+    // moves
+    levelUpMoves.clear();
+    eggMoves.clear();
+    tutorMoves.clear();
+    machineMoves.clear();
+    for (int i = 0; i < species.moves.size(); ++i) {
+        // cout << "_pokemon_id            : " << species.moves[i]._pokemon_id << endl;
+        // cout << "_version_group_id      : " << species.moves[i]._version_group_id << endl;
+        // cout << "_move_id               : " << species.moves[i]._move_id << endl;
+        // cout << "_pokemon_move_method_id: " << species.moves[i]._pokemon_move_method_id << endl;
+        // cout << "_level                 : " << species.moves[i]._level << endl;
+        // cout << "_order                 : " << species.moves[i]._order << endl << endl;
+        switch (species.moves[i]._pokemon_move_method_id) {
+            case 1: {
+                levelUpMoves.push_back(LevelUpMoves(species.moves[i]._level, species.moves[i]._move_id, species.moves[i]._order));
+                break;
+            }
+            case 2: {
+                eggMoves.push_back(species.moves[i]._move_id);
+                break;
+            }
+            case 3: {
+                tutorMoves.push_back(species.moves[i]._move_id);
+                break;
+            }
+            case 4: {
+                machineMoves.push_back(species.moves[i]._move_id);
+                break;
+            }
+        }
+    }
+    sort(levelUpMoves.begin(), levelUpMoves.end());
+
+    // cout << "** LEVEL UP MOVES **" << endl;
+    // for (int i = 0; i < levelUpMoves.size(); ++i) {
+    //     cout << "level: " << levelUpMoves[i]._level;
+    //     cout << "\tmove_id: " << levelUpMoves[i]._move_id;
+    //     cout << "\torder: " << levelUpMoves[i]._order << endl;
+    // }
+    // cout << "** EGG MOVES **" << endl;
+    // for (int i = 0; i < eggMoves.size(); ++i) {
+    //     cout << "move_id: " << eggMoves[i] << endl;
+    // }
+    // cout << "** TUTOR MOVES **" << endl;
+    // for (int i = 0; i < tutorMoves.size(); ++i) {
+    //     cout << "move_id: " << tutorMoves[i] << endl;
+    // }
+    // cout << "** MACHINE MOVES **" << endl;
+    // for (int i = 0; i < machineMoves.size(); ++i) {
+    //     cout << "move_id: " << machineMoves[i] << endl;
+    // }
 }
-
-PokemonSpecies::~PokemonSpecies() {}
-
 
 int PokemonSpecies::getDexNum() {
     return _dexNum;
@@ -101,7 +156,24 @@ int PokemonSpecies::getGrowthRate() {
     return _growthRate;
 }
 
-// // testing
+vector<LevelUpMoves> PokemonSpecies::getLevelUpMoves(){
+    return levelUpMoves;
+}
+
+vector<int>          PokemonSpecies::getEggMoves(){
+    return eggMoves;
+}
+
+vector<int>          PokemonSpecies::getTutorMoves(){
+    return tutorMoves;
+}
+
+vector<int>          PokemonSpecies::getMachineMoves(){
+    return machineMoves;
+}
+
+
+// testing
 // int main() {
 //     cout << "Enter a pokedex number or 0 for all: ";
 //     int dexNum;
@@ -109,29 +181,29 @@ int PokemonSpecies::getGrowthRate() {
 //     cout << endl;
 //     PokemonSpecies myPokemon(dexNum);
 
-//     cout << "myPokemon_dexNum       : " << myPokemon.getDexNum() << endl;
-//     cout << "myPokemon_name         : " << myPokemon.getName() << endl;
-//     cout << "myPokemon_types[0]     : " << myPokemon.getTypes(0) << endl;
-//     cout << "myPokemon_types[1]     : " << myPokemon.getTypes(1) << endl;
-//     cout << "myPokemon_abilities[0] : " << myPokemon.getAbilities(0) << endl;
-//     cout << "myPokemon_abilities[1] : " << myPokemon.getAbilities(1) << endl;
-//     cout << "myPokemon_abilities[2] : " << myPokemon.getAbilities(2) << endl;
-//     cout << "myPokemon_genderRate   : " << myPokemon.getGenderRate() << endl;
-//     cout << "myPokemon_baseStats[0] : " << myPokemon.getBaseStats(0) << endl;
-//     cout << "myPokemon_baseStats[1] : " << myPokemon.getBaseStats(1) << endl;
-//     cout << "myPokemon_baseStats[2] : " << myPokemon.getBaseStats(2) << endl;
-//     cout << "myPokemon_baseStats[3] : " << myPokemon.getBaseStats(3) << endl;
-//     cout << "myPokemon_baseStats[4] : " << myPokemon.getBaseStats(4) << endl;
-//     cout << "myPokemon_baseStats[5] : " << myPokemon.getBaseStats(5) << endl;
-//     cout << "myPokemon_baseExp      : " << myPokemon.getBaseExp() << endl;
-//     cout << "myPokemon_onDeathEVs[0]: " << myPokemon.getOnDeathEVs(0) << endl;
-//     cout << "myPokemon_onDeathEVs[1]: " << myPokemon.getOnDeathEVs(1) << endl;
-//     cout << "myPokemon_onDeathEVs[2]: " << myPokemon.getOnDeathEVs(2) << endl;
-//     cout << "myPokemon_onDeathEVs[3]: " << myPokemon.getOnDeathEVs(3) << endl;
-//     cout << "myPokemon_onDeathEVs[4]: " << myPokemon.getOnDeathEVs(4) << endl;
-//     cout << "myPokemon_onDeathEVs[5]: " << myPokemon.getOnDeathEVs(5) << endl;
-//     cout << "myPokemon_capRate      : " << myPokemon.getCapRate() << endl;
-//     cout << "myPokemon_baseHappiness: " << myPokemon.getBaseHappiness() << endl;
-//     cout << "myPokemon_growthRate   : " << myPokemon.getGrowthRate() << endl;
+//     // cout << "myPokemon_dexNum       : " << myPokemon.getDexNum() << endl;
+//     // cout << "myPokemon_name         : " << myPokemon.getName() << endl;
+//     // cout << "myPokemon_types[0]     : " << myPokemon.getTypes(0) << endl;
+//     // cout << "myPokemon_types[1]     : " << myPokemon.getTypes(1) << endl;
+//     // cout << "myPokemon_abilities[0] : " << myPokemon.getAbilities(0) << endl;
+//     // cout << "myPokemon_abilities[1] : " << myPokemon.getAbilities(1) << endl;
+//     // cout << "myPokemon_abilities[2] : " << myPokemon.getAbilities(2) << endl;
+//     // cout << "myPokemon_genderRate   : " << myPokemon.getGenderRate() << endl;
+//     // cout << "myPokemon_baseStats[0] : " << myPokemon.getBaseStats(0) << endl;
+//     // cout << "myPokemon_baseStats[1] : " << myPokemon.getBaseStats(1) << endl;
+//     // cout << "myPokemon_baseStats[2] : " << myPokemon.getBaseStats(2) << endl;
+//     // cout << "myPokemon_baseStats[3] : " << myPokemon.getBaseStats(3) << endl;
+//     // cout << "myPokemon_baseStats[4] : " << myPokemon.getBaseStats(4) << endl;
+//     // cout << "myPokemon_baseStats[5] : " << myPokemon.getBaseStats(5) << endl;
+//     // cout << "myPokemon_baseExp      : " << myPokemon.getBaseExp() << endl;
+//     // cout << "myPokemon_onDeathEVs[0]: " << myPokemon.getOnDeathEVs(0) << endl;
+//     // cout << "myPokemon_onDeathEVs[1]: " << myPokemon.getOnDeathEVs(1) << endl;
+//     // cout << "myPokemon_onDeathEVs[2]: " << myPokemon.getOnDeathEVs(2) << endl;
+//     // cout << "myPokemon_onDeathEVs[3]: " << myPokemon.getOnDeathEVs(3) << endl;
+//     // cout << "myPokemon_onDeathEVs[4]: " << myPokemon.getOnDeathEVs(4) << endl;
+//     // cout << "myPokemon_onDeathEVs[5]: " << myPokemon.getOnDeathEVs(5) << endl;
+//     // cout << "myPokemon_capRate      : " << myPokemon.getCapRate() << endl;
+//     // cout << "myPokemon_baseHappiness: " << myPokemon.getBaseHappiness() << endl;
+//     // cout << "myPokemon_growthRate   : " << myPokemon.getGrowthRate() << endl;
 //     return 0;
 // }

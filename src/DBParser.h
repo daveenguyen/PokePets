@@ -84,6 +84,8 @@ class DBParser
         int    getBaseHappiness();
         int    getGrowthRate();
 
+        vector<_dbPokeMoves> moves;
+
     private:
 
         // tokenizes the line in stringstream ss by ','

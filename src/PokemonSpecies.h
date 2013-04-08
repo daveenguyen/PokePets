@@ -2,7 +2,31 @@
 #define POKEMONSPECIES_H
 
 #include <string>
+#include <vector>
+#include <algorithm>
 using namespace std;
+
+struct LevelUpMoves {
+    int _level;
+    int _move_id;
+    int _order;
+
+    LevelUpMoves(int _level, int _move_id, int _order) : _level(_level), _move_id(_move_id), _order(_order) {}
+
+    bool operator<(const LevelUpMoves& other)const{
+        bool result;
+
+        if (_level != other._level) {
+            result = (_level < other._level);
+        } else if (_order != other._order) {
+            result = (_order < other._order);
+        } else {
+            result = (_move_id < other._move_id);
+        }
+
+        return result;//theChar<other.theChar;
+    }
+};
 
 /* Stuff that every Pokemon of the same pokemon species share */
 class PokemonSpecies
@@ -13,6 +37,7 @@ class PokemonSpecies
 
         ~PokemonSpecies();
 
+        void   initFromParser(int dexNum);
         int    getDexNum();
         string getName();
         int    getTypes(int i);
@@ -24,6 +49,12 @@ class PokemonSpecies
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
+
+
+        vector<LevelUpMoves> getLevelUpMoves();
+        vector<int>          getEggMoves();
+        vector<int>          getTutorMoves();
+        vector<int>          getMachineMoves();
 
     private:
 
@@ -43,6 +74,18 @@ class PokemonSpecies
         int    _growthRate;
 
         // move set
+        // from 1: level-up
+        vector<LevelUpMoves> levelUpMoves;
+
+        // from 2: egg
+        vector<int> eggMoves;
+
+        // from 3: tutor
+        vector<int> tutorMoves;
+
+        // from 4: machine
+        vector<int> machineMoves;
+
         // wild held items
         // possible for multiple items
         // has item and rate for item

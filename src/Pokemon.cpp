@@ -37,6 +37,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum) {
     _moves[2]     = 0;
     _moves[3]     = 0;
 
+    initMoves();
     _curHP        = getStats(0);
     _status       = 0;
 
@@ -223,6 +224,27 @@ int Pokemon::getStats(int i){
     }
     return calc_stat;
 }
+void Pokemon::initMoves(){
+    int moveCount=0;
+    // LevelUpMoves _thisMov = getLevelUpMoves();
+    int vectorSize = getLevelUpMoves().size();
+    // cout << vectorSize << endl;
+        // levelUpMoves.pop_back();
+
+    // }
+    for (int i = 0; i < vectorSize; ++i) {
+        if (_level >= getLevelUpMoves()[i]._level) {
+            _moves[i%4] = getLevelUpMoves()[i]._move_id;
+        } else {
+            break;
+        }
+    }
+    // cout << "MOVE: " << _moves[0] << endl ;
+    // cout << "MOVE: " << _moves[1] << endl ;
+    // cout << "MOVE: " << _moves[2] << endl ;
+    // cout << "MOVE: " << _moves[3] << endl ;
+    // }
+}
 
 
 // testing
@@ -231,7 +253,7 @@ int main() {
     int dexNum;
     cin  >> dexNum;
     cout << endl;
-    Pokemon myPokemon(dexNum, 100);
+    Pokemon myPokemon(dexNum, 6);
 
     myPokemon.getNickname();
     myPokemon.getGender();
@@ -239,7 +261,12 @@ int main() {
     myPokemon.getNature();
     myPokemon.getLevel();
     myPokemon.getCurExp();
-    // myPokemon.getMoves(int i);
+
+    myPokemon.getMoves(0);
+    myPokemon.getMoves(1);
+    myPokemon.getMoves(2);
+    myPokemon.getMoves(3);
+
     myPokemon.getCurHP();
     myPokemon.getStatus();
 

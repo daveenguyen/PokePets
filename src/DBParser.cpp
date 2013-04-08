@@ -108,7 +108,7 @@ DBParser::DBParser(int dexNum) {
         cout << "cur_growthRate   : " << cur_growthRate    << endl;
     #endif
 
-    vector<_dbPokeMoves> moves;
+    // vector<_dbPokeMoves> moves;
     parsePokeMoves(&moves, dexNum);
     #ifdef DEBUG
         cout << endl << "** MOVES **" << endl;
@@ -657,14 +657,14 @@ void DBParser::parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum){
                 break;
             }
         }
-// doesn't get here
+
         _pokeMoves._pokemon_id = this_poke_id;
         parseLine(ss, _pokeMoves._version_group_id);
         parseLine(ss, _pokeMoves._move_id);
         parseLine(ss, _pokeMoves._pokemon_move_method_id);
         parseLine(ss, _pokeMoves._level);
         parseLine(ss, _pokeMoves._order);
-        if (_pokeMoves._version_group_id == 14)
+        if (_pokeMoves._version_group_id == 14 && _pokeMoves._pokemon_move_method_id > 0 && _pokeMoves._pokemon_move_method_id < 5)
             moves->push_back(_pokeMoves);
     }
 }

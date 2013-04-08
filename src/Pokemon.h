@@ -41,6 +41,8 @@ class Pokemon : public PokemonSpecies
 
         int _status;
 
+        void initMoves();
+
 };
 
 #endif // POKEMON_H
