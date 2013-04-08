@@ -56,6 +56,16 @@ struct _dbPoke {
     int _is_default;
 };
 
+// struct to hold a line of data from POKEMON_MOVES_CSV
+struct _dbPokeMoves {
+    int _pokemon_id;
+    int _version_group_id;
+    int _move_id;
+    int _pokemon_move_method_id;
+    int _level;
+    int _order;
+};
+
 class DBParser
 {
     public:
@@ -87,6 +97,7 @@ class DBParser
         void parsePokeAbilities(_dbPokeAbilities* _pokeAbilities, int dexNum=0);
         void parsePokeTypes(_dbPokeTypes* _pokeTypes, int dexNum=0);
         void parsePoke(_dbPoke* _poke, int dexNum=0);
+        void parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum=0);
 
         // set all variables in struct to 0 or ""
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
@@ -94,6 +105,7 @@ class DBParser
         void clearStruct(_dbPokeAbilities* _pokeAbilities);
         void clearStruct(_dbPokeTypes* _pokeTypes);
         void clearStruct(_dbPoke* _poke);
+        void clearStruct(_dbPokeMoves* _pokeMoves);
 
 
         // variables for pokemon species class

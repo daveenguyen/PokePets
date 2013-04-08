@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 using namespace std;
 
 #include "DBParser.h"
@@ -12,13 +13,17 @@ using namespace std;
 #define POKEMON_STATS_CSV "../data/csv/pokemon_stats.csv"
 #define POKEMON_TYPES_CSV "../data/csv/pokemon_types.csv"
 
-#define POKEMON_MOVES_CSV "../data/csv/pokemon_moves_edited.csv"
+// #define POKEMON_MOVES_CSV "../data/csv/pokemon_moves_edited.csv"
+#define POKEMON_MOVES_CSV "../data/csv/pokemon_moves.csv"
 // #define DEBUG
 
 #define MAX_POKES 151
 
 DBParser::DBParser(int dexNum) {
-    if (dexNum==0) exit(1); // let's not bother with doing a range
+    if (dexNum<=0) {
+        cout << "*** Invalid dexNum ***" << endl;
+        exit(1); // let's not bother with doing a range
+    }
     int maxPoke = 1;
     if (dexNum == 0) maxPoke = MAX_POKES;
 
@@ -101,6 +106,21 @@ DBParser::DBParser(int dexNum) {
         cout << "cur_capRate      : " << cur_capRate       << endl;
         cout << "cur_baseHappines : " << cur_baseHappiness << endl;
         cout << "cur_growthRate   : " << cur_growthRate    << endl;
+    #endif
+
+    vector<_dbPokeMoves> moves;
+    parsePokeMoves(&moves, dexNum);
+    #ifdef DEBUG
+        cout << endl << "** MOVES **" << endl;
+    cout << moves.size() << endl;
+    for (int i = 0; i < moves.size(); ++i) {
+        cout << "_pokemon_id            : " << moves[i]._pokemon_id << endl;
+        cout << "_version_group_id      : " << moves[i]._version_group_id << endl;
+        cout << "_move_id               : " << moves[i]._move_id << endl;
+        cout << "_pokemon_move_method_id: " << moves[i]._pokemon_move_method_id << endl;
+        cout << "_level                 : " << moves[i]._level << endl;
+        cout << "_order                 : " << moves[i]._order << endl << endl;
+    }
     #endif
 }
 
@@ -567,6 +587,88 @@ void DBParser::parsePoke(_dbPoke* _poke, int dexNum){
     }
 }
 
+
+void DBParser::parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum){
+
+    // open file for parsing
+    ifstream ifs(POKEMON_MOVES_CSV);
+    if(!ifs.is_open())
+    {
+        cout << "Could not open " << POKEMON_MOVES_CSV;
+        exit(1);
+    }
+
+
+    /* read a line */
+    string line;            // string to store line
+    getline(ifs, line);     // get rid of title line
+
+    int i = 0;
+    _dbPokeMoves _pokeMoves;
+
+    while (i < MAX_POKES) {
+
+        clearStruct(&_pokeMoves);
+
+        stringstream ss;        // stringstream for storing tokenized value
+        int this_poke_id=0;
+
+        do {
+            getline(ifs, line);    // get line
+            ss.str(line);
+            parseLine(ss, this_poke_id);
+        } while (dexNum!=0 && this_poke_id < dexNum);
+
+        if (dexNum == 0) {
+            if (i == 0) {
+                if (this_poke_id != 1) {
+
+                    // for debugging
+                    #ifdef DEBUG
+
+                    #endif
+
+                    ++i;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_pokeMoves);
+                }
+            }
+            else {
+                if (this_poke_id != _pokeMoves._pokemon_id) {
+
+                    // for debugging
+                    #ifdef DEBUG
+
+                    #endif
+
+                    ++i;
+                    if (i >= MAX_POKES) break;
+                    clearStruct(&_pokeMoves);
+                }
+            }
+        } else {
+            if (this_poke_id != dexNum) {
+
+                // for debugging
+                #ifdef DEBUG
+
+                #endif
+
+                break;
+            }
+        }
+// doesn't get here
+        _pokeMoves._pokemon_id = this_poke_id;
+        parseLine(ss, _pokeMoves._version_group_id);
+        parseLine(ss, _pokeMoves._move_id);
+        parseLine(ss, _pokeMoves._pokemon_move_method_id);
+        parseLine(ss, _pokeMoves._level);
+        parseLine(ss, _pokeMoves._order);
+        if (_pokeMoves._version_group_id == 14)
+            moves->push_back(_pokeMoves);
+    }
+}
+
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_id = 0;
     _pokeSpecies->_identifier = "";
@@ -626,8 +728,17 @@ void DBParser::clearStruct(_dbPoke* _poke) {
     _poke->_is_default = 0;
 }
 
+void DBParser::clearStruct(_dbPokeMoves* _pokeMoves) {
+    _pokeMoves->_pokemon_id = 0;
+    _pokeMoves->_version_group_id = 0;
+    _pokeMoves->_move_id = 0;
+    _pokeMoves->_pokemon_move_method_id = 0;
+    _pokeMoves->_level = 0;
+    _pokeMoves->_order = 0;
+}
 
-// // testing
+
+// testing
 // int main() {
 //     cout << "Enter a pokedex number or 0 for all: ";
 //     int dexNum;
