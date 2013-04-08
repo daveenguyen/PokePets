@@ -1,6 +1,7 @@
 #ifndef POKEMON_H
 #define POKEMON_H
 
+#include "PokemonSpecies.h" // parent class
 #include <string>
 
 class Pokemon : public PokemonSpecies
@@ -10,18 +11,18 @@ class Pokemon : public PokemonSpecies
         Pokemon(int dexNum, int level=1);
         ~Pokemon();
 
-        void getNickname();
-        void getGender();
-        void getAbility();
-        void getNature();
-        void getLevel();
-        void getCurExp();
-        void getIVs(int i);
-        void getEVs(int i);
-        void getMoves(int i);
-        void getCurHP();
-        void getStatus();
-        int  getStats(int i);
+        string getNickname();
+        int    getGender();
+        int    getAbility();
+        int    getNature();
+        int    getLevel();
+        int    getCurExp();
+        int    getIVs(int i);
+        int    getEVs(int i);
+        int    getMoves(int i);
+        int    getCurHP();
+        int    getStatus();
+        int    getStats(int i);
 
     private:
 

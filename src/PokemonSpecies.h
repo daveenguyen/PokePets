@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <algorithm>    // sort
 using namespace std;
 
 struct LevelUpMoves {
@@ -24,7 +24,7 @@ struct LevelUpMoves {
             result = (_move_id < other._move_id);
         }
 
-        return result;//theChar<other.theChar;
+        return result;
     }
 };
 

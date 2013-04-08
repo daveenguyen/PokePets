@@ -2,9 +2,10 @@
 #define DBPARSER_H
 
 #include <string>
+#include <vector>
 using namespace std;
 
-// struct to hold data from POKEMON_SPECIES_CSV
+// POKEMON_SPECIES_CSV values
 struct _dbPokeSpecies {
     int    _id;
     string _identifier;
@@ -26,26 +27,26 @@ struct _dbPokeSpecies {
     int    _conquest_order;
 };
 
-// struct to hold data from POKEMON_STATS_CSV
+// POKEMON_STATS_CSV values
 struct _dbPokeStats {
     int _pokemon_id;
     int _base_stat[6];
     int _effort[6];
 };
 
-// struct to hold data from POKEMON_ABILITIES_CSV
+// POKEMON_ABILITIES_CSV values
 struct _dbPokeAbilities {
     int _pokemon_id;
     int _abilities[3];
 };
 
-// struct to hold data from POKEMON_TYPES_CSV
+// POKEMON_TYPES_CSV values
 struct _dbPokeTypes {
     int _pokemon_id;
     int _types[2];
 };
 
-// struct to hold data from POKEMON_CSV
+// POKEMON_CSV values
 struct _dbPoke {
     int _id;
     int _species_id;
@@ -56,7 +57,7 @@ struct _dbPoke {
     int _is_default;
 };
 
-// struct to hold a line of data from POKEMON_MOVES_CSV
+// POKEMON_MOVES_CSV values
 struct _dbPokeMoves {
     int _pokemon_id;
     int _version_group_id;
@@ -69,8 +70,9 @@ struct _dbPokeMoves {
 class DBParser
 {
     public:
+        DBParser();
         DBParser(int dexNum=0);
-        ~DBParser();
+        ~DBParser(){};
 
         // getters for pokemon species class
         string getName();
