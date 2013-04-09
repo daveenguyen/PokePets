@@ -27,13 +27,33 @@ void TestPokemon() {
 
     cout << "___ POKEMON INFO" << endl;
     cout << "NICKNAME: " << myPokemon.getNickname() << endl;
-    cout << "  GENDER: " << myPokemon.getGender()   << endl;
-    cout << " ABILITY: " << myPokemon.getAbility()  << endl;
-    cout << "  NATURE: " << myPokemon.getNature()   << endl;
-    cout << "   LEVEL: " << myPokemon.getLevel()    << endl;
-    cout << " CUR EXP: " << myPokemon.getCurExp()   << endl;
-    cout << "  CUR HP: " << myPokemon.getCurHP()    << endl;
-    cout << "  STATUS: " << myPokemon.getStatus()   << endl << endl;
+    cout << "  GENDER: ";
+    // << myPokemon.getGender()   << endl;
+    switch (myPokemon.getGender()) {
+        case -1:
+            cout << "Genderless" << endl;
+            break;
+        case 0:
+            cout << "Male" << endl;
+            break;
+        case 1:
+            cout << "Female" << endl;
+            break;
+        default:
+            cout << "** GENDER ERROR ** " << myPokemon.getGender() << endl;
+            break;
+    }
+
+    cout << " ABILITY: " << myPokemon.getAbility() << endl;
+
+    cout << "  NATURE: ";
+    DBParser nature(myPokemon.getNature(), 2);
+    cout << nature.getNatureString() << endl;
+
+    cout << "   LEVEL: " << myPokemon.getLevel()  << endl;
+    cout << " CUR EXP: " << myPokemon.getCurExp() << endl;
+    cout << "  CUR HP: " << myPokemon.getCurHP()  << endl;
+    cout << "  STATUS: " << myPokemon.getStatus() << endl << endl;
 
     cout << "___ MOVES" << endl;
     cout << " MOVE[0]: " << myPokemon.getMoves(0) << endl;
@@ -59,8 +79,11 @@ void TestPokemon() {
 
     DBParser db(myPokemon.getTypes(0), 1);
     cout << "TYPE1: " << db.getTypeString() << endl;
-    DBParser db2(myPokemon.getTypes(1), 1);
-    cout << "TYPE2: " << db2.getTypeString() << endl << endl;
+    if (myPokemon.getTypes(1) != 0) {
+        DBParser db2(myPokemon.getTypes(1), 1);
+        cout << "TYPE2: " << db2.getTypeString() << endl << endl;
+    }
+
 }
 
 void TestParser() {

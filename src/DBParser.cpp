@@ -5,16 +5,21 @@
 using namespace std;
 #include "DBParser.h"
 
-#define POKEMON_CSV           "../data/csv/pokemon.csv"
-#define POKEMON_MOVES_CSV     "../data/csv/pokemon_moves.csv"
-#define POKEMON_STATS_CSV     "../data/csv/pokemon_stats.csv"
-#define POKEMON_TYPES_CSV     "../data/csv/pokemon_types.csv"
-#define POKEMON_SPECIES_CSV   "../data/csv/pokemon_species.csv"
-#define POKEMON_ABILITIES_CSV "../data/csv/pokemon_abilities.csv"
+#define POKEMON_CSV                 "../data/csv/pokemon.csv"
+#define POKEMON_MOVES_CSV           "../data/csv/pokemon_moves.csv"
+#define POKEMON_STATS_CSV           "../data/csv/pokemon_stats.csv"
+#define POKEMON_TYPES_CSV           "../data/csv/pokemon_types.csv"
+#define POKEMON_SPECIES_CSV         "../data/csv/pokemon_species.csv"
+#define POKEMON_ABILITIES_CSV       "../data/csv/pokemon_abilities.csv"
 #define POKEMON_SPECIES_NAMES_CSV   "../data/csv/pokemon_species_names.csv"
 
-#define TYPES_CSV             "../data/csv/types.csv"
-#define TYPE_EFFICACY_CSV     "../data/csv/type_efficacy.csv"
+#define TYPES_CSV                   "../data/csv/types.csv"
+#define TYPE_EFFICACY_CSV           "../data/csv/type_efficacy.csv"
+
+#define NATURES_CSV                   "../data/csv/natures.csv"
+#define NATURE_NAMES_CSV           "../data/csv/nature_names.csv"
+
+#define LANGUAGE_ID 9 // 9 for english
 
 DBParser::DBParser() {
     cur_name          = "";
@@ -60,12 +65,17 @@ DBParser::DBParser(int num, int mode) {
             break;
         }
 
+        case 2:
+        {
+            parseNature(&cur_nature, num);
+            break;
+        }
+
     }
 }
 
 string DBParser::getName(){
     string thisName = cur_name;
-    // thisName[0] = toupper(thisName[0]); // capitalize first letter
     return thisName;
 }
 
@@ -128,6 +138,19 @@ int DBParser::getTypeEfficacy(int typeNum) {
     }
     return cur_type._damage_factor[typeNum-1];
 }
+
+int DBParser::getNatureIncStat(){
+    return cur_nature._increased_stat_id;
+}
+
+int DBParser::getNatureDecStat(){
+    return cur_nature._decreased_stat_id;
+}
+
+string DBParser::getNatureString(){
+    return cur_nature._identifier;
+}
+
 
 void DBParser::initPokemonSpecies(int dexNum) {
 
@@ -443,7 +466,7 @@ void DBParser::parsePokeSpeciesName(int dexNum){
 
         parseLine(my_ss, local_language_id);
 
-        if (local_language_id == 9) {
+        if (local_language_id == LANGUAGE_ID) {
             getline(my_ss, cur_name, ',');
             break;
         }
@@ -507,6 +530,77 @@ void DBParser::parseType(_type* type, int typeNum){
         parseLine(my_ss, type->_identifier);
     }
 }
+
+
+
+
+void DBParser::parseNature(_nature* nature, int natureNum){
+
+    // open file for parsing
+    openFile(NATURES_CSV);
+    clearStruct(nature);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    int token;
+
+    nature->_natureNum = natureNum;
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < natureNum) && (!my_ifs.eof()) );
+
+        if (token != natureNum || my_ifs.eof()) break;
+
+        parseLine(my_ss, nature->_identifier);
+        parseLine(my_ss, nature->_decreased_stat_id);
+        parseLine(my_ss, nature->_increased_stat_id);
+
+        // if (target_nature_id - 1 == nature->_damage_factor.size())
+        //     nature->_damage_factor.push_back(damage_factor);
+
+    }
+
+
+    // open file for parsing
+    openFile(NATURE_NAMES_CSV);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < natureNum) && (!my_ifs.eof()) );
+
+        if (token != natureNum || my_ifs.eof()) break;
+
+        // parseLine(my_ss, );
+
+
+        int local_language_id;
+
+        parseLine(my_ss, local_language_id);
+
+        if (local_language_id == LANGUAGE_ID) {
+            getline(my_ss, nature->_identifier, ',');
+            break;
+        }
+    }
+}
+
 
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_id = 0;
@@ -579,6 +673,13 @@ void DBParser::clearStruct(_dbPokeMoves* _pokeMoves) {
 void DBParser::clearStruct(_type* _t) {
     _t->_identifier = "";
     _t->_damage_factor.clear();
+}
+
+void DBParser::clearStruct(_nature* _n) {
+    _n->_identifier = "";
+    _n->_natureNum = 0;
+    _n->_decreased_stat_id = 0;
+    _n->_increased_stat_id = 0;
 }
 
 void DBParser::openFile(const char* file)

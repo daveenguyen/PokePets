@@ -74,6 +74,13 @@ struct _type {
     vector<int> _damage_factor;
 };
 
+struct _nature {
+    string _identifier;
+    int    _natureNum;
+    int    _decreased_stat_id;
+    int    _increased_stat_id;
+};
+
 class DBParser
 {
     public:
@@ -92,8 +99,13 @@ class DBParser
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
+
         int    getTypeEfficacy(int typeNum);
         string getTypeString();
+
+        int    getNatureIncStat();
+        int    getNatureDecStat();
+        string getNatureString();
 
         void initPokemonSpecies(int dexNum);
 
@@ -118,6 +130,7 @@ class DBParser
         void parsePokeSpeciesName(int dexNum=0);
 
         void parseType(_type* type, int typeNum=0);
+        void parseNature(_nature* nature, int natureNum=0);
 
         // set all variables in struct to 0 or ""
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
@@ -127,6 +140,7 @@ class DBParser
         void clearStruct(_dbPoke* _poke);
         void clearStruct(_dbPokeMoves* _pokeMoves);
         void clearStruct(_type* _t);
+        void clearStruct(_nature* _n);
 
         // for parsing
         ifstream     my_ifs;       // file to parse
@@ -149,8 +163,8 @@ class DBParser
         int cur_baseHappiness; // pokemon_species
         int cur_growthRate;    // pokemon_species
 
-        // type
-        _type cur_type;
+        _type   cur_type;
+        _nature cur_nature;
 
 };
 
