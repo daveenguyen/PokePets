@@ -54,7 +54,7 @@ void TestPokemon() {
     cout << "   S.DEF: " << myPokemon.getIVs(4) << endl;
     cout << "   SPEED: " << myPokemon.getIVs(5) << endl << endl;
 
-    DBParser db(dexNum);
+    DBParser db(dexNum, 1);
     cout << "TYPE1: " << db.getTypeString(myPokemon.getTypes(0)) << endl;
     cout << "TYPE2: " << db.getTypeString(myPokemon.getTypes(1)) << endl << endl;
 }
@@ -66,6 +66,6 @@ void TestParser() {
     cin  >> num;
     cout << endl;
 
-    DBParser db(num);
+    DBParser db();
 
 }

@@ -14,7 +14,7 @@ PokemonSpecies::PokemonSpecies(int dexNum) {
 PokemonSpecies::~PokemonSpecies() {}
 
 void PokemonSpecies::initFromParser(int dexNum) {
-    DBParser species(dexNum);
+    DBParser species(dexNum, 0);
 
     _dexNum       = dexNum;
     _name         = species.getName(); // pokemon_species

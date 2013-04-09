@@ -78,7 +78,7 @@ class DBParser
 {
     public:
         DBParser();
-        DBParser(int dexNum=0);
+        DBParser(int num, int mode);
         ~DBParser(){};
 
         // getters for pokemon species class
@@ -92,7 +92,10 @@ class DBParser
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
+        int    getTypeEfficacy(int typeNum);
         string getTypeString(int typeNum);
+
+        void initPokemonSpecies(int dexNum);
 
         vector<_dbPokeMoves> moves;
 

@@ -15,8 +15,6 @@ using namespace std;
 #define TYPES_CSV             "../data/csv/types.csv"
 #define TYPE_EFFICACY_CSV     "../data/csv/type_efficacy.csv"
 
-#define MAX_POKES 151
-
 DBParser::DBParser() {
     cur_name          = "";
     cur_types[0]      = 0;
@@ -43,62 +41,25 @@ DBParser::DBParser() {
     cur_growthRate    = 0;
 }
 
-DBParser::DBParser(int dexNum) {
+DBParser::DBParser(int num, int mode) {
 
-    if (dexNum<=0) {
-        cerr << "ERROR - Invalid dexNum: " << dexNum << endl;
-        exit(1); // let's not bother with doing a range
+    switch (mode) {
+
+        // PokemonSpecies
+        case 0:
+        {
+            initPokemonSpecies(num);
+            break;
+        }
+
+        // Type Efficacy
+        case 1:
+        {
+            parseType(&cur_type, num);
+            break;
+        }
+
     }
-
-    int maxPoke = 1;
-    if (dexNum == 0) maxPoke = MAX_POKES;
-
-    // ** SPECIES **
-    _dbPokeSpecies _pokeSpecies;
-    parsePokeSpecies(&_pokeSpecies, dexNum);
-
-    // ** STATS **
-    _dbPokeStats _pokeStats;
-    parsePokeStats(&_pokeStats, dexNum);
-
-    // ** ABILITIES **
-    _dbPokeAbilities _pokeAbilities;
-    parsePokeAbilities(&_pokeAbilities, dexNum);
-
-    // ** TYPES **
-    _dbPokeTypes _pokeTypes;
-    parsePokeTypes(&_pokeTypes, dexNum);
-
-    // ** POKES **
-    _dbPoke _poke;
-    parsePoke(&_poke, dexNum);
-
-    cur_name          = _pokeSpecies._identifier;
-    cur_types[0]      = _pokeTypes._types[0];
-    cur_types[1]      = _pokeTypes._types[1];
-    cur_abilities[0]  = _pokeAbilities._abilities[0];
-    cur_abilities[1]  = _pokeAbilities._abilities[1];
-    cur_abilities[2]  = _pokeAbilities._abilities[2];
-    cur_genderRate    = _pokeSpecies._gender_rate;
-    cur_baseStats[0]  = _pokeStats._base_stat[0];
-    cur_baseStats[1]  = _pokeStats._base_stat[1];
-    cur_baseStats[2]  = _pokeStats._base_stat[2];
-    cur_baseStats[3]  = _pokeStats._base_stat[3];
-    cur_baseStats[4]  = _pokeStats._base_stat[4];
-    cur_baseStats[5]  = _pokeStats._base_stat[5];
-    cur_baseExp       = _poke._base_experience;
-    cur_onDeathEVs[0] = _pokeStats._effort[0];
-    cur_onDeathEVs[1] = _pokeStats._effort[1];
-    cur_onDeathEVs[2] = _pokeStats._effort[2];
-    cur_onDeathEVs[3] = _pokeStats._effort[3];
-    cur_onDeathEVs[4] = _pokeStats._effort[4];
-    cur_onDeathEVs[5] = _pokeStats._effort[5];
-    cur_capRate       = _pokeSpecies._capture_rate;
-    cur_baseHappiness = _pokeSpecies._base_happiness;
-    cur_growthRate    = _pokeSpecies._growth_rate_id;
-
-    // vector<_dbPokeMoves> moves;
-    parsePokeMoves(&moves, dexNum);
 }
 
 string DBParser::getName(){
@@ -154,12 +115,73 @@ int    DBParser::getGrowthRate(){
 }
 
 string DBParser::getTypeString(int typeNum) {
-
-    parseType(&cur_type, typeNum);
     string thisType = cur_type._identifier;
     if (typeNum == 0) thisType = "none";
     thisType[0] = toupper(thisType[0]); // capitalize first letter
     return thisType;
+}
+
+int DBParser::getTypeEfficacy(int typeNum) {
+    if (typeNum <= 0)
+    {
+        cerr << "ERROR - getTypeEfficacy(" << typeNum << ")" << endl;
+    }
+    return cur_type._damage_factor[typeNum-1];
+}
+
+void DBParser::initPokemonSpecies(int dexNum) {
+
+    if (dexNum<=0) {
+        cerr << "ERROR - Invalid dexNum: " << dexNum << endl;
+        exit(1); // let's not bother with doing a range
+    }
+
+    // ** SPECIES **
+    _dbPokeSpecies _pokeSpecies;
+    parsePokeSpecies(&_pokeSpecies, dexNum);
+
+    // ** STATS **
+    _dbPokeStats _pokeStats;
+    parsePokeStats(&_pokeStats, dexNum);
+
+    // ** ABILITIES **
+    _dbPokeAbilities _pokeAbilities;
+    parsePokeAbilities(&_pokeAbilities, dexNum);
+
+    // ** TYPES **
+    _dbPokeTypes _pokeTypes;
+    parsePokeTypes(&_pokeTypes, dexNum);
+
+    // ** POKES **
+    _dbPoke _poke;
+    parsePoke(&_poke, dexNum);
+
+    cur_name          = _pokeSpecies._identifier;
+    cur_types[0]      = _pokeTypes._types[0];
+    cur_types[1]      = _pokeTypes._types[1];
+    cur_abilities[0]  = _pokeAbilities._abilities[0];
+    cur_abilities[1]  = _pokeAbilities._abilities[1];
+    cur_abilities[2]  = _pokeAbilities._abilities[2];
+    cur_genderRate    = _pokeSpecies._gender_rate;
+    cur_baseStats[0]  = _pokeStats._base_stat[0];
+    cur_baseStats[1]  = _pokeStats._base_stat[1];
+    cur_baseStats[2]  = _pokeStats._base_stat[2];
+    cur_baseStats[3]  = _pokeStats._base_stat[3];
+    cur_baseStats[4]  = _pokeStats._base_stat[4];
+    cur_baseStats[5]  = _pokeStats._base_stat[5];
+    cur_baseExp       = _poke._base_experience;
+    cur_onDeathEVs[0] = _pokeStats._effort[0];
+    cur_onDeathEVs[1] = _pokeStats._effort[1];
+    cur_onDeathEVs[2] = _pokeStats._effort[2];
+    cur_onDeathEVs[3] = _pokeStats._effort[3];
+    cur_onDeathEVs[4] = _pokeStats._effort[4];
+    cur_onDeathEVs[5] = _pokeStats._effort[5];
+    cur_capRate       = _pokeSpecies._capture_rate;
+    cur_baseHappiness = _pokeSpecies._base_happiness;
+    cur_growthRate    = _pokeSpecies._growth_rate_id;
+
+    // vector<_dbPokeMoves> moves;
+    parsePokeMoves(&moves, dexNum);
 }
 
 template <class T>
