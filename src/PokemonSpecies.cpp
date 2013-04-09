@@ -132,14 +132,14 @@ vector<LevelUpMoves> PokemonSpecies::getLevelUpMoves(){
     return levelUpMoves;
 }
 
-vector<int>          PokemonSpecies::getEggMoves(){
+vector<int> PokemonSpecies::getEggMoves(){
     return eggMoves;
 }
 
-vector<int>          PokemonSpecies::getTutorMoves(){
+vector<int> PokemonSpecies::getTutorMoves(){
     return tutorMoves;
 }
 
-vector<int>          PokemonSpecies::getMachineMoves(){
+vector<int> PokemonSpecies::getMachineMoves(){
     return machineMoves;
 }

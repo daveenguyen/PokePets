@@ -67,6 +67,11 @@ struct _dbPokeMoves {
     int _order;
 };
 
+struct _type {
+    string _identifier;
+    vector<int> _damage_factor;
+};
+
 class DBParser
 {
     public:
@@ -85,6 +90,7 @@ class DBParser
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
+        string getTypeString(int typeNum);
 
         vector<_dbPokeMoves> moves;
 
@@ -103,6 +109,9 @@ class DBParser
         void parsePoke(_dbPoke* _poke, int dexNum=0);
         void parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum=0);
 
+
+        void parseType(_type* type, int typeNum=0);
+
         // set all variables in struct to 0 or ""
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
         void clearStruct(_dbPokeStats* _pokeStats);
@@ -110,6 +119,7 @@ class DBParser
         void clearStruct(_dbPokeTypes* _pokeTypes);
         void clearStruct(_dbPoke* _poke);
         void clearStruct(_dbPokeMoves* _pokeMoves);
+        void clearStruct(_type* _t);
 
 
         // variables for pokemon species class
@@ -126,6 +136,9 @@ class DBParser
         int cur_capRate;       // pokemon_species
         int cur_baseHappiness; // pokemon_species
         int cur_growthRate;    // pokemon_species
+
+        // type
+        _type cur_type;
 
 };
 

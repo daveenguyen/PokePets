@@ -12,6 +12,9 @@ using namespace std;
 #define POKEMON_SPECIES_CSV   "../data/csv/pokemon_species.csv"
 #define POKEMON_ABILITIES_CSV "../data/csv/pokemon_abilities.csv"
 
+#define TYPES_CSV             "../data/csv/types.csv"
+#define TYPE_EFFICACY_CSV     "../data/csv/type_efficacy.csv"
+
 #define MAX_POKES 151
 
 DBParser::DBParser() {
@@ -148,6 +151,15 @@ int    DBParser::getBaseHappiness(){
 }
 int    DBParser::getGrowthRate(){
     return cur_growthRate;
+}
+
+string DBParser::getTypeString(int typeNum) {
+
+    parseType(&cur_type, typeNum);
+    string thisType = cur_type._identifier;
+    if (typeNum == 0) thisType = "none";
+    thisType[0] = toupper(thisType[0]); // capitalize first letter
+    return thisType;
 }
 
 template <class T>
@@ -520,6 +532,79 @@ void DBParser::parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum){
     }
 }
 
+
+void DBParser::parseType(_type* type, int typeNum){
+
+    // open file for parsing
+    ifstream ifs(TYPE_EFFICACY_CSV);
+    if(!ifs.is_open())
+    {
+        cerr << "Could not open " << TYPE_EFFICACY_CSV;
+        exit(1);
+    }
+
+    /* read a line */
+    string line;            // string to store line
+    getline(ifs, line);     // get rid of title line
+
+    int i = 0;
+    clearStruct(type);
+
+    while (i < MAX_POKES) {
+
+
+        stringstream ss;        // stringstream for storing tokenized value
+        int damage_type_id=0;
+
+        do {
+            getline(ifs, line);    // get line
+            ss.str(line);
+            parseLine(ss, damage_type_id);
+        } while (damage_type_id < typeNum && !ifs.eof());
+
+        if (damage_type_id != typeNum || ifs.eof()) {
+            break;
+        }
+
+        // type._identifier = this_dmg_type_id;
+        int target_type_id = 0;
+        int damage_factor  = 0;
+        parseLine(ss, target_type_id);
+        parseLine(ss, damage_factor);
+
+        if (target_type_id - 1 == type->_damage_factor.size())
+            type->_damage_factor.push_back(damage_factor);
+    }
+
+    ifs.close();
+    ifs.open(TYPES_CSV);
+    if(!ifs.is_open())
+    {
+        cerr << "Could not open " << TYPES_CSV;
+        exit(1);
+    }
+
+
+
+    while (i < MAX_POKES) {
+
+        stringstream ss;        // stringstream for storing tokenized value
+        int _type_id=0;
+
+        do {
+            getline(ifs, line);    // get line
+            ss.str(line);
+            parseLine(ss, _type_id);
+        } while (_type_id < typeNum && !ifs.eof());
+
+        if (_type_id != typeNum || ifs.eof()) {
+            break;
+        }
+
+        parseLine(ss, type->_identifier);
+    }
+}
+
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_id = 0;
     _pokeSpecies->_identifier = "";
@@ -586,4 +671,9 @@ void DBParser::clearStruct(_dbPokeMoves* _pokeMoves) {
     _pokeMoves->_pokemon_move_method_id = 0;
     _pokeMoves->_level = 0;
     _pokeMoves->_order = 0;
+}
+
+void DBParser::clearStruct(_type* _t) {
+    _t->_identifier = "";
+    _t->_damage_factor.clear();
 }
