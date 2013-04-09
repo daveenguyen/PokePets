@@ -7,13 +7,15 @@ class Type
 {
     public:
 
-        Type();
+        Type(int typeNum);
 
-        ~Type();
+        ~Type() {};
 
     private:
 
-        int _efficacy[17];
+        string _identifier;
+        int    _typeNum;
+        int    _efficacy[17];
 
 };
 

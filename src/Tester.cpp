@@ -2,13 +2,16 @@
 
 #include "DBParser.h"
 #include "Pokemon.h"
+#include "Type.h"
 
 void TestPokemon();
 void TestParser();
+void TestType();
 
 int main() {
-    TestPokemon();
+    // TestPokemon();
     // TestParser();
+    TestType();
     return 0;
 }
 
@@ -54,9 +57,10 @@ void TestPokemon() {
     cout << "   S.DEF: " << myPokemon.getIVs(4) << endl;
     cout << "   SPEED: " << myPokemon.getIVs(5) << endl << endl;
 
-    DBParser db(dexNum, 1);
-    cout << "TYPE1: " << db.getTypeString(myPokemon.getTypes(0)) << endl;
-    cout << "TYPE2: " << db.getTypeString(myPokemon.getTypes(1)) << endl << endl;
+    DBParser db(myPokemon.getTypes(0), 1);
+    cout << "TYPE1: " << db.getTypeString() << endl;
+    DBParser db2(myPokemon.getTypes(1), 1);
+    cout << "TYPE2: " << db2.getTypeString() << endl << endl;
 }
 
 void TestParser() {
@@ -68,4 +72,13 @@ void TestParser() {
 
     DBParser db();
 
+}
+
+void TestType() {
+    cout << "Enter num: ";
+    int num;
+    cin  >> num;
+    cout << endl;
+
+    Type type(num);
 }

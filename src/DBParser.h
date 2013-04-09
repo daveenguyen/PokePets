@@ -93,7 +93,7 @@ class DBParser
         int    getBaseHappiness();
         int    getGrowthRate();
         int    getTypeEfficacy(int typeNum);
-        string getTypeString(int typeNum);
+        string getTypeString();
 
         void initPokemonSpecies(int dexNum);
 

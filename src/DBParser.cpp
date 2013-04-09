@@ -114,9 +114,8 @@ int    DBParser::getGrowthRate(){
     return cur_growthRate;
 }
 
-string DBParser::getTypeString(int typeNum) {
+string DBParser::getTypeString() {
     string thisType = cur_type._identifier;
-    if (typeNum == 0) thisType = "none";
     thisType[0] = toupper(thisType[0]); // capitalize first letter
     return thisType;
 }
