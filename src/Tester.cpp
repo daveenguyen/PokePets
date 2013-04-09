@@ -55,6 +55,13 @@ void TestPokemon() {
     cout << "  CUR HP: " << myPokemon.getCurHP()  << endl;
     cout << "  STATUS: " << myPokemon.getStatus() << endl << endl;
 
+    for (int i=0; i < 2 && myPokemon.getTypes(i) != 0; i++) {
+        DBParser type(myPokemon.getTypes(i), 1);
+        cout << " TYPE["<< i << "]: " << type.getTypeString() << endl;
+    }
+
+    cout << endl;
+
     cout << "___ MOVES" << endl;
     cout << " MOVE[0]: " << myPokemon.getMoves(0) << endl;
     cout << " MOVE[1]: " << myPokemon.getMoves(1) << endl;
@@ -76,14 +83,6 @@ void TestPokemon() {
     cout << "   S.ATK: " << myPokemon.getIVs(3) << endl;
     cout << "   S.DEF: " << myPokemon.getIVs(4) << endl;
     cout << "   SPEED: " << myPokemon.getIVs(5) << endl << endl;
-
-    DBParser db(myPokemon.getTypes(0), 1);
-    cout << "TYPE1: " << db.getTypeString() << endl;
-    if (myPokemon.getTypes(1) != 0) {
-        DBParser db2(myPokemon.getTypes(1), 1);
-        cout << "TYPE2: " << db2.getTypeString() << endl << endl;
-    }
-
 }
 
 void TestParser() {

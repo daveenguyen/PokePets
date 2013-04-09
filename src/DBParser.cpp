@@ -14,10 +14,11 @@ using namespace std;
 #define POKEMON_SPECIES_NAMES_CSV   "../data/csv/pokemon_species_names.csv"
 
 #define TYPES_CSV                   "../data/csv/types.csv"
+#define TYPE_NAMES_CSV              "../data/csv/type_names.csv"
 #define TYPE_EFFICACY_CSV           "../data/csv/type_efficacy.csv"
 
-#define NATURES_CSV                   "../data/csv/natures.csv"
-#define NATURE_NAMES_CSV           "../data/csv/nature_names.csv"
+#define NATURES_CSV                 "../data/csv/natures.csv"
+#define NATURE_NAMES_CSV            "../data/csv/nature_names.csv"
 
 #define LANGUAGE_ID 9 // 9 for english
 
@@ -127,7 +128,7 @@ int    DBParser::getGrowthRate(){
 
 string DBParser::getTypeString() {
     string thisType = cur_type._identifier;
-    thisType[0] = toupper(thisType[0]); // capitalize first letter
+    // thisType[0] = toupper(thisType[0]); // capitalize first letter
     return thisType;
 }
 
@@ -510,7 +511,6 @@ void DBParser::parseType(_type* type, int typeNum){
 
     // open file for parsing
     openFile(TYPES_CSV);
-    // clearStruct(type);
 
     getline(my_ifs, cur_line);     // get rid of title line
 
@@ -528,6 +528,37 @@ void DBParser::parseType(_type* type, int typeNum){
         if (token != typeNum || my_ifs.eof()) break;
 
         parseLine(my_ss, type->_identifier);
+    }
+
+    // open file for parsing
+    openFile(TYPE_NAMES_CSV);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < typeNum) && (!my_ifs.eof()) );
+
+        if (token != typeNum || my_ifs.eof()) break;
+
+        // parseLine(my_ss, );
+
+
+        int local_language_id;
+
+        parseLine(my_ss, local_language_id);
+
+        if (local_language_id == LANGUAGE_ID) {
+            getline(my_ss, type->_identifier, ',');
+            break;
+        }
     }
 }
 
