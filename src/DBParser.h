@@ -1,6 +1,8 @@
 #ifndef DBPARSER_H
 #define DBPARSER_H
 
+#include <sstream>
+#include <fstream>
 #include <string>
 #include <vector>
 using namespace std;
@@ -96,6 +98,8 @@ class DBParser
 
     private:
 
+        void openFile(const char* file);
+
         // tokenizes the line in stringstream ss by ','
         // and store the token it into t
         template <class T>
@@ -120,6 +124,11 @@ class DBParser
         void clearStruct(_dbPoke* _poke);
         void clearStruct(_dbPokeMoves* _pokeMoves);
         void clearStruct(_type* _t);
+
+        // for parsing
+        ifstream     my_ifs;       // file to parse
+        stringstream my_ss;        // stringstream for tokenizing current line
+        string       cur_line;  // current line being read in parsing
 
 
         // variables for pokemon species class

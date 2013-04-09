@@ -4,11 +4,11 @@
 #include "Pokemon.h"
 
 void TestPokemon();
-void TestParseType();
+void TestParser();
 
 int main() {
     TestPokemon();
-    // TestParseType();
+    // TestParser();
     return 0;
 }
 
@@ -59,13 +59,13 @@ void TestPokemon() {
     cout << "TYPE2: " << db.getTypeString(myPokemon.getTypes(1)) << endl << endl;
 }
 
-// void TestParseType() {
+void TestParser() {
 
-//     cout << "Enter type id: ";
-//     int typeNum;
-//     cin  >> typeNum;
-//     cout << endl;
+    cout << "Enter num: ";
+    int num;
+    cin  >> num;
+    cout << endl;
 
-//     DBParser db(typeNum);
+    DBParser db(num);
 
-// }
+}
