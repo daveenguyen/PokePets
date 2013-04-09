@@ -13,11 +13,4 @@ Type::Type(int typeNum)
     {
         _efficacy[i] = db.getTypeEfficacy(i+1);
     }
-
-    cout << _identifier << endl;
-    cout << _typeNum << endl;
-    for (int i = 0; i < 17; ++i)
-    {
-        cout << _efficacy[i] << endl;
-    }
 }

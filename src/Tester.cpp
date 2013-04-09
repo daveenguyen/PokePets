@@ -9,9 +9,9 @@ void TestParser();
 void TestType();
 
 int main() {
-    // TestPokemon();
+    TestPokemon();
     // TestParser();
-    TestType();
+    // TestType();
     return 0;
 }
 

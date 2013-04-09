@@ -115,7 +115,7 @@ class DBParser
         void parsePokeTypes(_dbPokeTypes* _pokeTypes, int dexNum=0);
         void parsePoke(_dbPoke* _poke, int dexNum=0);
         void parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum=0);
-
+        void parsePokeSpeciesName(int dexNum=0);
 
         void parseType(_type* type, int typeNum=0);
 

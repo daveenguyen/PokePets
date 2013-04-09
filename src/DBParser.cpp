@@ -11,6 +11,7 @@ using namespace std;
 #define POKEMON_TYPES_CSV     "../data/csv/pokemon_types.csv"
 #define POKEMON_SPECIES_CSV   "../data/csv/pokemon_species.csv"
 #define POKEMON_ABILITIES_CSV "../data/csv/pokemon_abilities.csv"
+#define POKEMON_SPECIES_NAMES_CSV   "../data/csv/pokemon_species_names.csv"
 
 #define TYPES_CSV             "../data/csv/types.csv"
 #define TYPE_EFFICACY_CSV     "../data/csv/type_efficacy.csv"
@@ -64,7 +65,7 @@ DBParser::DBParser(int num, int mode) {
 
 string DBParser::getName(){
     string thisName = cur_name;
-    thisName[0] = toupper(thisName[0]); // capitalize first letter
+    // thisName[0] = toupper(thisName[0]); // capitalize first letter
     return thisName;
 }
 
@@ -155,7 +156,7 @@ void DBParser::initPokemonSpecies(int dexNum) {
     _dbPoke _poke;
     parsePoke(&_poke, dexNum);
 
-    cur_name          = _pokeSpecies._identifier;
+    // cur_name          = _pokeSpecies._identifier;
     cur_types[0]      = _pokeTypes._types[0];
     cur_types[1]      = _pokeTypes._types[1];
     cur_abilities[0]  = _pokeAbilities._abilities[0];
@@ -181,6 +182,7 @@ void DBParser::initPokemonSpecies(int dexNum) {
 
     // vector<_dbPokeMoves> moves;
     parsePokeMoves(&moves, dexNum);
+    parsePokeSpeciesName(dexNum);
 }
 
 template <class T>
@@ -415,6 +417,38 @@ void DBParser::parsePokeMoves(vector<_dbPokeMoves>* moves, int dexNum){
     }
 }
 
+void DBParser::parsePokeSpeciesName(int dexNum){
+
+    // open file for parsing
+    openFile(POKEMON_SPECIES_NAMES_CSV);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    int token;
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < dexNum) && (!my_ifs.eof()) );
+
+        if (token != dexNum || my_ifs.eof()) break;
+
+        int local_language_id;
+
+        parseLine(my_ss, local_language_id);
+
+        if (local_language_id == 9) {
+            getline(my_ss, cur_name, ',');
+            break;
+        }
+    }
+}
 
 void DBParser::parseType(_type* type, int typeNum){
 
