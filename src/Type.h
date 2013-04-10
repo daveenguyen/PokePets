@@ -7,9 +7,11 @@ class Type
 {
     public:
 
-        Type(int typeNum);
+        Type(int typeNum=0);
 
         ~Type() {};
+
+        void initType(int typeNum);
 
     private:
 

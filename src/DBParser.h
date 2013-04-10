@@ -81,6 +81,35 @@ struct _nature {
     int    _increased_stat_id;
 };
 
+struct _move {
+    // move.csv
+    string  _identifier;
+    int     _moveNum;
+    int     _type_id;
+    int     _power;
+    int     _pp;
+    int     _accuracy;
+    int     _priority;
+    int     _target_id;
+    int     _damage_class_id;
+    int     _effect_id;
+    int     _effect_chance;
+
+    // move_meta.csv
+    int     _meta_category_id;
+    int     _meta_ailment_id;
+    int     _min_hits;
+    int     _max_hits;
+    int     _min_turns;
+    int     _max_turns;
+    int     _recoil;
+    int     _healing;
+    int     _crit_rate;
+    int     _ailment_chance;
+    int     _flinch_chance;
+    int     _stat_chance;
+};
+
 class DBParser
 {
     public:
@@ -111,6 +140,8 @@ class DBParser
 
         vector<_dbPokeMoves> moves;
 
+        _move   cur_move;
+
     private:
 
         void openFile(const char* file);
@@ -131,6 +162,7 @@ class DBParser
 
         void parseType(_type* type, int typeNum=0);
         void parseNature(_nature* nature, int natureNum=0);
+        void parseMove(_move* move, int moveNum=0);
 
         // set all variables in struct to 0 or ""
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
@@ -141,11 +173,12 @@ class DBParser
         void clearStruct(_dbPokeMoves* _pokeMoves);
         void clearStruct(_type* _t);
         void clearStruct(_nature* _n);
+        void clearStruct(_move* _m);
 
         // for parsing
         ifstream     my_ifs;       // file to parse
         stringstream my_ss;        // stringstream for tokenizing current line
-        string       cur_line;  // current line being read in parsing
+        string       cur_line;     // current line being read in parsing
 
 
         // variables for pokemon species class

@@ -1,8 +1,12 @@
 #include <iostream> // cin / cout
+#include <string>
+
+using namespace std;
 
 #include "DBParser.h"
 #include "Pokemon.h"
 #include "Type.h"
+#include "Move.h"
 
 void TestPokemon();
 void TestParser();
@@ -60,10 +64,16 @@ void TestPokemon() {
 
     cout << endl;
 
-    cout << "___ MOVES" << endl;
     for (int i=0; i < 4 && myPokemon.getMoves(i) != 0; ++i) {
-        cout << " MOVE[" << i << "]: " << myPokemon.getMoves(i) << endl;
+        cout << "___ ";
+        Move myMove(myPokemon.getMoves(i));
+        cout << myMove.getIdentifier() << endl;
+        cout << "   POWER: " << myMove.getPower() << endl;
+        cout << "      PP: " << myMove.getPP() << endl;
+        cout << "Accuracy: " << myMove.getAccuracy() << endl << endl;
     }
+
+
     cout << endl;
 
     cout << "___ STATS" << endl;
@@ -74,13 +84,13 @@ void TestPokemon() {
     cout << "   S.DEF: " << myPokemon.getStats(4) << endl;
     cout << "   SPEED: " << myPokemon.getStats(5) << endl << endl;
 
-    cout << "___ IV" << endl;
-    cout << "      HP: " << myPokemon.getIVs(0) << endl;
-    cout << "     ATK: " << myPokemon.getIVs(1) << endl;
-    cout << "     DEF: " << myPokemon.getIVs(2) << endl;
-    cout << "   S.ATK: " << myPokemon.getIVs(3) << endl;
-    cout << "   S.DEF: " << myPokemon.getIVs(4) << endl;
-    cout << "   SPEED: " << myPokemon.getIVs(5) << endl << endl;
+    // cout << "___ IV" << endl;
+    // cout << "      HP: " << myPokemon.getIVs(0) << endl;
+    // cout << "     ATK: " << myPokemon.getIVs(1) << endl;
+    // cout << "     DEF: " << myPokemon.getIVs(2) << endl;
+    // cout << "   S.ATK: " << myPokemon.getIVs(3) << endl;
+    // cout << "   S.DEF: " << myPokemon.getIVs(4) << endl;
+    // cout << "   SPEED: " << myPokemon.getIVs(5) << endl << endl;
 }
 
 void TestParser() {
@@ -90,7 +100,12 @@ void TestParser() {
     cin  >> num;
     cout << endl;
 
-    DBParser db();
+    // Move move(num)
+    // DBParser db(num,3);
+    // cout << db.cur_move._identifier << endl;
+    // cout << db.cur_move._power << endl;
+    // cout << db.cur_move._pp << endl;
+    // cout << db.cur_move._accuracy << endl;
 
 }
 

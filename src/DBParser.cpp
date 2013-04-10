@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib> // for exit()
 using namespace std;
+
 #include "DBParser.h"
 
 #define POKEMON_CSV                 "../data/csv/pokemon.csv"
@@ -19,6 +20,10 @@ using namespace std;
 
 #define NATURES_CSV                 "../data/csv/natures.csv"
 #define NATURE_NAMES_CSV            "../data/csv/nature_names.csv"
+
+#define MOVES_CSV                   "../data/csv/moves.csv"
+#define MOVE_META_CSV              "../data/csv/move_meta.csv"
+#define MOVE_NAMES_CSV              "../data/csv/move_names.csv"
 
 #define LANGUAGE_ID 9 // 9 for english
 
@@ -69,6 +74,19 @@ DBParser::DBParser(int num, int mode) {
         case 2:
         {
             parseNature(&cur_nature, num);
+            break;
+        }
+
+        case 3:
+        {
+            parseMove(&cur_move, num);
+            break;
+        }
+
+        default:
+        {
+            cerr << "ERROR - Unsupoprted mode: " << mode << endl;
+            exit(1);
             break;
         }
 
@@ -633,6 +651,110 @@ void DBParser::parseNature(_nature* nature, int natureNum){
 }
 
 
+void DBParser::parseMove(_move* move, int moveNum){
+
+    // open file for parsing
+    openFile(MOVES_CSV);
+    clearStruct(move);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    int token;
+
+    move->_moveNum = moveNum;
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < moveNum) && (!my_ifs.eof()) );
+
+        if (token != moveNum || my_ifs.eof()) break;
+
+        parseLine(my_ss, move->_identifier);
+        parseLine(my_ss, move->_moveNum);
+        parseLine(my_ss, move->_type_id);
+        parseLine(my_ss, move->_power);
+        parseLine(my_ss, move->_pp);
+        parseLine(my_ss, move->_accuracy);
+        parseLine(my_ss, move->_priority);
+        parseLine(my_ss, move->_target_id);
+        parseLine(my_ss, move->_damage_class_id);
+        parseLine(my_ss, move->_effect_id);
+        parseLine(my_ss, move->_effect_chance);
+    }
+
+
+    // open file for parsing
+    openFile(MOVE_META_CSV);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    move->_moveNum = moveNum;
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < moveNum) && (!my_ifs.eof()) );
+
+        if (token != moveNum || my_ifs.eof()) break;
+
+        parseLine(my_ss, move->_meta_category_id);
+        parseLine(my_ss, move->_meta_ailment_id);
+        parseLine(my_ss, move->_min_hits);
+        parseLine(my_ss, move->_max_hits);
+        parseLine(my_ss, move->_min_turns);
+        parseLine(my_ss, move->_max_turns);
+        parseLine(my_ss, move->_recoil);
+        parseLine(my_ss, move->_healing);
+        parseLine(my_ss, move->_crit_rate);
+        parseLine(my_ss, move->_ailment_chance);
+        parseLine(my_ss, move->_flinch_chance);
+        parseLine(my_ss, move->_stat_chance);
+    }
+
+
+    // open file for parsing
+    openFile(MOVE_NAMES_CSV);
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < moveNum) && (!my_ifs.eof()) );
+
+        if (token != moveNum || my_ifs.eof()) break;
+
+        int local_language_id;
+
+        parseLine(my_ss, local_language_id);
+
+        if (local_language_id == LANGUAGE_ID) {
+            getline(my_ss, move->_identifier, ',');
+            break;
+        }
+    }
+}
+
+
 void DBParser::clearStruct(_dbPokeSpecies* _pokeSpecies) {
     _pokeSpecies->_id = 0;
     _pokeSpecies->_identifier = "";
@@ -683,22 +805,22 @@ void DBParser::clearStruct(_dbPokeTypes* _pokeTypes) {
 }
 
 void DBParser::clearStruct(_dbPoke* _poke) {
-    _poke->_id = 0;
-    _poke->_species_id = 0;
-    _poke->_height = 0;
-    _poke->_weight = 0;
+    _poke->_id              = 0;
+    _poke->_species_id      = 0;
+    _poke->_height          = 0;
+    _poke->_weight          = 0;
     _poke->_base_experience = 0;
-    _poke->_order = 0;
-    _poke->_is_default = 0;
+    _poke->_order           = 0;
+    _poke->_is_default      = 0;
 }
 
 void DBParser::clearStruct(_dbPokeMoves* _pokeMoves) {
-    _pokeMoves->_pokemon_id = 0;
-    _pokeMoves->_version_group_id = 0;
-    _pokeMoves->_move_id = 0;
+    _pokeMoves->_pokemon_id             = 0;
+    _pokeMoves->_version_group_id       = 0;
+    _pokeMoves->_move_id                = 0;
     _pokeMoves->_pokemon_move_method_id = 0;
-    _pokeMoves->_level = 0;
-    _pokeMoves->_order = 0;
+    _pokeMoves->_level                  = 0;
+    _pokeMoves->_order                  = 0;
 }
 
 void DBParser::clearStruct(_type* _t) {
@@ -707,10 +829,39 @@ void DBParser::clearStruct(_type* _t) {
 }
 
 void DBParser::clearStruct(_nature* _n) {
-    _n->_identifier = "";
-    _n->_natureNum = 0;
+    _n->_identifier        = "";
+    _n->_natureNum         = 0;
     _n->_decreased_stat_id = 0;
     _n->_increased_stat_id = 0;
+}
+
+void DBParser::clearStruct(_move* _m) {
+    // move.csv
+    _m->_identifier      = "";
+    _m->_moveNum         = 0;
+    _m->_type_id         = 0;
+    _m->_power           = 0;
+    _m->_pp              = 0;
+    _m->_accuracy        = 0;
+    _m->_priority        = 0;
+    _m->_target_id       = 0;
+    _m->_damage_class_id = 0;
+    _m->_effect_id       = 0;
+    _m->_effect_chance   = 0;
+
+    // move_meta.csv
+    _m->_meta_category_id = 0;
+    _m->_meta_ailment_id  = 0;
+    _m->_min_hits         = 0;
+    _m->_max_hits         = 0;
+    _m->_min_turns        = 0;
+    _m->_max_turns        = 0;
+    _m->_recoil           = 0;
+    _m->_healing          = 0;
+    _m->_crit_rate        = 0;
+    _m->_ailment_chance   = 0;
+    _m->_flinch_chance    = 0;
+    _m->_stat_chance      = 0;
 }
 
 void DBParser::openFile(const char* file)

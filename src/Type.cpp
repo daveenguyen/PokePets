@@ -6,6 +6,11 @@ using namespace std;
 #include "Type.h"
 Type::Type(int typeNum)
 {
+    initType(typeNum);
+}
+
+void Type::initType(int typeNum)
+{
     DBParser db(typeNum, 1);
     _identifier = db.getTypeString();
     _typeNum = typeNum;
