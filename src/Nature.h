@@ -7,9 +7,16 @@ class Nature
 {
     public:
 
+        Nature();
         Nature(int natureNum);
 
         ~Nature() {};
+
+        string toString();
+        int    getNatureNum();
+        int    getDecStat();
+        int    getIncStat();
+        void   initNature(int natureNum);
 
     private:
 

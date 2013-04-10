@@ -5,13 +5,44 @@ using namespace std;
 #include "DBParser.h"
 #include "Nature.h"
 
+Nature::Nature() {
+
+}
+
 Nature::Nature(int natureNum)
 {
-    DBParser db(natureNum, 1);
-    _identifier = db.getTypeString();
-    _natureNum = natureNum;
-    for (int i = 0; i < 17; ++i)
-    {
-        _efficacy[i] = db.getTypeEfficacy(i+1);
-    }
+    initNature(natureNum);
 }
+
+void Nature::initNature(int natureNum)
+{
+    DBParser db(natureNum, 2);
+    _natureNum         = natureNum;
+    _identifier        = db.getNatureString();
+    _decreased_stat_id = db.getNatureDecStat();
+    _increased_stat_id = db.getNatureIncStat();
+}
+
+string Nature::toString()
+{
+    return _identifier;
+}
+
+int Nature::getNatureNum()
+{
+    return _natureNum;
+}
+
+int Nature::getDecStat()
+{
+    return _decreased_stat_id;
+}
+
+int Nature::getIncStat()
+{
+    return _increased_stat_id;
+}
+
+
+
+

@@ -2,6 +2,7 @@
 #define POKEMON_H
 
 #include "PokemonSpecies.h" // parent class
+#include "Nature.h"         // pokemon has a nature
 #include <string>
 
 class Pokemon : public PokemonSpecies
@@ -14,7 +15,7 @@ class Pokemon : public PokemonSpecies
         string getNickname();
         int    getGender();
         int    getAbility();
-        int    getNature();
+        string getNature();
         int    getLevel();
         int    getCurExp();
         int    getIVs(int i);
@@ -30,7 +31,9 @@ class Pokemon : public PokemonSpecies
 
         int _genderValue;
         int _abilityIndex;
-        int _nature;
+
+        // int _nature;
+        Nature _nature;
 
         int _level;
         int _curExp;
@@ -43,6 +46,7 @@ class Pokemon : public PokemonSpecies
         int _status;
 
         void initMoves();
+
 
 };
 

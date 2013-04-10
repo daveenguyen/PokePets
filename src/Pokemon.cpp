@@ -12,7 +12,8 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _nickname     = getName();
     _genderValue  = rand() % 256;
     _abilityIndex = rand() % 2;
-    _nature       = rand() % 25;
+    // _nature       = rand() % 25;
+    _nature.initNature(rand() % 25);
     _level        = level;
     _curExp       = 0;
 
@@ -151,9 +152,9 @@ int Pokemon::getAbility(){
     return getAbilities(_abilityIndex);
 }
 
-int Pokemon::getNature()
+string Pokemon::getNature()
 {
-    return _nature;
+    return _nature.toString();
 }
 
 int Pokemon::getLevel()
@@ -205,6 +206,9 @@ int Pokemon::getStats(int i)
     else if (i < 6)
     {
         double nature = 1;
+        if (i+1 == _nature.getDecStat()) nature -= 0.1;
+        if (i+1 == _nature.getIncStat()) nature += 0.1;
+
         calc_stat = ((_IVs[i] + (2 * getBaseStats(i)) + (_EVs[i] / (double)4)) * _level)/100 + 5;
         calc_stat *= nature;
     }
