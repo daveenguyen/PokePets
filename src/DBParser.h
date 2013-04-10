@@ -128,6 +128,7 @@ class DBParser
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
+        int    getExpToLvl(int i);
 
         int    getTypeEfficacy(int typeNum);
         string getTypeString();
@@ -163,6 +164,7 @@ class DBParser
         void parseType(_type* type, int typeNum=0);
         void parseNature(_nature* nature, int natureNum=0);
         void parseMove(_move* move, int moveNum=0);
+        void parseExperience(int* _xp, int growthRate=0);
 
         // set all variables in struct to 0 or ""
         void clearStruct(_dbPokeSpecies* _pokeSpecies);
@@ -195,6 +197,8 @@ class DBParser
         int cur_capRate;       // pokemon_species
         int cur_baseHappiness; // pokemon_species
         int cur_growthRate;    // pokemon_species
+
+        int cur_expToLvl[100]; // experience
 
         _type   cur_type;
         _nature cur_nature;

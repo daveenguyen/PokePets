@@ -2,6 +2,8 @@
 #include <string>
 #include <cstdlib> // for rand, srand
 #include <time.h>
+#include <cmath>
+using namespace std;
 
 #include "Pokemon.h"
 
@@ -15,7 +17,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     // _nature       = rand() % 25;
     _nature.initNature(rand() % 25);
     _level        = level;
-    _curExp       = 0;
+    _curExp       = getExpToLvl(level-1);
 
     // IVs are between 0 and 31
     _IVs[0]       = rand() % 32;
@@ -221,6 +223,21 @@ int Pokemon::getStats(int i)
     return calc_stat;
 }
 
+void Pokemon::adjustExperience(int baseExp, int faintLvl, bool isWild, int participated)
+{
+    double wild;
+    if (isWild) wild = 1;
+    else wild = 1.5;
+
+    double expGain;
+    expGain = (double)(wild * baseExp * faintLvl)/(5 * participated);
+    expGain *= pow ( (2 * faintLvl + 10) , 2.5) / pow ( (faintLvl + _level + 10) , 2.5);
+    ++expGain;
+
+    _curExp += (int)expGain;
+    checkExperience();
+}
+
 void Pokemon::initMoves()
 {
     int moveCount=0;
@@ -238,4 +255,21 @@ void Pokemon::initMoves()
         }
     }
 
+}
+
+void Pokemon::checkExperience()
+{
+    while (_curExp > getExpToLvl(_level)) {
+        float hpRatio = float(_curHP)/getStats(0);
+        ++_level;
+        _curHP = (int)(hpRatio * getStats(0));
+        cout << "LEVEL UP!" << endl;
+    }
+}
+
+void Pokemon::adjustHP(int i)
+{
+    _curHP += i;
+    if (_curHP > getStats(0)) _curHP = getStats(0);
+    else if (_curHP < 0) _curHP = 0;
 }

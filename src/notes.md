@@ -50,11 +50,14 @@
 
 * TODO
     * moves
-    * evolutions
     * nature multipliers
+    * experience/levels
+    * evolutions
     * catch calculation
-    * items
     * damage calculation
+* not now
+    * items
+    * abilities
 
 http://bulbapedia.bulbagarden.net/wiki/Catch_rate
 http://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_wild_held_item

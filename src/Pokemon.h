@@ -24,6 +24,9 @@ class Pokemon : public PokemonSpecies
         int    getCurHP();
         int    getStatus();
         int    getStats(int i);
+        void   adjustHP(int i);
+        void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
+        void   checkExperience();
 
     private:
 
@@ -44,6 +47,8 @@ class Pokemon : public PokemonSpecies
         int _curHP;
 
         int _status;
+
+        bool _isWild;
 
         void initMoves();
 

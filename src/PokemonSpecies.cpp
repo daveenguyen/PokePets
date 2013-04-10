@@ -74,6 +74,11 @@ void PokemonSpecies::initFromParser(int dexNum) {
         }
     }
     sort(levelUpMoves.begin(), levelUpMoves.end());
+
+    for (int i = 0; i < 100; ++i)
+    {
+        _expToLvl[i] = species.getExpToLvl(i);
+    }
 }
 
 int PokemonSpecies::getDexNum() {
@@ -142,4 +147,9 @@ vector<int> PokemonSpecies::getTutorMoves(){
 
 vector<int> PokemonSpecies::getMachineMoves(){
     return machineMoves;
+}
+
+int PokemonSpecies::getExpToLvl(int i)
+{
+    return _expToLvl[i];
 }

@@ -32,9 +32,6 @@ Move::Move(int moveNum)
     _ailment_chance   = db.cur_move._ailment_chance;
     _flinch_chance    = db.cur_move._flinch_chance;
     _stat_chance      = db.cur_move._stat_chance;
-
-    cout << "_meta_category_id: " << _meta_category_id << endl;
-    cout << "_meta_ailment_id : " << _meta_ailment_id << endl;
 }
 
 

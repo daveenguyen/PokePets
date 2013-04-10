@@ -49,6 +49,7 @@ class PokemonSpecies
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
+        int    getExpToLvl(int i);
 
 
         vector<LevelUpMoves> getLevelUpMoves();
@@ -72,6 +73,7 @@ class PokemonSpecies
         double _capRate;
         int    _baseHappiness;
         int    _growthRate;
+        int    _expToLvl[100];
 
         // move set
         // from 1: level-up

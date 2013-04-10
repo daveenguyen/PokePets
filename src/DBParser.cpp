@@ -25,6 +25,8 @@ using namespace std;
 #define MOVE_META_CSV              "../data/csv/move_meta.csv"
 #define MOVE_NAMES_CSV              "../data/csv/move_names.csv"
 
+#define EXPERIENCE_CSV              "../data/csv/experience.csv"
+
 #define LANGUAGE_ID 9 // 9 for english
 
 DBParser::DBParser() {
@@ -98,24 +100,24 @@ string DBParser::getName(){
     return thisName;
 }
 
-int    DBParser::getTypes(int i){
+int DBParser::getTypes(int i){
     if (i != 0 && i != 1) {
         cerr << "ERROR - getTypes(" << i << ")" << endl;
         exit(1);
     }
     return cur_types[i];
 }
-int    DBParser::getAbilities(int i){
+int DBParser::getAbilities(int i){
     if (i < 0 || i > 2) {
         cerr << "ERROR - getAbilities(" << i << ")" << endl;
         exit(1);
     }
     return cur_abilities[i];
 }
-int    DBParser::getGenderRate(){
+int DBParser::getGenderRate(){
     return cur_genderRate;
 }
-int    DBParser::getBaseStats(int i){
+int DBParser::getBaseStats(int i){
     if (i < 0 || i > 5) {
         cerr << "ERROR - getBaseStats(" << i << ")" << endl;
         exit(1);
@@ -123,25 +125,30 @@ int    DBParser::getBaseStats(int i){
     return cur_baseStats[i];
 }
 
-int    DBParser::getBaseExp(){
+int DBParser::getBaseExp(){
     return cur_baseExp;
 }
 
-int    DBParser::getOnDeathEVs(int i){
+int DBParser::getOnDeathEVs(int i){
     if (i < 0 || i > 5) {
         cerr << "ERROR - getOnDeathEVs(" << i << ")" << endl;
         exit(1);
     }
     return cur_onDeathEVs[i];
 }
-int    DBParser::getCapRate(){
+int DBParser::getCapRate(){
     return cur_capRate;
 }
-int    DBParser::getBaseHappiness(){
+int DBParser::getBaseHappiness(){
     return cur_baseHappiness;
 }
-int    DBParser::getGrowthRate(){
+int DBParser::getGrowthRate(){
     return cur_growthRate;
+}
+
+int DBParser::getExpToLvl(int i)
+{
+    return cur_expToLvl[i];
 }
 
 string DBParser::getTypeString() {
@@ -225,6 +232,9 @@ void DBParser::initPokemonSpecies(int dexNum) {
     // vector<_dbPokeMoves> moves;
     parsePokeMoves(&moves, dexNum);
     parsePokeSpeciesName(dexNum);
+
+    // parse experience
+    parseExperience(cur_expToLvl, cur_growthRate);
 }
 
 template <class T>
@@ -751,6 +761,44 @@ void DBParser::parseMove(_move* move, int moveNum){
             getline(my_ss, move->_identifier, ',');
             break;
         }
+    }
+}
+
+
+void DBParser::parseExperience(int* _xp, int growthRate)
+{
+
+    // open file for parsing
+    openFile(EXPERIENCE_CSV);
+    // clearStruct(nature);
+    for (int i = 0; i < 100; ++i)
+    {
+        _xp[i] = 0;
+    }
+
+    getline(my_ifs, cur_line);     // get rid of title line
+
+    int token;
+
+    while (true)
+    {
+        do
+        {
+            getline(my_ifs, cur_line);
+            my_ss.str(cur_line);
+            my_ss.clear();
+            parseLine(my_ss, token);
+        }
+        while ( (token < growthRate) && (!my_ifs.eof()) );
+
+        if (token != growthRate || my_ifs.eof()) break;
+
+        int lvl;
+        parseLine(my_ss, lvl);
+        parseLine(my_ss, _xp[lvl-1]);
+
+        // cout << lvl << ": " << _xp[lvl-1] << endl;
+
     }
 }
 
