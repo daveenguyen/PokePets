@@ -10,3 +10,9 @@ Desktop.ini
 # Compiled binary
 a.out
 a.exe
+
+# Folders
+bin/
+lib/
+test/
+build/
