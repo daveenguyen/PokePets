@@ -16,7 +16,7 @@ Nature::Nature(int natureNum)
 
 void Nature::initNature(int natureNum)
 {
-    DBParser db(natureNum, 2);
+    DBParser db(natureNum+1, 2);
     _natureNum         = natureNum;
     _identifier        = db.getNatureString();
     _decreased_stat_id = db.getNatureDecStat();

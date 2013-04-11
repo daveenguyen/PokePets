@@ -19,3 +19,8 @@ void Type::initType(int typeNum)
         _efficacy[i] = db.getTypeEfficacy(i+1);
     }
 }
+
+int Type::getEfficacy(int i)
+{
+    return _efficacy[i];
+}
