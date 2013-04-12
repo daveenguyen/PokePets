@@ -11,11 +11,20 @@ using namespace std;
 class CSVReader
 {
     public:
+        /**
+         * Constructs a CSVReader and reset all data members
+         */
         CSVReader();
+        /**
+         * Constructs a CSVReader, resets all data members, and open file 'file'
+         */
+        CSVReader(const char* file);
+
         ~CSVReader(){};
 
         /**
          * Opens a CSV file. Loads the CSV file to the ifstream
+         * @returns true if the file is open
          */
         void openFile(const char* file);
 
@@ -34,14 +43,13 @@ class CSVReader
          */
         void readField();
 
-
         /**
-         * Gets the current line
+         * Gets the current line. If isEof, do nothing
          */
         string getLine();
 
         /**
-         * Gets the current field
+         * Gets the current field. If isEol, do nothing
          */
         string getField();
 
@@ -67,6 +75,12 @@ class CSVReader
          */
         bool isEof();
 
+        /**
+         * Used to determine if a CSV file is open
+         * @returns true if it's open; otherwise, false
+         */
+        bool isOpen();
+
     private:
         /**
          * Counts the number of fields are in the file
@@ -77,10 +91,10 @@ class CSVReader
         ifstream        my_ifs;     // file to parse
         stringstream    my_ss;      // stringstream for tokenizing current line
 
-        string          curLine;        // last line we read
-        string          curField;       // last field we got read
-        int             fSize;          // the number of fields the CSV file has
-        int             fIndex;         // the current field you're on
+        string          curLine;    // last line we read
+        string          curField;   // last field we got read
+        int             fSize;      // the number of fields the CSV file has
+        int             fIndex;     // the current field you're on
 };
 
 #endif // CSVREADER_H
