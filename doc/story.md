@@ -209,7 +209,8 @@ Route 6
 
 	Actions:
 	-Go to Vermillion City
-	-Try to wake sleeping Pokepet
+	-Go to Lavender Town (road blocked by sleeping pokepet)
+		*Try to wake sleeping Pokepet
 
 	Encounters:
 	-Wild Pokepet (lvl 18-22)
@@ -218,6 +219,8 @@ Route 6
 		*ekans
 		*rattata
 		*fearow
+		*snorlax (lvl 30 - special)
+
 	-Trainers
 		*Uses pokepet found in current route (lvl 15-21)
 
@@ -242,6 +245,7 @@ Rock Tunnel
 		*geodude
 		*onyx
 		*zubat
+		*diglett
 	-Trainers
 		*Uses pokepet found in current route (lvl 15-21)
 
@@ -280,9 +284,6 @@ Ghost Tower
 	-Trainers
 		*Uses pokepet found in current route (lvl 19-24)
 
-	---Story Progression---
-	-Encounters rival and rival tells player to just give up on finding the treasure
-	because he couldn't find it.  Talks more trash to player then walks away
 
 	Map for Ghost Tower
 
@@ -290,20 +291,34 @@ Ghost Tower
 	o=treasure room
 	t=room with trainer
 
-							[ ]		[ ]				[t]	[o]
-	   [t]			[t]	[ ]	[ ]	[t]	[ ]		[t]		[ ]
-	[t][ ]			[ ]		[ ]		[ ]	[ ]	[ ]	[t]	[ ]
-	[ ]				[t]						[ ]
-[ ]	[t]				[ ]
-	[ ]		[ ] [t] [ ] [ ] [t]
-	[ ]	[ ]	[ ]		[ ] 	[t]			
-			[t]							[t]
-			[t]	[ ]	[t] [ ]     [ ]	[ ]	[ ]	[ ]
-			[ ]		[ ]	[t] [ ] [t]		[ ]
-						[ ]
-						[x]	
 
+										[ ]		[ ]				[t]	[o]
+				   [t]			[t]	[ ]	[ ]	[t]	[ ]		[t]		[ ]
+				[t][ ]			[ ]		[ ]		[ ]	[ ]	[ ]	[t]	[ ]
+				[ ]				[t]						[ ]
+			[ ]	[t]				[ ]
+				[ ]		[ ] [t] [ ] [ ] [t]
+				[ ]	[ ]	[ ]		[ ] 	[t]			
+						[t]							[t]
+						[t]	[ ]	[t] [ ]     [ ]	[ ]	[ ]	[ ]
+						[ ]		[ ]	[t] [ ] [t]		[ ]
+									[ ]
+									[x]	
 
+	---Story Progression---
+	-Encounters rival and rival tells player to just give up on finding the treasure
+	 because he couldn't find it.  Talks more trash to player then walks away
+	-Encounters Mr. X in treasure room and player finds out that he is trying to 
+	 anger the ghost Pokepets so they can grow bitter against humans
+	-Battle Mr. X
+		*Uses poison-type (lvl 30-35)
+	-Upon victory against Mr. X, he asks player to join him but player declines
+	-Mr. X escapes
+	-Player obtains treasure
+	-Go back to town to talk to the musician
+		*Trade treasure for Pokepet Instrument
+			-Player can now wake up sleeping pokepet 
+	-Go to Celadon City to obtain next badge if haven't done so already
 
 
 Route 7
@@ -311,6 +326,7 @@ Route 7
 	Actions:
 	-Go to Lavender Town
 	-Go to Underground Passage (leads to Celadon City)
+	-Go to Saffron City (road closed)
 	
 	Encounters:			
 	-Wild Pokepet (lvl 21-24)
@@ -330,6 +346,11 @@ Underground Passage
 	-Go to Route 7
 	-Go to Celadon City
 
+	---Story Progression---
+	-Player encounters a man that said he loves flying!
+		*Player receives Hidden Move Fly!
+			-Player can now fly to cities (only cites that are discovered)
+
 Celadon City
 	
 	Actions:
@@ -341,6 +362,120 @@ Celadon City
 
 	-Go to Route 8
 	-Go to Underground Passage (leads to Lavender Town)
+	-Go to Saffron City (road closed)
+
+	---Story Progression---
+	-After 4th badge is received, go to Ghost Tower to find treasure 
+	 for the musician if haven't done so already
+	-Go to Fuchsia City via Route 8-9 to obtain next badge!
+
+Route 8
+
+	Actions:
+	-Go to Celadon City
+	-Go to Route 9 (road blocked by sleeping pokepet)
+		*need pokepet instrument to advance
+
+	Encounters:
+	-Wild Pokepet (lvl 20-26)
+		*doduo
+		*rattata
+		*spearow
+		*grimer
+		*snorlax (lvl 30 - special)
+	-Trainers
+		*Uses pokepet found in current route (lvl 21-26)
+
+Route 9
+	
+	Actions:
+	-Go to Route 8
+	-Go to Fuchsia City
+
+	Encounters:
+	-Wild Pokepet (lvl 25-29)
+		*scyther
+		*ponyta
+		*paras
+		*farfetch'd
+		*exeggcute
+	-Trainers
+		*Uses pokepet found in current route (lvl 25-29)
+
+
+Fuchsia City
+
+	Actions:
+	-Visit Pokepet Center
+	-Visit Pokepet Mart
+	-Visit Gym Leader
+		*Uses poison-type (lvl 39-42)
+		*Receive Poison Badge upon victory
+
+	-Go to Route 9
+	-Go to Route 10
+	-Go to Route 11 (need hidden move-surf to advance)
+
+	---Story Progression---
+	-After 5th badge is obtained, Player receives message to go see Prof Haney
+	-Get to Pallet Town (using fly would probably be the fastest way)
+		*Prof Haney tells Player that all wild pokepets are now drugged and 
+		 enraged.  He tells Player about his former collegue in which came up with
+		 a drug that made pokemon very strong through anger (steriods?).  He says he
+		 should of stopped him years ago but thought he could change.  Prof Haney
+		 asks Player for one last favor, to stop Mr. X!  He tells Player that their
+		 old lab is in Saffron City and that the roads to enter the city are no longer
+		 blocked.
+	-Get to Saffron City and STOP Mr. X! 
+
+Route 10
+
+	Actions:
+	-Go to Fushcia City
+	-Go to Route 6
+
+	Encounters:
+	-Wild Pokepet (lvl 26-30)
+		*rhyhorn
+		*tangela
+		*chansey
+		*ditto
+	-Trainers
+		*Uses pokepet found in current route (lvl 30-34)
+
+Route 11
+
+	Actions:
+	-Go to Fushcia City
+	-Go to Cinnebar Island
+
+	Encounters:
+	-Wild Pokepet (lvl 18-22)
+		*magicarp
+		*tentacruel
+		*goldeen
+		*horsea
+		*staryu
+	-Trainers
+		*Uses pokepet found in current route (lvl 25-28)
+
+Saffron City
+
+	Actions:
+	-Visit Pokepet Center
+	-Visit Pokepet Mart
+	-Visit Gym Leader
+		*Uses psychic-type(lvl 45-49)
+		*Receive Mind Badge upon victory
+	-Visit 
+
+Cinnebar Island
+
+	Actions:
+	-Visit Pokepet Center
+	-Visit Pokepet Mart
+	-Visit Gym Leader
+
 
 
 
