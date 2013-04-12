@@ -12,6 +12,7 @@ class Type
         ~Type() {};
 
         void initType(int typeNum);
+        int  getEfficacy(int i);
 
     private:
 
