@@ -11,7 +11,10 @@ struct LevelUpMoves {
     int _move_id;
     int _order;
 
-    LevelUpMoves(int _level, int _move_id, int _order) : _level(_level), _move_id(_move_id), _order(_order) {}
+    LevelUpMoves(int _level, int _move_id, int _order) :
+            _level(_level),
+            _move_id(_move_id),
+            _order(_order) {}
 
     bool operator<(const LevelUpMoves& other)const{
         bool result;
@@ -28,29 +31,33 @@ struct LevelUpMoves {
     }
 };
 
+class CSVReader;
+
 /* Stuff that every Pokemon of the same pokemon species share */
 class PokemonSpecies
 {
     public:
 
-        PokemonSpecies(int dexNum);
+        PokemonSpecies(int dexNum=0);
 
         ~PokemonSpecies();
 
-        void   initFromParser(int dexNum);
-        int    getDexNum();
-        string getName();
-        int    getTypes(int i);
-        int    getAbilities(int i);
-        int    getGenderRate();
-        int    getBaseStats(int i);
-        int    getBaseExp();
-        int    getOnDeathEVs(int i);
-        int    getCapRate();
-        int    getBaseHappiness();
-        int    getGrowthRate();
-        int    getExpToLvl(int i);
+        void    clear();
+        void    initFromParser(CSVReader* reader);
+        int     getDexNum();
+        string  getName();
+        int     getTypes(int i);
+        int     getAbilities(int i);
+        int     getGenderRate();
+        int     getBaseStats(int i);
+        int     getBaseExp();
+        int     getEffortYield(int i);
+        int     getCapRate();
+        int     getBaseHappiness();
+        int     getGrowthRate();
+        int     getExpToLvl(int i);
 
+        void    setDexNum(int i);
 
         vector<LevelUpMoves> getLevelUpMoves();
         vector<int>          getEggMoves();
@@ -59,25 +66,25 @@ class PokemonSpecies
 
     private:
 
-        int     _dexNum;
-        string  _name;
+        int     _dexNum;            // pokedex number
+        string  _name;              // species name
 
-        int     _types[2];
-        int     _abilities[3];
-        int     _genderRate;
-        int     _baseStats[6];
+        int     _types[2];          // types
+        int     _abilities[3];      // abilities
+        int     _genderRate;        // gender ratio id
+        int     _baseStats[6];      // base stats
 
         // training based
-        int    _baseExp;
-        int    _onDeathEVs[6];
-        double _capRate;
-        int    _baseHappiness;
-        int    _growthRate;
-        int    _expToLvl[100];
+        int     _baseExp;           // base experience yield
+        int     _effortYield[6];    // effort yield
+        int     _capRate;           // capture rate
+        int     _baseHappiness;     // base happiness
+        int     _growthRate;        // level up rate
+        int     _expToLvl[100];     // level up table
 
         // move set
         // from 1: level-up
-        vector<LevelUpMoves> levelUpMoves;
+        vector<LevelUpMoves> levelMoves;
 
         // from 2: egg
         vector<int> eggMoves;

@@ -3,153 +3,421 @@
 using namespace std;
 
 #include "PokemonSpecies.h"
-#include "DBParser.h"
+#include "CSVReader.h"
+#include "Parser.h"
 
-PokemonSpecies::PokemonSpecies(int dexNum) {
+PokemonSpecies::PokemonSpecies(int dexNum)
+{
     /* parse database file based on pokedex number
        then set these variables */
-    initFromParser(dexNum);
+    clear();
+    _dexNum = dexNum;
+    if (dexNum!=0){
+        CSVReader reader;
+        initFromParser(&reader);
+    }
 }
 
 PokemonSpecies::~PokemonSpecies() {}
 
-void PokemonSpecies::initFromParser(int dexNum) {
-    DBParser species(dexNum, 0);
+void PokemonSpecies::clear()
+{
+    _dexNum        = 0;
+    _capRate       = 0;
+    _baseHappiness = 0;
+    _growthRate    = 0;
+    _genderRate    = 0;
 
-    _dexNum       = dexNum;
-    _name         = species.getName(); // pokemon_species
+    // POKEMON_SPECIES_NAME
+    _name          = "";
 
-    _types[0]     = species.getTypes(0); // pokemon_types
-    _types[1]     = species.getTypes(1); // pokemon_types
+    // POKEMON_TYPES_CSV
+    _types[0]     = 0;
+    _types[1]     = 0;
 
-    _abilities[0] = species.getAbilities(0); // pokemon_abilities
-    _abilities[1] = species.getAbilities(1); // pokemon_abilities
-    _abilities[2] = species.getAbilities(2); // pokemon_abilities
+    // POKEMON_ABILITIES_CSV
+    _abilities[0] = 0;
+    _abilities[1] = 0;
+    _abilities[2] = 0;
 
-    _genderRate   = species.getGenderRate(); // pokemon_species
+    // POKEMON_STATS_CSV
+    _baseStats[0] = 0;
+    _baseStats[1] = 0;
+    _baseStats[2] = 0;
+    _baseStats[3] = 0;
+    _baseStats[4] = 0;
+    _baseStats[5] = 0;
 
-    _baseStats[0] = species.getBaseStats(0); // pokemon_stats
-    _baseStats[1] = species.getBaseStats(1); // pokemon_stats
-    _baseStats[2] = species.getBaseStats(2); // pokemon_stats
-    _baseStats[3] = species.getBaseStats(3); // pokemon_stats
-    _baseStats[4] = species.getBaseStats(4); // pokemon_stats
-    _baseStats[5] = species.getBaseStats(5); // pokemon_stats
+    // POKEMON_CSV
+    _baseExp       = 0;
 
-    // training based
-    _baseExp       = species.getBaseExp();       // pokemon
-    _onDeathEVs[0] = species.getOnDeathEVs(0);   // pokemon_stats
-    _onDeathEVs[1] = species.getOnDeathEVs(1);   // pokemon_stats
-    _onDeathEVs[2] = species.getOnDeathEVs(2);   // pokemon_stats
-    _onDeathEVs[3] = species.getOnDeathEVs(3);   // pokemon_stats
-    _onDeathEVs[4] = species.getOnDeathEVs(4);   // pokemon_stats
-    _onDeathEVs[5] = species.getOnDeathEVs(5);   // pokemon_stats
-    _capRate       = species.getCapRate();       // pokemon_species
-    _baseHappiness = species.getBaseHappiness(); // pokemon_species
-    _growthRate    = species.getGrowthRate();    // pokemon_species
+    // POKEMON_STATS_CSV
+    _effortYield[0] = 0;
+    _effortYield[1] = 0;
+    _effortYield[2] = 0;
+    _effortYield[3] = 0;
+    _effortYield[4] = 0;
+    _effortYield[5] = 0;
 
     // moves
-    levelUpMoves.clear();
+    levelMoves.clear();
     machineMoves.clear();
     tutorMoves.clear();
     eggMoves.clear();
 
-    for (int i = 0; i < species.moves.size(); ++i) {
-        switch (species.moves[i]._pokemon_move_method_id) {
-            case 1: {
-                levelUpMoves.push_back(LevelUpMoves(species.moves[i]._level, species.moves[i]._move_id, species.moves[i]._order));
-                break;
-            }
-            case 2: {
-                eggMoves.push_back(species.moves[i]._move_id);
-                break;
-            }
-            case 3: {
-                tutorMoves.push_back(species.moves[i]._move_id);
-                break;
-            }
-            case 4: {
-                machineMoves.push_back(species.moves[i]._move_id);
-                break;
+    for (int i = 0; i < 100; ++i)
+    {
+        _expToLvl[i] = 0;
+    }
+
+}
+
+void PokemonSpecies::initFromParser(CSVReader* reader)
+{
+
+    // POKEMON_SPECIES_CSV
+    reader->openFile(POKEMON_SPECIES_CSV);
+    int token = 0;
+
+    do
+    {
+        reader->readLine();
+        reader->readField();
+        token = reader->getField<int>();
+    } while ( token < _dexNum && !reader->isEof());
+
+    // at 1
+    while (reader->getFieldIndex() < 8 && !reader->isEol())
+        reader->readField();
+
+    _genderRate    = reader->getField<int>();            // pokemon_species 8
+
+    reader->readField();
+    _capRate       = reader->getField<int>();            // pokemon_species 9
+
+    reader->readField();
+    _baseHappiness = reader->getField<int>();            // pokemon_species 10
+
+    while (reader->getFieldIndex() < 14 && !reader->isEol())
+        reader->readField();
+
+    _growthRate    = reader->getField<int>();            // pokemon_species 14
+
+
+    // POKEMON_SPECIES_NAME
+    reader->openFile(POKEMON_SPECIES_NAMES_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _dexNum && !reader->isEof());
+
+        if (token != _dexNum || reader->isEof()) break;
+
+        reader->readField();
+        if (reader->getField<int>() == LANGUAGE_ID)
+        {
+            reader->readField();
+            _name = reader->getField<string>();
+            break;
+        }
+    }
+
+
+    // POKEMON_TYPES_CSV
+    reader->openFile(POKEMON_TYPES_CSV);
+    token = 0;
+
+
+    while (true)
+    {
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _dexNum && !reader->isEof());
+
+        if (token != _dexNum || reader->isEof()) break;
+
+        int this_type_id = 0;
+        int this_slot = 0;
+        reader->readField();
+        this_type_id = reader->getField<int>();
+        reader->readField();
+        this_slot = reader->getField<int>();
+
+        _types[this_slot-1] = this_type_id;
+    }
+
+    if (_types[1] == 0) _types[1] = _types[0];
+
+    // POKEMON_ABILITIES_CSV
+    reader->openFile(POKEMON_ABILITIES_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _dexNum && !reader->isEof());
+
+        if (token != _dexNum || reader->isEof()) break;
+
+        int this_ability_id = 0;
+        int this_slot = 0;
+
+        reader->readField();
+        this_ability_id = reader->getField<int>();
+        reader->readField();
+        reader->readField();
+        this_slot = reader->getField<int>();
+
+        _abilities[this_slot-1] = this_ability_id;
+    }
+
+    // POKEMON_STATS_CSV
+    reader->openFile(POKEMON_STATS_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _dexNum && !reader->isEof());
+
+        if (token != _dexNum || reader->isEof()) break;
+
+        int this_slot   = 0;
+        int this_base   = 0;
+        int this_effort = 0;
+
+        reader->readField();
+        this_slot = reader->getField<int>();
+        reader->readField();
+        this_base = reader->getField<int>();
+        reader->readField();
+        this_effort = reader->getField<int>();
+
+        _baseStats[this_slot-1]   = this_base;
+        _effortYield[this_slot-1] = this_effort;
+    }
+    // POKEMON_CSV
+    reader->openFile(POKEMON_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _dexNum && !reader->isEof());
+
+        if (token != _dexNum || reader->isEof()) break;
+
+
+        while (reader->getFieldIndex() < 4 && !reader->isEol())
+            reader->readField();
+
+        _baseExp = reader->getField<int>();
+    }
+
+
+    // POKEMON_MOVES_CSV
+    reader->openFile(POKEMON_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _dexNum && !reader->isEof());
+
+        if (token != _dexNum || reader->isEof()) break;
+
+        int level   = 0;
+        int move_id = 0;
+        int order   = 0;
+        int method  = 0;
+        int version = 0;
+
+        reader->readField();
+        version = reader->getField<int>();
+        reader->readField();
+        move_id = reader->getField<int>();
+        reader->readField();
+        method = reader->getField<int>();
+        reader->readField();
+        level = reader->getField<int>();
+        reader->readField();
+        order = reader->getField<int>();
+
+        if (version == VERSION_GROUP_ID)
+        {
+            switch (method)
+            {
+                case 1: {
+                    levelMoves.push_back(LevelUpMoves(level,move_id,order));
+                    break;
+                }
+                case 2: {
+                    eggMoves.push_back(move_id);
+                    break;
+                }
+                case 3: {
+                    tutorMoves.push_back(move_id);
+                    break;
+                }
+                case 4: {
+                    machineMoves.push_back(move_id);
+                    break;
+                }
             }
         }
     }
-    sort(levelUpMoves.begin(), levelUpMoves.end());
+    sort(levelMoves.begin(), levelMoves.end());
 
-    for (int i = 0; i < 100; ++i)
+    // EXPERIENCE_CSV
+    reader->openFile(EXPERIENCE_CSV);
+    token = 0;
+
+    while (true)
     {
-        _expToLvl[i] = species.getExpToLvl(i);
+        do
+        {
+            reader->readLine();
+            reader->readField();
+            token = reader->getField<int>();
+        } while ( token < _growthRate && !reader->isEof());
+
+        if (token != _growthRate || reader->isEof()) break;
+
+        int lvl = 0;
+
+        reader->readField();
+        lvl = reader->getField<int>();
+        reader->readField();
+        _expToLvl[lvl-1] = reader->getField<int>();
     }
 }
 
-int PokemonSpecies::getDexNum() {
+int PokemonSpecies::getDexNum()
+{
     return _dexNum;
 }
 
-string PokemonSpecies::getName() {
+string PokemonSpecies::getName()
+{
     return _name;
 }
 
-int PokemonSpecies::getTypes(int i) {
-    if (i != 0 && i != 1) {
+int PokemonSpecies::getTypes(int i)
+{
+    if (i != 0 && i != 1)
+    {
         cerr << "ERROR - getTypes(" << i << ")" << endl;
         exit(1);
     }
     return _types[i];
 }
-int PokemonSpecies::getAbilities(int i) {
-    if (i < 0 || i > 2) {
+
+int PokemonSpecies::getAbilities(int i)
+{
+    if (i < 0 || i > 2)
+    {
         cerr << "ERROR - getAbilities(" << i << ")" << endl;
         exit(1);
     }
     return _abilities[i];
 }
-int PokemonSpecies::getGenderRate() {
+
+int PokemonSpecies::getGenderRate()
+{
     return _genderRate;
 }
-int PokemonSpecies::getBaseStats(int i) {
-    if (i < 0 || i > 5) {
+
+int PokemonSpecies::getBaseStats(int i)
+{
+    if (i < 0 || i > 5)
+    {
         cerr << "ERROR - getBaseStats(" << i << ")" << endl;
         exit(1);
     }
     return _baseStats[i];
 }
-int PokemonSpecies::getBaseExp() {
+
+int PokemonSpecies::getBaseExp()
+{
     return _baseExp;
 }
-int PokemonSpecies::getOnDeathEVs(int i) {
-    if (i < 0 || i > 5) {
-        cerr << "ERROR - getOnDeathEVs(" << i << ")" << endl;
+
+int PokemonSpecies::getEffortYield(int i)
+{
+    if (i < 0 || i > 5)
+    {
+        cerr << "ERROR - getEffortYield(" << i << ")" << endl;
         exit(1);
     }
-    return _onDeathEVs[i];
+    return _effortYield[i];
 }
-int PokemonSpecies::getCapRate() {
+
+int PokemonSpecies::getCapRate()
+{
     return _capRate;
 }
-int PokemonSpecies::getBaseHappiness() {
+
+int PokemonSpecies::getBaseHappiness()
+{
     return _baseHappiness;
 }
-int PokemonSpecies::getGrowthRate() {
+
+int PokemonSpecies::getGrowthRate()
+{
     return _growthRate;
 }
 
-vector<LevelUpMoves> PokemonSpecies::getLevelUpMoves(){
-    return levelUpMoves;
+vector<LevelUpMoves> PokemonSpecies::getLevelUpMoves()
+{
+    return levelMoves;
 }
 
-vector<int> PokemonSpecies::getEggMoves(){
+vector<int> PokemonSpecies::getEggMoves()
+{
     return eggMoves;
 }
 
-vector<int> PokemonSpecies::getTutorMoves(){
+vector<int> PokemonSpecies::getTutorMoves()
+{
     return tutorMoves;
 }
 
-vector<int> PokemonSpecies::getMachineMoves(){
+vector<int> PokemonSpecies::getMachineMoves()
+{
     return machineMoves;
 }
 
 int PokemonSpecies::getExpToLvl(int i)
 {
     return _expToLvl[i];
+}
+
+void PokemonSpecies::setDexNum(int i)
+{
+    _dexNum = i;
 }
