@@ -38,12 +38,12 @@ class PokemonSpecies
 {
     public:
 
-        PokemonSpecies(int dexNum=0);
+        PokemonSpecies(CSVReader* reader, int dexNum=0);
 
         ~PokemonSpecies();
 
         void    clear();
-        void    initFromParser(CSVReader* reader);
+        void    initFromParser();
         int     getDexNum();
         string  getName();
         int     getTypes(int i);
@@ -65,6 +65,8 @@ class PokemonSpecies
         vector<int>          getMachineMoves();
 
     private:
+
+        CSVReader* _reader;
 
         int     _dexNum;            // pokedex number
         string  _name;              // species name

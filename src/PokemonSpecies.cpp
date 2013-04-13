@@ -6,15 +6,15 @@ using namespace std;
 #include "CSVReader.h"
 #include "Parser.h"
 
-PokemonSpecies::PokemonSpecies(int dexNum)
+PokemonSpecies::PokemonSpecies(CSVReader* reader, int dexNum)
 {
     /* parse database file based on pokedex number
        then set these variables */
+    _reader = reader;
     clear();
     _dexNum = dexNum;
-    if (dexNum!=0){
-        CSVReader reader;
-        initFromParser(&reader);
+    if (dexNum>0){
+        initFromParser();
     }
 }
 
@@ -72,65 +72,65 @@ void PokemonSpecies::clear()
 
 }
 
-void PokemonSpecies::initFromParser(CSVReader* reader)
+void PokemonSpecies::initFromParser()
 {
 
     // POKEMON_SPECIES_CSV
-    reader->openFile(POKEMON_SPECIES_CSV);
+    _reader->openFile(POKEMON_SPECIES_CSV);
     int token = 0;
 
     do
     {
-        reader->readLine();
-        reader->readField();
-        token = reader->getField<int>();
-    } while ( token < _dexNum && !reader->isEof());
+        _reader->readLine();
+        _reader->readField();
+        token = _reader->getField<int>();
+    } while ( token < _dexNum && !_reader->isEof());
 
     // at 1
-    while (reader->getFieldIndex() < 8 && !reader->isEol())
-        reader->readField();
+    while (_reader->getFieldIndex() < 8 && !_reader->isEol())
+        _reader->readField();
 
-    _genderRate    = reader->getField<int>();            // pokemon_species 8
+    _genderRate    = _reader->getField<int>();            // pokemon_species 8
 
-    reader->readField();
-    _capRate       = reader->getField<int>();            // pokemon_species 9
+    _reader->readField();
+    _capRate       = _reader->getField<int>();            // pokemon_species 9
 
-    reader->readField();
-    _baseHappiness = reader->getField<int>();            // pokemon_species 10
+    _reader->readField();
+    _baseHappiness = _reader->getField<int>();            // pokemon_species 10
 
-    while (reader->getFieldIndex() < 14 && !reader->isEol())
-        reader->readField();
+    while (_reader->getFieldIndex() < 14 && !_reader->isEol())
+        _reader->readField();
 
-    _growthRate    = reader->getField<int>();            // pokemon_species 14
+    _growthRate    = _reader->getField<int>();            // pokemon_species 14
 
 
     // POKEMON_SPECIES_NAME
-    reader->openFile(POKEMON_SPECIES_NAMES_CSV);
+    _reader->openFile(POKEMON_SPECIES_NAMES_CSV);
     token = 0;
 
     while (true)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _dexNum && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _dexNum && !_reader->isEof());
 
-        if (token != _dexNum || reader->isEof()) break;
+        if (token != _dexNum || _reader->isEof()) break;
 
-        reader->readField();
-        if (reader->getField<int>() == LANGUAGE_ID)
+        _reader->readField();
+        if (_reader->getField<int>() == LANGUAGE_ID)
         {
-            reader->readField();
-            _name = reader->getField<string>();
+            _reader->readField();
+            _name = _reader->getField<string>();
             break;
         }
     }
 
 
     // POKEMON_TYPES_CSV
-    reader->openFile(POKEMON_TYPES_CSV);
+    _reader->openFile(POKEMON_TYPES_CSV);
     token = 0;
 
 
@@ -138,19 +138,19 @@ void PokemonSpecies::initFromParser(CSVReader* reader)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _dexNum && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _dexNum && !_reader->isEof());
 
-        if (token != _dexNum || reader->isEof()) break;
+        if (token != _dexNum || _reader->isEof()) break;
 
         int this_type_id = 0;
         int this_slot = 0;
-        reader->readField();
-        this_type_id = reader->getField<int>();
-        reader->readField();
-        this_slot = reader->getField<int>();
+        _reader->readField();
+        this_type_id = _reader->getField<int>();
+        _reader->readField();
+        this_slot = _reader->getField<int>();
 
         _types[this_slot-1] = this_type_id;
     }
@@ -158,98 +158,98 @@ void PokemonSpecies::initFromParser(CSVReader* reader)
     if (_types[1] == 0) _types[1] = _types[0];
 
     // POKEMON_ABILITIES_CSV
-    reader->openFile(POKEMON_ABILITIES_CSV);
+    _reader->openFile(POKEMON_ABILITIES_CSV);
     token = 0;
 
     while (true)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _dexNum && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _dexNum && !_reader->isEof());
 
-        if (token != _dexNum || reader->isEof()) break;
+        if (token != _dexNum || _reader->isEof()) break;
 
         int this_ability_id = 0;
         int this_slot = 0;
 
-        reader->readField();
-        this_ability_id = reader->getField<int>();
-        reader->readField();
-        reader->readField();
-        this_slot = reader->getField<int>();
+        _reader->readField();
+        this_ability_id = _reader->getField<int>();
+        _reader->readField();
+        _reader->readField();
+        this_slot = _reader->getField<int>();
 
         _abilities[this_slot-1] = this_ability_id;
     }
 
     // POKEMON_STATS_CSV
-    reader->openFile(POKEMON_STATS_CSV);
+    _reader->openFile(POKEMON_STATS_CSV);
     token = 0;
 
     while (true)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _dexNum && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _dexNum && !_reader->isEof());
 
-        if (token != _dexNum || reader->isEof()) break;
+        if (token != _dexNum || _reader->isEof()) break;
 
         int this_slot   = 0;
         int this_base   = 0;
         int this_effort = 0;
 
-        reader->readField();
-        this_slot = reader->getField<int>();
-        reader->readField();
-        this_base = reader->getField<int>();
-        reader->readField();
-        this_effort = reader->getField<int>();
+        _reader->readField();
+        this_slot = _reader->getField<int>();
+        _reader->readField();
+        this_base = _reader->getField<int>();
+        _reader->readField();
+        this_effort = _reader->getField<int>();
 
         _baseStats[this_slot-1]   = this_base;
         _effortYield[this_slot-1] = this_effort;
     }
     // POKEMON_CSV
-    reader->openFile(POKEMON_CSV);
+    _reader->openFile(POKEMON_CSV);
     token = 0;
 
     while (true)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _dexNum && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _dexNum && !_reader->isEof());
 
-        if (token != _dexNum || reader->isEof()) break;
+        if (token != _dexNum || _reader->isEof()) break;
 
 
-        while (reader->getFieldIndex() < 4 && !reader->isEol())
-            reader->readField();
+        while (_reader->getFieldIndex() < 4 && !_reader->isEol())
+            _reader->readField();
 
-        _baseExp = reader->getField<int>();
+        _baseExp = _reader->getField<int>();
     }
 
 
     // POKEMON_MOVES_CSV
-    reader->openFile(POKEMON_CSV);
+    _reader->openFile(POKEMON_CSV);
     token = 0;
 
     while (true)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _dexNum && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _dexNum && !_reader->isEof());
 
-        if (token != _dexNum || reader->isEof()) break;
+        if (token != _dexNum || _reader->isEof()) break;
 
         int level   = 0;
         int move_id = 0;
@@ -257,16 +257,16 @@ void PokemonSpecies::initFromParser(CSVReader* reader)
         int method  = 0;
         int version = 0;
 
-        reader->readField();
-        version = reader->getField<int>();
-        reader->readField();
-        move_id = reader->getField<int>();
-        reader->readField();
-        method = reader->getField<int>();
-        reader->readField();
-        level = reader->getField<int>();
-        reader->readField();
-        order = reader->getField<int>();
+        _reader->readField();
+        version = _reader->getField<int>();
+        _reader->readField();
+        move_id = _reader->getField<int>();
+        _reader->readField();
+        method = _reader->getField<int>();
+        _reader->readField();
+        level = _reader->getField<int>();
+        _reader->readField();
+        order = _reader->getField<int>();
 
         if (version == VERSION_GROUP_ID)
         {
@@ -294,26 +294,26 @@ void PokemonSpecies::initFromParser(CSVReader* reader)
     sort(levelMoves.begin(), levelMoves.end());
 
     // EXPERIENCE_CSV
-    reader->openFile(EXPERIENCE_CSV);
+    _reader->openFile(EXPERIENCE_CSV);
     token = 0;
 
     while (true)
     {
         do
         {
-            reader->readLine();
-            reader->readField();
-            token = reader->getField<int>();
-        } while ( token < _growthRate && !reader->isEof());
+            _reader->readLine();
+            _reader->readField();
+            token = _reader->getField<int>();
+        } while ( token < _growthRate && !_reader->isEof());
 
-        if (token != _growthRate || reader->isEof()) break;
+        if (token != _growthRate || _reader->isEof()) break;
 
         int lvl = 0;
 
-        reader->readField();
-        lvl = reader->getField<int>();
-        reader->readField();
-        _expToLvl[lvl-1] = reader->getField<int>();
+        _reader->readField();
+        lvl = _reader->getField<int>();
+        _reader->readField();
+        _expToLvl[lvl-1] = _reader->getField<int>();
     }
 }
 
