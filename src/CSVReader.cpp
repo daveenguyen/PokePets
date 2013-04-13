@@ -1,5 +1,7 @@
 #include <iostream> // std::cerr
 #include <cstdlib>  // std::exit
+#include <typeinfo>
+
 using namespace std;
 
 #include "CSVReader.h"
@@ -89,12 +91,10 @@ string CSVReader::getLine()
     return curLine;
 }
 
-
-string CSVReader::getField()
-{
+template <>
+string CSVReader::getField<string>(){
     return curField;
-}
-
+};
 
 int CSVReader::getFieldSize()
 {

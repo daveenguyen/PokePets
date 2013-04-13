@@ -4,6 +4,7 @@
 #include <sstream>  // std::stringstream
 #include <fstream>  // std::ifstream
 #include <string>   // std::string
+#include <typeinfo>
 
 using namespace std;
 
@@ -51,7 +52,17 @@ class CSVReader
         /**
          * Gets the current field. If isEol, do nothing
          */
-        string getField();
+        template <class T>
+        T getField(){
+            T t;
+            if (curField.empty())
+                return 0;
+            stringstream ss(curField);
+            ss >> t;
+            return t;
+        };
+
+        // string getField();
 
         /**
          * Returns the number of fields of current file
