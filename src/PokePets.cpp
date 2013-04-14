@@ -94,8 +94,9 @@ void TestPokemon() {
     // cout << "   S.DEF: " << myPokemon.getIVs(4) << endl;
     // cout << "   SPEED: " << myPokemon.getIVs(5) << endl << endl;
 
-    myPokemon.adjustHP(-5);
-    cout << "damaged pokemon by 5 points" << endl;
+    int damage = 5;
+    myPokemon.adjustHP(-damage);
+    cout << "Damaged Pokemon by "<< damage << " points" << endl;
     cout << "   LEVEL: " << myPokemon.getLevel()  << endl;
     cout << " CUR EXP: " << myPokemon.getCurExp() << endl;
     cout << "      HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl;

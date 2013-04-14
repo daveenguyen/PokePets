@@ -7,12 +7,16 @@ Desktop.ini
 # Mac crap
 .DS_Store
 
+# Generated CMake files
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CMakeFiles/
+
 # Compiled binary
 a.out
 a.exe
 
 # Folders
 bin/
-lib/
-test/
 build/
