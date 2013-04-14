@@ -8,6 +8,7 @@
 
 using namespace std;
 
+#include "Parser.h"
 
 class CSVReader
 {

@@ -4,7 +4,6 @@ using namespace std;
 
 #include "PokemonSpecies.h"
 #include "CSVReader.h"
-#include "Parser.h"
 
 PokemonSpecies::PokemonSpecies(CSVReader* reader, int dexNum)
 {
@@ -237,7 +236,7 @@ void PokemonSpecies::initFromParser()
 
 
     // POKEMON_MOVES_CSV
-    _reader->openFile(POKEMON_CSV);
+    _reader->openFile(POKEMON_MOVES_CSV);
     token = 0;
 
     while (true)
