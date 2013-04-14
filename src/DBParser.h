@@ -124,7 +124,7 @@ class DBParser
         int    getGenderRate();
         int    getBaseStats(int i);
         int    getBaseExp();
-        int    getOnDeathEVs(int i);
+        int    getEffortYield(int i);
         int    getCapRate();
         int    getBaseHappiness();
         int    getGrowthRate();
@@ -193,7 +193,7 @@ class DBParser
 
         // training based
         int cur_baseExp;
-        int cur_onDeathEVs[6]; // pokemon_stats
+        int cur_EffortYield[6]; // pokemon_stats
         int cur_capRate;       // pokemon_species
         int cur_baseHappiness; // pokemon_species
         int cur_growthRate;    // pokemon_species

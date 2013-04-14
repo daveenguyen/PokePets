@@ -44,12 +44,12 @@ DBParser::DBParser() {
     cur_baseStats[4]  = 0;
     cur_baseStats[5]  = 0;
     cur_baseExp       = 0;
-    cur_onDeathEVs[0] = 0;
-    cur_onDeathEVs[1] = 0;
-    cur_onDeathEVs[2] = 0;
-    cur_onDeathEVs[3] = 0;
-    cur_onDeathEVs[4] = 0;
-    cur_onDeathEVs[5] = 0;
+    cur_EffortYield[0] = 0;
+    cur_EffortYield[1] = 0;
+    cur_EffortYield[2] = 0;
+    cur_EffortYield[3] = 0;
+    cur_EffortYield[4] = 0;
+    cur_EffortYield[5] = 0;
     cur_capRate       = 0;
     cur_baseHappiness = 0;
     cur_growthRate    = 0;
@@ -129,12 +129,12 @@ int DBParser::getBaseExp(){
     return cur_baseExp;
 }
 
-int DBParser::getOnDeathEVs(int i){
+int DBParser::getEffortYield(int i){
     if (i < 0 || i > 5) {
-        cerr << "ERROR - getOnDeathEVs(" << i << ")" << endl;
+        cerr << "ERROR - getEffortYield(" << i << ")" << endl;
         exit(1);
     }
-    return cur_onDeathEVs[i];
+    return cur_EffortYield[i];
 }
 int DBParser::getCapRate(){
     return cur_capRate;
@@ -219,12 +219,12 @@ void DBParser::initPokemonSpecies(int dexNum) {
     cur_baseStats[4]  = _pokeStats._base_stat[4];
     cur_baseStats[5]  = _pokeStats._base_stat[5];
     cur_baseExp       = _poke._base_experience;
-    cur_onDeathEVs[0] = _pokeStats._effort[0];
-    cur_onDeathEVs[1] = _pokeStats._effort[1];
-    cur_onDeathEVs[2] = _pokeStats._effort[2];
-    cur_onDeathEVs[3] = _pokeStats._effort[3];
-    cur_onDeathEVs[4] = _pokeStats._effort[4];
-    cur_onDeathEVs[5] = _pokeStats._effort[5];
+    cur_EffortYield[0] = _pokeStats._effort[0];
+    cur_EffortYield[1] = _pokeStats._effort[1];
+    cur_EffortYield[2] = _pokeStats._effort[2];
+    cur_EffortYield[3] = _pokeStats._effort[3];
+    cur_EffortYield[4] = _pokeStats._effort[4];
+    cur_EffortYield[5] = _pokeStats._effort[5];
     cur_capRate       = _pokeSpecies._capture_rate;
     cur_baseHappiness = _pokeSpecies._base_happiness;
     cur_growthRate    = _pokeSpecies._growth_rate_id;
