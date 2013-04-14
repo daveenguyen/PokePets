@@ -5,11 +5,13 @@
 #include "Nature.h"         // pokemon has a nature
 #include <string>
 
+class CSVReader;
+
 class Pokemon : public PokemonSpecies
 {
     public:
 
-        Pokemon(int dexNum, int level=1);
+        Pokemon(CSVReader* reader, int dexNum, int level=1);
         ~Pokemon();
 
         string getNickname();

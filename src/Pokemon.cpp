@@ -7,7 +7,7 @@ using namespace std;
 
 #include "Pokemon.h"
 
-Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
+Pokemon::Pokemon(CSVReader* reader, int dexNum, int level) : PokemonSpecies(reader, dexNum)
 {
     srand(time(NULL));
 

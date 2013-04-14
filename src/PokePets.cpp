@@ -1,8 +1,9 @@
-#include <iostream> // cin / cout
+#include <iostream>
 #include <string>
 
 using namespace std;
 
+#include "CSVReader.h"
 #include "DBParser.h"
 #include "Pokemon.h"
 #include "Type.h"
@@ -27,7 +28,8 @@ void TestPokemon() {
     int lvl;
     cin  >> lvl;
     cout << endl;
-    Pokemon myPokemon(dexNum, lvl);
+    CSVReader reader;
+    Pokemon myPokemon(&reader, dexNum, lvl);
 
     cout << "___ POKEMON INFO" << endl;
     cout << "NICKNAME: " << myPokemon.getNickname() << endl;
