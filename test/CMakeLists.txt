@@ -2,7 +2,6 @@
 # PokePets Unit Tests
 #############################################################################
 project(PokePets_utest)
-cmake_minimum_required(VERSION 2.8)
 
 #############################################################################
 # Including Google C++ Testing Framework
@@ -30,7 +29,7 @@ macro(run_test test_target)
   add_dependencies(test ${test_target}_runtest)
 endmacro()
 
-#############################################################################
+#################################################   ############################
 # Tests an object library with Google C++ Testing Framework
 #
 # this_test(<name> <lib>)
@@ -41,19 +40,11 @@ endmacro()
 # <ARGN> are additional dependencies that are already added as object library
 #############################################################################
 function(test_this NAME LIB)
-    # convert additional arguments to target object form
-    foreach(ARG ${ARGN})
-        set(MY_TAR_OBJS ${MY_TAR_OBJS} $<TARGET_OBJECTS:${ARG}>)
-    endforeach(ARG)
-
     # Helper function from Google C++ Testing Framework
     cxx_executable(
-        ${NAME}Test
-        .
-        ${LIB}
-        $<TARGET_OBJECTS:${NAME}>
-        ${MY_TAR_OBJS})
-
+        ${NAME}Test . ${LIB})
+    # link all dependencies
+    target_link_libraries(${NAME}Test ${NAME} ${ARGN})
     run_test(${NAME}Test)
 endfunction()
 

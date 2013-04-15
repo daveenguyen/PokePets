@@ -2,7 +2,6 @@
 # PokePets Source
 #############################################################################
 project(PokePets_src)
-cmake_minimum_required(VERSION 2.8)
 
 # list of source that makes up PokePets!
 set(PP_OBJECTS
@@ -14,13 +13,12 @@ set(PP_OBJECTS
     PokemonSpecies
     Type)
 
-# make each PP_OBJECTS an object library and clone the list as target objects
+# make each PP_OBJECTS a library
 foreach(obj ${PP_OBJECTS})
-    add_library(${obj} OBJECT ${obj}.cpp)
-    set(PP_TARGET_OBJ ${PP_TARGET_OBJ} $<TARGET_OBJECTS:${obj}>)
+    add_library(${obj} ${obj}.cpp)
 endforeach(obj)
 
+# Create the main executable and link all the objects
 set(PP_SOURCES PokePets)
-
-# Main Project Executable
-add_executable(PokePets ${PP_SOURCES} ${PP_TARGET_OBJ})
+add_executable(PokePets ${PP_SOURCES})
+target_link_libraries(PokePets ${PP_OBJECTS})
