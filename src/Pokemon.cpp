@@ -7,11 +7,11 @@ using namespace std;
 
 #include "Pokemon.h"
 
-Pokemon::Pokemon(CSVReader* reader, int dexNum, int level) : PokemonSpecies(reader, dexNum)
+Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
 {
     srand(time(NULL));
 
-    _nickname     = getName();
+    _nickname     = "";
     _genderValue  = rand() % 256;
     _abilityIndex = rand() % 2;
     // _nature       = rand() % 25;
@@ -39,19 +39,26 @@ Pokemon::Pokemon(CSVReader* reader, int dexNum, int level) : PokemonSpecies(read
     _moves[2]     = 0;
     _moves[3]     = 0;
 
-    initMoves();
     _curHP        = getStats(0);
     _status       = 0;
 }
 
 Pokemon::~Pokemon() {}
+void Pokemon::reset()
+{
+    _curHP = getStats(0);
+    if (_moves[0]==0)
+        initMoves();
+}
 
 string Pokemon::getNickname()
 {
-    return _nickname;
+    // if not nicknamed, return species' name
+    if (_nickname=="") return getName();
+    else return _nickname;
 }
 
-int Pokemon::getGender()
+string Pokemon::getGender()
 {
     int thisGender = -2;
 
@@ -142,16 +149,32 @@ int Pokemon::getGender()
         }
     }
 
-    return thisGender;
+    string genderString;
+    switch (thisGender) {
+        case -1:
+            genderString = "Genderless";
+            break;
+        case 0:
+            genderString = "Male";
+            break;
+        case 1:
+            genderString = "Female";
+            break;
+        default:
+            cerr << "ERROR - thisGender: " << thisGender << endl;
+            break;
+    }
+
+    return genderString;
 }
 
 int Pokemon::getAbility(){
-    if (_abilityIndex != 0 && getAbilities(1) == 0)
+    if (_abilityIndex != 0 && getSpeciesAbility(1) == 0)
     {
         _abilityIndex = 0;
     }
 
-    return getAbilities(_abilityIndex);
+    return getSpeciesAbility(_abilityIndex);
 }
 
 string Pokemon::getNature()
@@ -272,4 +295,9 @@ void Pokemon::adjustHP(int i)
     _curHP += i;
     if (_curHP > getStats(0)) _curHP = getStats(0);
     else if (_curHP < 0) _curHP = 0;
+}
+
+void Pokemon::useMove(int i, Pokemon* target)
+{
+
 }

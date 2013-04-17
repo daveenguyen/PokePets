@@ -5,19 +5,19 @@
 #include "Nature.h"         // pokemon has a nature
 #include <string>
 
-class CSVReader;
-
 class Pokemon : public PokemonSpecies
 {
     public:
 
-        Pokemon(CSVReader* reader, int dexNum, int level=1);
+        Pokemon(int dexNum, int level=1);
         ~Pokemon();
 
+        void reset();
+
         string getNickname();
-        int    getGender();
-        int    getAbility();
+        string getGender();
         string getNature();
+        int    getAbility();
         int    getLevel();
         int    getCurExp();
         int    getIVs(int i);
@@ -29,6 +29,7 @@ class Pokemon : public PokemonSpecies
         void   adjustHP(int i);
         void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
         void   checkExperience();
+        void   useMove(int i, Pokemon* target);
 
     private:
 
@@ -37,8 +38,8 @@ class Pokemon : public PokemonSpecies
         int _genderValue;
         int _abilityIndex;
 
-        // int _nature;
         Nature _nature;
+        //int _nature;
 
         int _level;
         int _curExp;

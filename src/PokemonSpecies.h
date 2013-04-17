@@ -3,8 +3,9 @@
 
 #include <string>
 #include <vector>
-#include <algorithm>    // sort
 using namespace std;
+
+#include "Type.h"       // Pokemon species has types
 
 struct LevelUpMoves {
     int _level;
@@ -31,23 +32,20 @@ struct LevelUpMoves {
     }
 };
 
-class CSVReader;
-
 /* Stuff that every Pokemon of the same pokemon species share */
 class PokemonSpecies
 {
     public:
 
-        PokemonSpecies(CSVReader* reader, int dexNum=0);
+        PokemonSpecies(int dexNum=0);
 
         ~PokemonSpecies();
 
         void    clear();
-        void    initFromParser();
         int     getDexNum();
         string  getName();
-        int     getTypes(int i);
-        int     getAbilities(int i);
+        Type    getType(int i);
+        int     getSpeciesAbility(int i);
         int     getGenderRate();
         int     getBaseStats(int i);
         int     getBaseExp();
@@ -57,21 +55,37 @@ class PokemonSpecies
         int     getGrowthRate();
         int     getExpToLvl(int i);
 
-        void    setDexNum(int i);
+        void    setDexNum(int num);
+        void    setName(string name);
+        void    setType(int index, int typeId);
+        void    setSpeciesAbility(int index, int abilityId);
+        void    setGenderRate(int value);
+        void    setBaseStat(int statId, int value);
+        void    setBaseExp(int num);
+        void    setEffortYield(int statId, int value);
+        void    setCapRate(int value);
+        void    setBaseHappiness(int value);
+        void    setGrowthRate(int value);
+        void    setExpToLvl(int level, int value);
+
+        void    addLevelUpMoves(int level, int move_id, int order);
+        void    addEggMove(int moveId);
+        void    addTutorMove(int moveId);
+        void    addMachineMove(int moveId);
 
         vector<LevelUpMoves> getLevelUpMoves();
         vector<int>          getEggMoves();
         vector<int>          getTutorMoves();
         vector<int>          getMachineMoves();
 
-    private:
 
-        CSVReader* _reader;
+    private:
 
         int     _dexNum;            // pokedex number
         string  _name;              // species name
 
-        int     _types[2];          // types
+        Type    _types[2];
+        // int     _types[2];          // types
         int     _abilities[3];      // abilities
         int     _genderRate;        // gender ratio id
         int     _baseStats[6];      // base stats

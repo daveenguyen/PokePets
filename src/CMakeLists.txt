@@ -11,6 +11,7 @@ set(PP_OBJECTS
     Nature
     Pokemon
     PokemonSpecies
+    PokemonBuilder
     Type)
 
 # make each PP_OBJECTS a library

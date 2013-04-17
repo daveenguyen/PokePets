@@ -14,4 +14,8 @@
 #define POKEMON_ABILITIES_CSV       "../data/csv/pokemon_abilities.csv"
 #define POKEMON_SPECIES_NAMES_CSV   "../data/csv/pokemon_species_names.csv"
 
+// CSV for Type class
+#define TYPE_NAMES_CSV              "../data/csv/type_names.csv"
+#define TYPE_EFFICACY_CSV           "../data/csv/type_efficacy.csv"
+
 #endif // PARSER_H
