@@ -17,6 +17,8 @@ class Pokemon : public PokemonSpecies
 
         void reset();
 
+        void   setLevel(int i);
+
         string getNickname();
         string getGender();
         string getNature();
@@ -29,6 +31,7 @@ class Pokemon : public PokemonSpecies
         int    getCurHP();
         int    getStatus();
         int    getStats(int i);
+        int    getCurPP(int i);
         void   adjustHP(int i);
         void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
         void   checkExperience();
@@ -51,9 +54,10 @@ class Pokemon : public PokemonSpecies
 
         //int _moves[4];
         Move _moves[4];
-        int _curHP;
+        int  _curPP[4];
+        int  _curHP;
 
-        int _status;
+        int  _status;
 
         bool _isWild;
 

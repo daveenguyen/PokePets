@@ -17,7 +17,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     // _nature       = rand() % 25;
     _nature.initNature(rand() % 25);
     _level        = level;
-    _curExp       = getExpToLvl(level-1);
+    _curExp       = 0;
 
     // IVs are between 0 and 31
     _IVs[0]       = rand() % 32;
@@ -47,8 +47,20 @@ Pokemon::~Pokemon() {}
 void Pokemon::reset()
 {
     _curHP = getStats(0);
+    if (_curExp == 0)
+        _curExp = getExpToLvl(_level-1);
     if (_moves[0].getMoveNum()==0)
         initMoves();
+    for (int i = 0; i < 4; ++i)
+    {
+    _curPP[i] = _moves[i].getPP();
+    }
+}
+
+
+void Pokemon::setLevel(int i)
+{
+    _level = i;
 }
 
 string Pokemon::getNickname()
@@ -189,6 +201,7 @@ int Pokemon::getLevel()
 
 int Pokemon::getCurExp()
 {
+    if (_curExp == 0) _curExp = getExpToLvl(_level-1);
     return _curExp;
 }
 
@@ -246,6 +259,11 @@ int Pokemon::getStats(int i)
     return calc_stat;
 }
 
+int Pokemon::getCurPP(int i)
+{
+    return _curPP[i];
+}
+
 void Pokemon::adjustExperience(int baseExp, int faintLvl, bool isWild, int participated)
 {
     double wild;
@@ -272,6 +290,7 @@ void Pokemon::initMoves()
         {
             // _moves[i%4] = getLevelUpMoves()[i]._move_id;
             _moves[i%4].setMoveNum(getLevelUpMoves()[i]._move_id);
+            _curPP[i%4] = _moves[i%4].getPP();
         }
         else
         {
@@ -283,7 +302,7 @@ void Pokemon::initMoves()
 
 void Pokemon::checkExperience()
 {
-    while (_curExp > getExpToLvl(_level)) {
+    while (_level < 100 && _curExp > getExpToLvl(_level)) {
         float hpRatio = float(_curHP)/getStats(0);
         ++_level;
         _curHP = (int)(hpRatio * getStats(0));
@@ -300,6 +319,9 @@ void Pokemon::adjustHP(int i)
 
 void Pokemon::useMove(int i, Pokemon* target)
 {
+    cout << getNickname() << " used " << _moves[i].getIdentifier() << "!" << endl;
+
+    _curPP[i]--;
     switch (_moves[i].getMeta_category_id())
     {
         case 0:
@@ -326,6 +348,7 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 4:
         {
             // damage + ailment
+            doDamage(target, &_moves[i]);
             break;
         }
         case 5:
@@ -336,16 +359,19 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 6:
         {
             // damage + lower
+            doDamage(target, &_moves[i]);
             break;
         }
         case 7:
         {
             // damage + raise
+            doDamage(target, &_moves[i]);
             break;
         }
         case 8:
         {
             // damage + heal
+            doDamage(target, &_moves[i]);
             break;
         }
         case 9:
@@ -431,6 +457,16 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         modifier *= 1.15;
     }
 
+    // crit
+    int crit_rate = move->getCrit_rate(); // add items or moves
+    crit_rate *= 625; // each stage is 6.25%
+    if (crit_rate > 5000) crit_rate = 5000;
+    if (rand() % 10000 < crit_rate)
+    {
+        cout << "A critical hit!" << endl;
+        modifier *= 2;
+    }
+
     // type
     int targetType1 = target->getType(0).getTypeNum();
     int targetType2 = target->getType(1).getTypeNum();
@@ -442,21 +478,11 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
     if (typeMod > 1)
         cout << "It's super effective!" << endl;
     else if (typeMod == 0)
-        cout << "It doesn't affect the Pokemon..." << endl;
+        cout << "It doesn't affect " << target->getNickname() << "..." << endl;
     else if (typeMod < 1)
         cout << "It's not very effective..." << endl;
 
     modifier *= typeMod;
-
-    // crit
-    int crit_rate = move->getCrit_rate(); // add items or moves
-    crit_rate *= 625; // each stage is 6.25%
-    if (crit_rate > 5000) crit_rate = 5000;
-    if (rand() % 10000 < crit_rate)
-    {
-        cout << "A critical hit!" << endl;
-        modifier *= 2;
-    }
 
     // other like items, field advantage, or if double/triple
 

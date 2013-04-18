@@ -41,6 +41,7 @@ void TestPokemon() {
     PokemonBuilder builder;
 
     builder.setReader(&reader);
+
     builder.setPokemon(&myPokemon);
     builder.initSpecies();
     myPokemon.reset();
@@ -52,28 +53,65 @@ void TestPokemon() {
 
     printPokemonStats(&myPokemon);
 
-    while (myPokemon.getCurHP() > 0)
+    cout << "How many battles would you like? " ;
+    int battleNum;
+    cin >> battleNum;
+
+    for (int i = 0; i < battleNum; ++i)
     {
-        cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
-        cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
-        int num;
-        printAttackOptions(&myPokemon);
-        cout << "What would you like to do?" << endl;
-        cin >> num;
-        myPokemon.useMove(num,&myPokemon);
-        // int initialHP = myPokemon.getCurHP();
-        // DamagePokemon(&myPokemon, num);
-        // int finalHP = myPokemon.getCurHP();
-        // cout << myPokemon.getNickname() << " took " << (initialHP - finalHP) << " damage!" << endl;
+        Pokemon enemyPkmn(rand()%151+1, myPokemon.getLevel());
+        builder.setPokemon(&enemyPkmn);
+        builder.initSpecies();
+        enemyPkmn.reset();
+        myPokemon.reset();
+
+        // cout << "You are challenged by Dude!" << endl;
+        // cout << "Dude sent out " << enemyPkmn.getNickname() << '!' << endl;
+        cout << "A wild " << enemyPkmn.getNickname() << " appeared!" << endl;
+
+        cout << "Go! " << myPokemon.getNickname() << '!' << endl;
+
+        while (myPokemon.getCurHP() > 0 && enemyPkmn.getCurHP() > 0)
+        {
+            cout << "_________________________________________"<<endl;
+            cout << "\t\t\t" <<enemyPkmn.getNickname() << " Lv." << enemyPkmn.getLevel() << endl;
+            cout << "\t\t\t" <<"HP: " << enemyPkmn.getCurHP() << " / " << enemyPkmn.getStats(0) << endl;
+            cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
+            cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
+            int num;
+            printAttackOptions(&myPokemon);
+            cout << "\nWhat would " << myPokemon.getNickname() << " do? ";
+            cin >> num;
+            num--;
+
+            cout << "_________________________________________"<<endl;
+
+            myPokemon.useMove(num,&enemyPkmn);
+            int moveCount = 0;
+            for (int i = 0; i < 4; ++i)
+            {
+                if (enemyPkmn.getMove(i).getMoveNum() != 0) moveCount++;
+            }
+            enemyPkmn.useMove(rand()%moveCount,&myPokemon);
+            // int initialHP = myPokemon.getCurHP();
+            // DamagePokemon(&myPokemon, num);
+            // int finalHP = myPokemon.getCurHP();
+            // cout << myPokemon.getNickname() << " took " << (initialHP - finalHP) << " damage!" << endl;
+        }
+
+        if (myPokemon.getCurHP() <= 0)
+        {
+            cout << myPokemon.getNickname() << " fainted!" << endl;
+        }
+        else
+        {
+            cout << enemyPkmn.getNickname() << " fainted!" << endl;
+            myPokemon.adjustExperience(enemyPkmn.getBaseExp(), enemyPkmn.getLevel(), false, 1);
+        }
+
+        cout << "   LEVEL: " << myPokemon.getLevel()  << endl;
+        cout << " CUR EXP: " << myPokemon.getCurExp() << endl;
     }
-
-    cout << myPokemon.getNickname() << " fainted!" << endl;
-
-    myPokemon.adjustExperience(myPokemon.getBaseExp(), myPokemon.getLevel(), false, 1);
-
-    cout << "   LEVEL: " << myPokemon.getLevel()  << endl;
-    cout << " CUR EXP: " << myPokemon.getCurExp() << endl;
-    // cout << "      HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl;
 
 }
 
@@ -135,9 +173,10 @@ void printAttackOptions(Pokemon* pkmn)
 {
     cout << "___ ATTACK OPTIONS" << endl;
     for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
-        cout << i << ". ";
+        cout << i+1 << ". ";
         // Move myMove();
         cout << pkmn->getMove(i).getIdentifier() << endl;
+        cout << "   " << pkmn->getMove(i).getType().getIdentifier() << "  PP " << pkmn->getCurPP(i) << '/' << pkmn->getMove(i).getPP() << endl;
     }
 }
 
