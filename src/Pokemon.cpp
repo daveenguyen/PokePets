@@ -452,7 +452,7 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
     int crit_rate = move->getCrit_rate(); // add items or moves
     crit_rate *= 625; // each stage is 6.25%
     if (crit_rate > 5000) crit_rate = 5000;
-    if (rand() % 10000 > crit_rate)
+    if (rand() % 10000 < crit_rate)
     {
         cout << "A critical hit!" << endl;
         modifier *= 2;
