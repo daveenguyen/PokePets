@@ -205,12 +205,12 @@ int Pokemon::getCurExp()
     return _curExp;
 }
 
-int Pokemon::getIVs(int i)
+int Pokemon::getIV(int i)
 {
     return _IVs[i];
 }
 
-int Pokemon::getEVs(int i)
+int Pokemon::getEV(int i)
 {
     return _EVs[i];
 }

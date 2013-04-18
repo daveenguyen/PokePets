@@ -10,15 +10,19 @@ using namespace std;
 #include "Type.h"
 #include "Move.h"
 
+// #define WINDOWS_OS // uncomment if using windows
+
 void TestPokemon();
 void TestParser();
 void TestType();
 
+void delay(int i);
 void DamagePokemon(Pokemon* pkmn, int points);
 void printPokemonStats(Pokemon* pkmn);
 void printPokemonInfo(Pokemon* pkmn);
 void printPokemonMoves(Pokemon* pkmn);
 void printAttackOptions(Pokemon* pkmn);
+void printHpBars(Pokemon* pkmn);
 
 int main() {
     TestPokemon();
@@ -73,10 +77,18 @@ void TestPokemon() {
 
         while (myPokemon.getCurHP() > 0 && enemyPkmn.getCurHP() > 0)
         {
-            cout << "_________________________________________"<<endl;
+            delay(1750);
+            cout << endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl;
+            cout << "______________________________________________"<<endl;
             cout << "\t\t\t" <<enemyPkmn.getNickname() << " Lv." << enemyPkmn.getLevel() << endl;
-            cout << "\t\t\t" <<"HP: " << enemyPkmn.getCurHP() << " / " << enemyPkmn.getStats(0) << endl;
+
+            cout << "\t\t\t";
+            printHpBars(&enemyPkmn);
+
+            cout << "\t\t\t" <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "\%" << endl;
+
             cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
+            printHpBars(&myPokemon);
             cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
             int num;
             printAttackOptions(&myPokemon);
@@ -84,7 +96,7 @@ void TestPokemon() {
             cin >> num;
             num--;
 
-            cout << "_________________________________________"<<endl;
+            cout << "______________________________________________"<<endl;
 
             myPokemon.useMove(num,&enemyPkmn);
             int moveCount = 0;
@@ -213,3 +225,30 @@ void printAttackOptions(Pokemon* pkmn)
 //         }
 //     }
 // }
+
+void delay(int ms)
+{
+    #ifdef WINDOWS_OS
+        Sleep(ms);
+    #else
+        usleep(ms*1000);
+    #endif
+}
+
+void printHpBars(Pokemon* pkmn)
+{
+    double hpPercent = pkmn->getCurHP()/(double)pkmn->getStats(0);
+
+    cout << "[" ;
+    for (int i = 0; i < 20; ++i)
+    {
+        if (hpPercent >= 0)
+            cout << '-';
+        else
+            cout << ' ';
+
+        hpPercent -= 0.05;
+    }
+    cout << "]" << endl;
+
+}

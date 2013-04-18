@@ -21,12 +21,12 @@ class Pokemon : public PokemonSpecies
 
         string getNickname();
         string getGender();
-        string getNature();
         int    getAbility();
+        string getNature();
         int    getLevel();
         int    getCurExp();
-        int    getIVs(int i);
-        int    getEVs(int i);
+        int    getIV(int i);
+        int    getEV(int i);
         Move   getMove(int i);
         int    getCurHP();
         int    getStatus();
