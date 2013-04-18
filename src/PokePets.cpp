@@ -18,6 +18,7 @@ void DamagePokemon(Pokemon* pkmn, int points);
 void printPokemonStats(Pokemon* pkmn);
 void printPokemonInfo(Pokemon* pkmn);
 void printPokemonMoves(Pokemon* pkmn);
+void printAttackOptions(Pokemon* pkmn);
 
 int main() {
     TestPokemon();
@@ -56,12 +57,14 @@ void TestPokemon() {
         cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
         cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
         int num;
-        cout << "How much damage would you like to do?" << endl;
+        printAttackOptions(&myPokemon);
+        cout << "What would you like to do?" << endl;
         cin >> num;
-        int initialHP = myPokemon.getCurHP();
-        DamagePokemon(&myPokemon, num);
-        int finalHP = myPokemon.getCurHP();
-        cout << myPokemon.getNickname() << " took " << (initialHP - finalHP) << " damage!" << endl;
+        myPokemon.useMove(num,&myPokemon);
+        // int initialHP = myPokemon.getCurHP();
+        // DamagePokemon(&myPokemon, num);
+        // int finalHP = myPokemon.getCurHP();
+        // cout << myPokemon.getNickname() << " took " << (initialHP - finalHP) << " damage!" << endl;
     }
 
     cout << myPokemon.getNickname() << " fainted!" << endl;
@@ -117,13 +120,24 @@ void printPokemonStats(Pokemon* pkmn)
 }
 void printPokemonMoves(Pokemon* pkmn)
 {
-    for (int i=0; i < 4 && pkmn->getMoves(i) != 0; ++i) {
+    for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
         cout << "___ ";
-        Move myMove(pkmn->getMoves(i));
-        cout << myMove.getIdentifier() << endl;
-        cout << "   POWER: " << myMove.getPower() << endl;
-        cout << "      PP: " << myMove.getPP() << endl;
-        cout << "Accuracy: " << myMove.getAccuracy() << endl << endl;
+        // Move myMove();
+        cout << pkmn->getMove(i).getIdentifier() << endl;
+        cout << "    TYPE: " << pkmn->getMove(i).getType().getIdentifier() << endl;
+        cout << "   POWER: " << pkmn->getMove(i).getPower() << endl;
+        cout << "      PP: " << pkmn->getMove(i).getPP() << endl;
+        cout << "Accuracy: " << pkmn->getMove(i).getAccuracy() << endl << endl;
+    }
+}
+
+void printAttackOptions(Pokemon* pkmn)
+{
+    cout << "___ ATTACK OPTIONS" << endl;
+    for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
+        cout << i << ". ";
+        // Move myMove();
+        cout << pkmn->getMove(i).getIdentifier() << endl;
     }
 }
 

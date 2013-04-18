@@ -1,9 +1,12 @@
 #ifndef POKEMON_H
 #define POKEMON_H
 
+#include <string>
+using namespace std;
+
 #include "PokemonSpecies.h" // parent class
 #include "Nature.h"         // pokemon has a nature
-#include <string>
+#include "Move.h"
 
 class Pokemon : public PokemonSpecies
 {
@@ -22,7 +25,7 @@ class Pokemon : public PokemonSpecies
         int    getCurExp();
         int    getIVs(int i);
         int    getEVs(int i);
-        int    getMoves(int i);
+        Move   getMove(int i);
         int    getCurHP();
         int    getStatus();
         int    getStats(int i);
@@ -46,14 +49,27 @@ class Pokemon : public PokemonSpecies
         int _IVs[6];
         int _EVs[6];
 
-        int _moves[4];
+        //int _moves[4];
+        Move _moves[4];
         int _curHP;
 
         int _status;
 
         bool _isWild;
 
+        // battle stats/boosts
+        int _atkStage;
+        int _defStage;
+        int _sAtkStage;
+        int _sDefStage;
+        int _speedStage;
+        int _evasionStage;
+        int _accuracyStage;
+        // int _critStage;
+
+
         void initMoves();
+        void doDamage(Pokemon* target, Move* move);
 
 
 };

@@ -19,18 +19,18 @@ class Type
 
         void    setIdentifier(string id);
         void    setTypeNum(int typeNum);
-        void    setEfficacy(int index, int value);
+        void    setEfficacy(int index, double value);
 
         string  getIdentifier();
         int     getTypeNum();
-        int     getEfficacy(int i);
+        double  getEfficacy(int i);
 
     private:
         // CSVReader* _reader;
 
         string _identifier;
         int    _typeNum;
-        int    _efficacy[17];
+        double _efficacy[17];
 
 };
 

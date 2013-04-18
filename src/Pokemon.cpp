@@ -34,10 +34,10 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _EVs[4]       = 0;
     _EVs[5]       = 0;
 
-    _moves[0]     = 0;
-    _moves[1]     = 0;
-    _moves[2]     = 0;
-    _moves[3]     = 0;
+    // _moves[0]     = 0;
+    // _moves[1]     = 0;
+    // _moves[2]     = 0;
+    // _moves[3]     = 0;
 
     _curHP        = getStats(0);
     _status       = 0;
@@ -47,7 +47,7 @@ Pokemon::~Pokemon() {}
 void Pokemon::reset()
 {
     _curHP = getStats(0);
-    if (_moves[0]==0)
+    if (_moves[0].getMoveNum()==0)
         initMoves();
 }
 
@@ -202,7 +202,7 @@ int Pokemon::getEVs(int i)
     return _EVs[i];
 }
 
-int Pokemon::getMoves(int i)
+Move Pokemon::getMove(int i)
 {
     return _moves[i];
 }
@@ -270,7 +270,8 @@ void Pokemon::initMoves()
     {
         if (_level >= getLevelUpMoves()[i]._level)
         {
-            _moves[i%4] = getLevelUpMoves()[i]._move_id;
+            // _moves[i%4] = getLevelUpMoves()[i]._move_id;
+            _moves[i%4].setMoveNum(getLevelUpMoves()[i]._move_id);
         }
         else
         {
@@ -299,5 +300,173 @@ void Pokemon::adjustHP(int i)
 
 void Pokemon::useMove(int i, Pokemon* target)
 {
+    switch (_moves[i].getMeta_category_id())
+    {
+        case 0:
+        {
+            // damage
+            doDamage(target, &_moves[i]);
+            break;
+        }
+        case 1:
+        {
+            // ailment
+            break;
+        }
+        case 2:
+        {
+            // net-good-stats
+            break;
+        }
+        case 3:
+        {
+            // heal
+            break;
+        }
+        case 4:
+        {
+            // damage + ailment
+            break;
+        }
+        case 5:
+        {
+            // swagger
+            break;
+        }
+        case 6:
+        {
+            // damage + lower
+            break;
+        }
+        case 7:
+        {
+            // damage + raise
+            break;
+        }
+        case 8:
+        {
+            // damage + heal
+            break;
+        }
+        case 9:
+        {
+            // ohko
+            break;
+        }
+        case 10:
+        {
+            // whole field effect
+            break;
+        }
+        case 11:
+        {
+            // field effect
+            break;
+        }
+        case 12:
+        {
+            // force switch
+            break;
+        }
+        case 13:
+        {
+            // unique
+            break;
+        }
+        default:
+        {
+            //
+            break;
+        }
+    }
+    //// Inflicts damage
+    //0, 4, 6, 7, 8
 
+    //// inflicts status ailment
+    //1, 4, 5
+
+    //// lowers target's stats or raises user's stats
+    //2,
+
+    //// raises target's stats
+    //5
+
+    //// heals the user
+    //3
+
+    //// lowers target's stats
+    //2, 6
+
+    //// raises user's stats
+    //2, 7
+
+    //// absorbs damage done to heal the user
+    //8
+
+    //// one hit ko
+    //9
+
+    //// effect on the whole field
+    //10
+
+    //// effect on one side of the field
+    //11
+
+    //// Forces target to switch out
+    //12
+
+    ////Unique effect
+    //13
+}
+
+void Pokemon::doDamage(Pokemon* target, Move* move)
+{
+// MODIFIERS
+    double modifier = 0.85 + (double)rand() / (double)RAND_MAX * 0.15;
+    int moveTypeId = move->getType_id();
+
+    // stab
+    if (moveTypeId == getType(0).getTypeNum() || moveTypeId == getType(1).getTypeNum())
+    {
+        modifier *= 1.15;
+    }
+
+    // type
+    int targetType1 = target->getType(0).getTypeNum();
+    int targetType2 = target->getType(1).getTypeNum();
+    double typeMod = 1;
+    typeMod *= move->getType().getEfficacy(targetType1);
+    if (targetType2 != targetType1)
+        typeMod *= move->getType().getEfficacy(targetType2);
+
+    if (typeMod > 1)
+        cout << "It's super effective!" << endl;
+    else if (typeMod == 0)
+        cout << "It doesn't affect the Pokemon..." << endl;
+    else if (typeMod < 1)
+        cout << "It's not very effective..." << endl;
+
+    modifier *= typeMod;
+
+    // crit
+    int crit_rate = move->getCrit_rate(); // add items or moves
+    crit_rate *= 625; // each stage is 6.25%
+    if (crit_rate > 5000) crit_rate = 5000;
+    if (rand() % 10000 > crit_rate)
+    {
+        cout << "A critical hit!" << endl;
+        modifier *= 2;
+    }
+
+    // other like items, field advantage, or if double/triple
+
+// DAMAGE
+    // which atk, which def
+    int atk;
+    int def;
+    atk = getStats(1);
+    def = target->getStats(2);
+    int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
+
+    target->adjustHP(-damage);
 }

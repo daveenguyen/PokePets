@@ -69,7 +69,7 @@ void Type::initType()
         _reader.readField();
         damage_factor = _reader.getField<int>();
 
-        _efficacy[target_type_id-1] = damage_factor;
+        _efficacy[target_type_id-1] = damage_factor/(double)100;
     }
 
 
@@ -95,7 +95,7 @@ void Type::setTypeNum(int typeNum)
     initType();
 }
 
-void Type::setEfficacy(int typeId, int value)
+void Type::setEfficacy(int typeId, double value)
 {
     _efficacy[typeId-1] = value;
 }
@@ -111,7 +111,7 @@ int Type::getTypeNum()
     return _typeNum;
 }
 
-int Type::getEfficacy(int typeId)
+double Type::getEfficacy(int typeId)
 {
     return _efficacy[typeId-1];
 }
