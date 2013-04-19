@@ -4,10 +4,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "CSVReader.h"
 
 using namespace std;
 
-class CSVReader;
+//class CSVReader;
 class Pokemon;
 
 /* Stuff that every Pokemon of the same pokemon species share */

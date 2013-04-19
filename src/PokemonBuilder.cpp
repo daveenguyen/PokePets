@@ -1,6 +1,6 @@
 #include "PokemonBuilder.h"
 #include "Pokemon.h"
-#include "CSVReader.h"
+//#include "CSVReader.h"
 
 void PokemonBuilder::initSpecies()
 {
@@ -66,7 +66,7 @@ void PokemonBuilder::initSpecies()
         if (_reader->getField<int>() == LANGUAGE_ID)
         {
             _reader->readField();
-            _pkmn->setName(_reader->getField<string>());
+            _pkmn->setName(_reader->getCurField());
             break;
         }
     }

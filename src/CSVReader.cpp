@@ -91,8 +91,8 @@ string CSVReader::getLine()
     return curLine;
 }
 
-template <>
-string CSVReader::getField<string>(){
+//template <>
+string CSVReader::getCurField(){
     return curField;
 };
 

@@ -1,5 +1,7 @@
 #include <string>
 #include <iostream>
+#include <cstdlib>      //for std::exit
+#include <algorithm>    //for std::sort
 using namespace std;
 
 #include "PokemonSpecies.h"

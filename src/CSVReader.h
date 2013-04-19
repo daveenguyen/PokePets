@@ -63,7 +63,7 @@ class CSVReader
             return t;
         };
 
-        // string getField();
+        string getCurField();
 
         /**
          * Returns the number of fields of current file

@@ -10,7 +10,11 @@ using namespace std;
 #include "Type.h"
 #include "Move.h"
 
-// #define WINDOWS_OS // uncomment if using windows
+#define WINDOWS_OS // uncomment if using windows
+#ifdef WINDOWS_OS
+#include "windows.h"
+#endif
+
 
 void TestPokemon();
 void TestParser();
