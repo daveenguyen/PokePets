@@ -1,4 +1,7 @@
+#include <string>
+#include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using namespace std;
@@ -10,10 +13,12 @@ using namespace std;
 #include "Type.h"
 #include "Move.h"
 
-#define WINDOWS_OS // uncomment if using windows
+//#define WINDOWS_OS // uncomment if using windows
 #ifdef WINDOWS_OS
 #include "windows.h"
 #endif
+
+#define DIVIDER_LENGTH 100
 
 
 void TestPokemon();
@@ -27,6 +32,7 @@ void printPokemonInfo(Pokemon* pkmn);
 void printPokemonMoves(Pokemon* pkmn);
 void printAttackOptions(Pokemon* pkmn);
 void printHpBars(Pokemon* pkmn);
+void drawPokemons(Pokemon* myPkmn, Pokemon* enemyPkmn);
 
 int main() {
     TestPokemon();
@@ -83,13 +89,23 @@ void TestPokemon() {
         {
             delay(1750);
             cout << endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl;
-            cout << "______________________________________________"<<endl;
-            cout << "\t\t\t" <<enemyPkmn.getNickname() << " Lv." << enemyPkmn.getLevel() << endl;
+            for(int i = 0; i < DIVIDER_LENGTH; ++i)
+                cout << "_";
+            cout <<endl;
 
-            cout << "\t\t\t";
+
+            for(int i = 32; i < DIVIDER_LENGTH; ++i)
+                cout << " ";
+            cout <<enemyPkmn.getNickname() << " Lv." << enemyPkmn.getLevel() << endl;
+
+            for(int i = 32; i < DIVIDER_LENGTH; ++i)
+                cout << " ";
             printHpBars(&enemyPkmn);
 
-            cout << "\t\t\t" <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "\%" << endl;
+            for(int i = 32; i < DIVIDER_LENGTH; ++i)
+                cout << " ";
+            cout <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "\%" << endl;
+            drawPokemons(&myPokemon, &enemyPkmn);
 
             cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
             printHpBars(&myPokemon);
@@ -100,7 +116,9 @@ void TestPokemon() {
             cin >> num;
             num--;
 
-            cout << "______________________________________________"<<endl;
+            for(int i = 0; i < DIVIDER_LENGTH; ++i)
+                cout << "_";
+            cout <<endl;
 
             myPokemon.useMove(num,&enemyPkmn);
             int moveCount = 0;
@@ -187,13 +205,57 @@ void printPokemonMoves(Pokemon* pkmn)
 
 void printAttackOptions(Pokemon* pkmn)
 {
-    cout << "___ ATTACK OPTIONS" << endl;
+    //for(int i = 0; i < DIVIDER_LENGTH; ++i)
+    //    cout << "=";
+    //cout <<endl;
+    cout << "    ATTACK OPTIONS" << endl;
+    for(int i = 0; i < DIVIDER_LENGTH; ++i)
+        cout << "=";
+    cout <<endl;
+
+    // line 1
     for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
-        cout << i+1 << ". ";
+        // cout << i+1 << ". ";
         // Move myMove();
-        cout << pkmn->getMove(i).getIdentifier() << endl;
-        cout << "   " << pkmn->getMove(i).getType().getIdentifier() << "  PP " << pkmn->getCurPP(i) << '/' << pkmn->getMove(i).getPP() << endl;
+        // cout << pkmn->getMove(i).getIdentifier() << endl;
+        // if (i%2==1)
+        // {
+        //     for (int i = 0; i < DIVIDER_LENGTH/2; ++i)
+        //         cout << " ";
+        // }
+        cout << left << setfill(' ');
+        cout << i+1 << ". ";
+        cout << setw(DIVIDER_LENGTH/4-3) << pkmn->getMove(i).getIdentifier();
+        // if (i%2==1){
+        //     cout << endl;
+        //     for (int j=i; j < i+2 && pkmn->getMove(j).getMoveNum() != 0; ++j) {
+        //         cout << "   ";
+        //         // line 2
+        //         // cout.width(DIVIDER_LENGTH/2-3);
+        //         cout << setw((DIVIDER_LENGTH/2-3)-8) << pkmn->getMove(j).getType().getIdentifier();
+        //         cout << "PP ";
+        //         cout << right << setw(2) << pkmn->getCurPP(j);
+        //         cout << '/';
+        //         cout << left << setw(2) << pkmn->getMove(i).getPP();
+        //     }
+        //     cout << endl;
+        // }
+
     }
+    cout << endl;
+
+    for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
+        cout << "   ";
+        // line 2
+        // cout.width(DIVIDER_LENGTH/4-3);
+        // cout << DIVIDER_LENGTH/4-13 << endl;
+        cout << setw((DIVIDER_LENGTH/4-13)) << pkmn->getMove(i).getType().getIdentifier();
+        cout << " PP ";
+        cout << right << setw(2) << pkmn->getCurPP(i);
+        cout << '/';
+        cout << left << setw(2) << pkmn->getMove(i).getPP() << ' ';
+    }
+    cout << endl;
 }
 
 // void printBattleOptions(Trainer* trainer)
@@ -244,15 +306,59 @@ void printHpBars(Pokemon* pkmn)
     double hpPercent = pkmn->getCurHP()/(double)pkmn->getStats(0);
 
     cout << "[" ;
-    for (int i = 0; i < 20; ++i)
+    for (int i = 0; i < 30; ++i)
     {
         if (hpPercent >= 0)
             cout << '-';
         else
             cout << ' ';
 
-        hpPercent -= 0.05;
+        hpPercent -= 0.03333333333;
     }
     cout << "]" << endl;
 
+}
+
+void drawPokemons(Pokemon* myPkmn, Pokemon* enemyPkmn)
+{
+
+    int backNum  = myPkmn->getDexNum();
+    int frontNum = enemyPkmn->getDexNum();
+
+    string pkmnBack[16];
+    string pkmnFront[16];
+
+    stringstream ss;
+    ss << frontNum;
+    string str = ss.str();
+
+    string filePathStr = "../data/xterm/front/" + str + ".xterm";
+
+    ifstream reader;
+    reader.open(filePathStr.c_str());
+    for (int i = 0; i < 16; ++i)
+    {
+        getline(reader,pkmnFront[i]);
+    }
+
+    ss.str("");
+    ss << backNum;
+    str = ss.str();
+    filePathStr = "../data/xterm/back/" + str + ".xterm";
+    reader.close();
+    reader.open(filePathStr.c_str());
+    for (int i = 0; i < 16; ++i)
+    {
+        getline(reader,pkmnBack[i]);
+    }
+
+    for (int i = 0; i < 16; i++)
+    {
+        cout << setw(DIVIDER_LENGTH-32) << ' ' << pkmnFront[i] << endl;
+    }
+
+    for (int i = 0; i < 16; i++)
+    {
+        cout << setw(32) << pkmnBack[i] << endl;
+    }
 }
