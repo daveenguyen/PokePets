@@ -63,6 +63,11 @@ void Pokemon::setLevel(int i)
     _level = i;
 }
 
+void Pokemon::setStatus(int i)
+{
+    _status = i;
+}
+
 string Pokemon::getNickname()
 {
     // if not nicknamed, return species' name
@@ -259,6 +264,69 @@ int Pokemon::getStats(int i)
     return calc_stat;
 }
 
+int Pokemon::getBattleStats(int i)
+{
+    int stat;
+    switch (i)
+    {
+        case 1: // hp
+            stat = getStats(1);
+
+        case 2: // atk
+            stat = getStats(2);
+            if (_atkStage > 0)
+                stat *= (2+_atkStage)/double(2);
+            else if (_atkStage < 0)
+                stat *= (-2)/double(-2-_atkStage);
+            if (_status == 4)
+                stat /= double(2);
+            break;
+
+        case 3: // def
+            stat = getStats(3);
+            if (_defStage > 0)
+                stat *= (2+_defStage)/double(2);
+            else if (_defStage < 0)
+                stat *= (-2)/double(-2-_defStage);
+            break;
+
+        case 4: // satk
+            stat = getStats(4);
+            if (_sAtkStage > 0)
+                stat *= (2+_sAtkStage)/double(2);
+            else if (_sAtkStage < 0)
+                stat *= (-2)/double(-2-_sAtkStage);
+            break;
+
+        case 5: // sdef
+            stat = getStats(5);
+            if (_sDefStage > 0)
+                stat *= (2+_sDefStage)/double(2);
+            else if (_sDefStage < 0)
+                stat *= (-2)/double(-2-_sDefStage);
+            break;
+
+        case 6: // speed
+            stat = getStats(6);
+            if (_speedStage > 0)
+                stat *= (2+_speedStage)/double(2);
+            else if (_speedStage < 0)
+                stat *= (-2)/double(-2-_speedStage);
+            if (_status == 1)
+                stat /= double(2);
+            break;
+
+        case 7: // accuracy
+            stat = _evasionStage;
+            break;
+
+        case 8: // evasion
+            stat = _accuracyStage;
+            break;
+    }
+    return stat;
+}
+
 int Pokemon::getCurPP(int i)
 {
     return _curPP[i];
@@ -356,6 +424,7 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 5:
         {
             // swagger
+            doAilment(target, &_moves[i]);
             break;
         }
         case 6:
@@ -407,11 +476,6 @@ void Pokemon::useMove(int i, Pokemon* target)
             break;
         }
     }
-    //// Inflicts damage
-    //0, 4, 6, 7, 8
-
-    //// inflicts status ailment
-    //1, 4, 5
 
     //// lowers target's stats or raises user's stats
     //2,
@@ -502,14 +566,14 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         // physical
         if (move->getDamage_class_id() == 2)
         {
-            atk = getStats(1);
-            def = target->getStats(2);
+            atk = getBattleStats(1);
+            def = target->getBattleStats(2);
         }
         // special
         else if (move->getDamage_class_id() == 3)
         {
-            atk = getStats(3);
-            def = target->getStats(4);
+            atk = getBattleStats(3);
+            def = target->getBattleStats(4);
         }
         int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
 
@@ -530,23 +594,23 @@ void Pokemon::doAilment(Pokemon* target, Move* move)
         {
             case 1:
                 cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
-                _status = 1;
+                target->setStatus(1);
                 break;
             case 2:
                 cout << target->getNickname() << " fell asleep!" << endl;
-                _status = 2;
+                target->setStatus(2);
                 break;
             case 3:
                 cout << target->getNickname() << " was frozen solid!" << endl;
-                _status = 3;
+                target->setStatus(3);
                 break;
             case 4:
                 cout << target->getNickname() << " was burned!" << endl;
-                _status = 4;
+                target->setStatus(4);
                 break;
             case 5:
                 cout << target->getNickname() << " was poisoned!" << endl;
-                _status = 5;
+                target->setStatus(5);
                 // cout << target->getNickname() << " was badly poisoned!" << endl;
                 break;
             default:

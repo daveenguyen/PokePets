@@ -136,12 +136,57 @@ void TestPokemon() {
 
             for(int i = 32; i < DIVIDER_LENGTH; ++i)
                 cout << " ";
-            cout <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "%" << endl;
+            cout <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "%";
+            switch (enemyPkmn.getStatus())
+            {
+                case 1: // paralysis (PAR)
+                    cout << C_ELECTRIC << " PAR" << C_RESET;
+                    break;
+                case 2: // sleep (SLP)
+                cout << C_NORMAL << " SLP" << C_RESET;
+                    break;
+                case 3: // freeze (FRZ)
+                    cout << C_ICE << " FRZ" << C_RESET;
+                    break;
+                case 4: // burn (BRN)
+                    cout << C_FIRE << " BRN" << C_RESET;
+                    break;
+                case 5: // poison (PSN)
+                    cout << C_POISON << " PSN" << C_RESET;
+                    break;
+                default:
+                    break;
+
+            }
+            cout << endl;
             drawPokemons(&myPokemon, &enemyPkmn);
 
             cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
             printHpBars(&myPokemon);
-            cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
+            cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0);
+            switch (myPokemon.getStatus())
+            {
+                case 1: // paralysis (PAR)
+                    cout << C_ELECTRIC << " PAR" << C_RESET;
+                    break;
+                case 2: // sleep (SLP)
+                cout << C_NORMAL << " SLP" << C_RESET;
+                    break;
+                case 3: // freeze (FRZ)
+                    cout << C_ICE << " FRZ" << C_RESET;
+                    break;
+                case 4: // burn (BRN)
+                    cout << C_FIRE << " BRN" << C_RESET;
+                    break;
+                case 5: // poison (PSN)
+                    cout << C_POISON << " PSN" << C_RESET;
+                    break;
+                default:
+                    break;
+
+            }
+            cout << endl;
+            cout << endl << endl;
             int num;
             printBattleOptions(&myPokemon);
             printAttackOptions(&myPokemon);
