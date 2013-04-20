@@ -62,6 +62,7 @@ void printAttackOptions(Pokemon* pkmn);
 void printHpBars(Pokemon* pkmn);
 void drawPokemons(Pokemon* myPkmn, Pokemon* enemyPkmn);
 void printTypeWithColor(int i);
+void printBattleOptions(Pokemon* pkmn);
 
 int main() {
     TestPokemon();
@@ -98,14 +99,18 @@ void TestPokemon() {
     int battleNum;
     cin >> battleNum;
 
+    // battle loop
     for (int i = 0; i < battleNum; ++i)
     {
         Pokemon enemyPkmn(rand()%151+1, myPokemon.getLevel());
         builder.setPokemon(&enemyPkmn);
         builder.initSpecies();
+
+        // reset both pokemon
         enemyPkmn.reset();
         myPokemon.reset();
 
+        // start battle
         // cout << "You are challenged by Dude!" << endl;
         // cout << "Dude sent out " << enemyPkmn.getNickname() << '!' << endl;
         cout << "A wild " << enemyPkmn.getNickname() << " appeared!" << endl;
@@ -138,6 +143,7 @@ void TestPokemon() {
             printHpBars(&myPokemon);
             cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
             int num;
+            printBattleOptions(&myPokemon);
             printAttackOptions(&myPokemon);
             cout << "\nWhat will " << myPokemon.getNickname() << " do? ";
             cin >> num;
@@ -269,39 +275,19 @@ void printAttackOptions(Pokemon* pkmn)
     cout <<endl;
 }
 
-// void printBattleOptions(Trainer* trainer)
-// {
-//     cout << "1. Fight" << endl;
-//     cout << "2. PokePets" << endl;
-//     cout << "3. Run" << endl << endl;
-//     cout << "What will " << trainer->curPokemon() << " do? " << endl;
-//     int option;
-//     cin >> option;
+void printBattleOptions(Pokemon* pkmn)
+{
 
-//     switch (option)
-//     {
-//         case 1:
-//         {
-//             fight(trainer);
-//             break;
-//         }
-//         case 2:
-//         {
-//             pokepets(trainer);
-//             break;
-//         }
-//         case 3:
-//         {
-//             run(trainer);
-//             break;
-//         }
-//         default:
-//         {
-//             printBattleOptions(trainer);
-//             break;
-//         }
-//     }
-// }
+    cout << "    BATTLE OPTIONS" << endl;
+    cout << "----------------------" << endl;
+    cout << " 1. Fight " << endl;
+    cout << " 2. PokePets " << endl;
+    cout << " 3. Bag " << endl;
+    cout << " 4. Run " << endl;
+    cout << "\nWhat will " << pkmn->getNickname() << " do? ";
+
+    cout << endl;
+}
 
 void delay(int ms)
 {

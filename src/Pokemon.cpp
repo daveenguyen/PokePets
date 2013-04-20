@@ -482,7 +482,10 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         if (typeMod > 1)
             cout << "It's super effective!" << endl;
         else if (typeMod == 0)
+        {
             cout << "It doesn't affect " << target->getNickname() << "..." << endl;
+            typeMod = 0.125; // our own implementation instead of x0 it's 1/8
+        }
         else if (typeMod < 1)
             cout << "It's not very effective..." << endl;
 
@@ -494,8 +497,18 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         // which atk, which def
         int atk;
         int def;
-        atk = getStats(1);
-        def = target->getStats(2);
+        // physical
+        if (move->getDamage_class_id() == 2)
+        {
+            atk = getStats(1);
+            def = target->getStats(2);
+        }
+        // special
+        else if (move->getDamage_class_id() == 3)
+        {
+            atk = getStats(3);
+            def = target->getStats(4);
+        }
         int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
 
         target->adjustHP(-damage);
