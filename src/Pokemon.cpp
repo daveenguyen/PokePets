@@ -41,6 +41,14 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
 
     _curHP        = getStats(0);
     _status       = 0;
+
+    _atkStage = 0;
+    _defStage = 0;
+    _sAtkStage = 0;
+    _sDefStage = 0;
+    _speedStage = 0;
+    _evasionStage = 0;
+    _accuracyStage = 0;
 }
 
 Pokemon::~Pokemon() {}
@@ -55,6 +63,14 @@ void Pokemon::reset()
     {
     _curPP[i] = _moves[i].getPP();
     }
+
+    _atkStage = 0;
+    _defStage = 0;
+    _sAtkStage = 0;
+    _sDefStage = 0;
+    _speedStage = 0;
+    _evasionStage = 0;
+    _accuracyStage = 0;
 }
 
 
