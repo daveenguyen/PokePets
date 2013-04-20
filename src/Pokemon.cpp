@@ -317,15 +317,15 @@ int Pokemon::getBattleStats(int i)
             break;
 
         case 7: // accuracy
-            stat = 100
-            if (_accuracyStage; > 0)
-                stat *= (3+_accuracyStage;)/double(3);
-            else if (_accuracyStage; < 0)
-                stat *= (-3)/double(_accuracyStage-3;);
+            stat = 100;
+            if (_accuracyStage > 0)
+                stat *= (3+_accuracyStage)/double(3);
+            else if (_accuracyStage < 0)
+                stat *= (-3)/double(_accuracyStage-3);
             break;
 
         case 8: // evasion
-            stat = 100
+            stat = 100;
             if (_evasionStage > 0)
                 stat *= (3+_evasionStage)/double(3);
             else if (_evasionStage < 0)
