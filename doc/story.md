@@ -459,15 +459,44 @@ blocked.
 - Trainers
 	* Uses pokepet found in current route (lvl 25-28)
 
-Saffron City
+# Saffron City
 
-	Actions:
-	-Visit Pokepet Center
-	-Visit Pokepet Mart
-	-Visit Gym Leader
-		*Uses psychic-type(lvl 45-49)
-		*Receive Mind Badge upon victory
-	-Visit 
+## Actions:
+- Visit Pokepet Center
+- Visit Pokepet Mart
+- Visit Gym Leader (blocked by pokedrug trainer)
+	* Uses psychic-type(lvl 45-49)
+	* Receive Mind Badge upon victory
+- Visit Dojo
+	* Uses fighting-type(35-40)
+	* Receive hitmonlee/hitmonchan upon victory (lvl 35)
+- Visit Abandoned Laboratory
+
+### ---Story Progression---
+- After arriving to Saffron City, Player notices the gym is blocked by pokedrug
+trainers, so he/she must stop Mr. X first.
+
+
+### Map for Abandoned Laboratory
+
+- x=start
+- o=room with mr.x
+- t=room with trainer
+- r=room with rival
+- ?=room will bring you back to the start
+
+
+
+										[o]
+										[r]							
+								[?]		[ ]
+								[t]	[?]	[t]
+						[?]	[t]	[ ]	[t]	[ ]	
+								[t]
+								[ ]
+							[ ]	[t]	[ ]
+								[x]	
+
 
 Cinnebar Island
 
