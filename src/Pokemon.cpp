@@ -277,7 +277,7 @@ int Pokemon::getBattleStats(int i)
             if (_atkStage > 0)
                 stat *= (2+_atkStage)/double(2);
             else if (_atkStage < 0)
-                stat *= (-2)/double(-2-_atkStage);
+                stat *= (-2)/double(_atkStage-2);
             if (_status == 4)
                 stat /= double(2);
             break;
@@ -287,7 +287,7 @@ int Pokemon::getBattleStats(int i)
             if (_defStage > 0)
                 stat *= (2+_defStage)/double(2);
             else if (_defStage < 0)
-                stat *= (-2)/double(-2-_defStage);
+                stat *= (-2)/double(_defStage-2);
             break;
 
         case 4: // satk
@@ -295,7 +295,7 @@ int Pokemon::getBattleStats(int i)
             if (_sAtkStage > 0)
                 stat *= (2+_sAtkStage)/double(2);
             else if (_sAtkStage < 0)
-                stat *= (-2)/double(-2-_sAtkStage);
+                stat *= (-2)/double(_sAtkStage-2);
             break;
 
         case 5: // sdef
@@ -303,7 +303,7 @@ int Pokemon::getBattleStats(int i)
             if (_sDefStage > 0)
                 stat *= (2+_sDefStage)/double(2);
             else if (_sDefStage < 0)
-                stat *= (-2)/double(-2-_sDefStage);
+                stat *= (-2)/double(_sDefStage-2);
             break;
 
         case 6: // speed
@@ -311,17 +311,25 @@ int Pokemon::getBattleStats(int i)
             if (_speedStage > 0)
                 stat *= (2+_speedStage)/double(2);
             else if (_speedStage < 0)
-                stat *= (-2)/double(-2-_speedStage);
+                stat *= (-2)/double(_speedStage-2);
             if (_status == 1)
                 stat /= double(2);
             break;
 
         case 7: // accuracy
-            stat = _evasionStage;
+            stat = 100
+            if (_accuracyStage; > 0)
+                stat *= (3+_accuracyStage;)/double(3);
+            else if (_accuracyStage; < 0)
+                stat *= (-3)/double(_accuracyStage-3;);
             break;
 
         case 8: // evasion
-            stat = _accuracyStage;
+            stat = 100
+            if (_evasionStage > 0)
+                stat *= (3+_evasionStage)/double(3);
+            else if (_evasionStage < 0)
+                stat *= (-3)/double(_evasionStage-3);
             break;
     }
     return stat;
