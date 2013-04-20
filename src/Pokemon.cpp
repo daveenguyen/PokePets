@@ -333,6 +333,7 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 1:
         {
             // ailment
+            doAilment(target, &_moves[i]);
             break;
         }
         case 2:
@@ -349,6 +350,7 @@ void Pokemon::useMove(int i, Pokemon* target)
         {
             // damage + ailment
             doDamage(target, &_moves[i]);
+            doAilment(target, &_moves[i]);
             break;
         }
         case 5:
@@ -448,7 +450,7 @@ void Pokemon::useMove(int i, Pokemon* target)
 void Pokemon::doDamage(Pokemon* target, Move* move)
 {
 // CHECK MISS
-    if (rand() % 100 <= move->getAccuracy())
+    if (rand() % 100 <= move->getAccuracy() || move->getAccuracy() == 0)
     {
 
     // MODIFIERS
@@ -519,7 +521,35 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
     }
 }
 
-void doAilment(Pokemon* target, Move* move)
+void Pokemon::doAilment(Pokemon* target, Move* move)
 {
-
+    // cout << move->getAilment_chance();
+    // cout << "DOAILMENT" << endl;
+    if (rand() % 100 <= move->getAilment_chance() || move->getAilment_chance() == 0)
+        switch (move->getMeta_ailment_id())
+        {
+            case 1:
+                cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
+                _status = 1;
+                break;
+            case 2:
+                cout << target->getNickname() << " fell asleep!" << endl;
+                _status = 2;
+                break;
+            case 3:
+                cout << target->getNickname() << " was frozen solid!" << endl;
+                _status = 3;
+                break;
+            case 4:
+                cout << target->getNickname() << " was burned!" << endl;
+                _status = 4;
+                break;
+            case 5:
+                cout << target->getNickname() << " was poisoned!" << endl;
+                _status = 5;
+                // cout << target->getNickname() << " was badly poisoned!" << endl;
+                break;
+            default:
+                break;
+        }
 }

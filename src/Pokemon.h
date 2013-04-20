@@ -74,7 +74,7 @@ class Pokemon : public PokemonSpecies
 
         void initMoves();
         void doDamage(Pokemon* target, Move* move);
-
+        void doAilment(Pokemon* target, Move* move);
 
 };
 
