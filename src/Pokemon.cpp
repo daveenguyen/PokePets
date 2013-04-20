@@ -447,52 +447,66 @@ void Pokemon::useMove(int i, Pokemon* target)
 
 void Pokemon::doDamage(Pokemon* target, Move* move)
 {
-// MODIFIERS
-    double modifier = 0.85 + (double)rand() / (double)RAND_MAX * 0.15;
-    int moveTypeId = move->getType_id();
-
-    // stab
-    if (moveTypeId == getType(0).getTypeNum() || moveTypeId == getType(1).getTypeNum())
+// CHECK MISS
+    if (rand() % 100 <= move->getAccuracy())
     {
-        modifier *= 1.15;
-    }
 
-    // crit
-    int crit_rate = move->getCrit_rate(); // add items or moves
-    crit_rate *= 625; // each stage is 6.25%
-    if (crit_rate > 5000) crit_rate = 5000;
-    if (rand() % 10000 < crit_rate)
+    // MODIFIERS
+        double modifier = 0.85 + (double)rand() / (double)RAND_MAX * 0.15;
+        int moveTypeId = move->getType_id();
+
+        // stab
+        if (moveTypeId == getType(0).getTypeNum() || moveTypeId == getType(1).getTypeNum())
+        {
+            modifier *= 1.15;
+        }
+
+        // crit
+        int crit_rate = move->getCrit_rate(); // add items or moves
+        crit_rate *= 625; // each stage is 6.25%
+        if (crit_rate > 5000) crit_rate = 5000;
+        if (rand() % 10000 < crit_rate)
+        {
+            cout << "A critical hit!" << endl;
+            modifier *= 2;
+        }
+
+        // type
+        int targetType1 = target->getType(0).getTypeNum();
+        int targetType2 = target->getType(1).getTypeNum();
+        double typeMod = 1;
+        typeMod *= move->getType().getEfficacy(targetType1);
+        if (targetType2 != targetType1)
+            typeMod *= move->getType().getEfficacy(targetType2);
+
+        if (typeMod > 1)
+            cout << "It's super effective!" << endl;
+        else if (typeMod == 0)
+            cout << "It doesn't affect " << target->getNickname() << "..." << endl;
+        else if (typeMod < 1)
+            cout << "It's not very effective..." << endl;
+
+        modifier *= typeMod;
+
+        // other like items, field advantage, or if double/triple
+
+    // DAMAGE
+        // which atk, which def
+        int atk;
+        int def;
+        atk = getStats(1);
+        def = target->getStats(2);
+        int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
+
+        target->adjustHP(-damage);
+    }
+    else
     {
-        cout << "A critical hit!" << endl;
-        modifier *= 2;
+        cout << getNickname() << "'s attack missed!" << endl;
     }
+}
 
-    // type
-    int targetType1 = target->getType(0).getTypeNum();
-    int targetType2 = target->getType(1).getTypeNum();
-    double typeMod = 1;
-    typeMod *= move->getType().getEfficacy(targetType1);
-    if (targetType2 != targetType1)
-        typeMod *= move->getType().getEfficacy(targetType2);
+void doAilment(Pokemon* target, Move* move)
+{
 
-    if (typeMod > 1)
-        cout << "It's super effective!" << endl;
-    else if (typeMod == 0)
-        cout << "It doesn't affect " << target->getNickname() << "..." << endl;
-    else if (typeMod < 1)
-        cout << "It's not very effective..." << endl;
-
-    modifier *= typeMod;
-
-    // other like items, field advantage, or if double/triple
-
-// DAMAGE
-    // which atk, which def
-    int atk;
-    int def;
-    atk = getStats(1);
-    def = target->getStats(2);
-    int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
-
-    target->adjustHP(-damage);
 }
