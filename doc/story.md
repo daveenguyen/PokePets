@@ -452,7 +452,7 @@ blocked.
 ## Encounters:
 - Wild Pokepet (lvl 18-22)
 	* magicarp
-	* tentacruel
+	* tentacool
 	* goldeen
 	* horsea
 	* staryu
@@ -475,9 +475,22 @@ blocked.
 ### ---Story Progression---
 - After arriving to Saffron City, Player notices the gym is blocked by pokedrug
 trainers, so he/she must stop Mr. X first.
+- After Player beats Gym Leader, Cinnabar Island is now reachable from Fushcia City via Surf!
+- Go get 7th badge!
 
 
 ### Map for Abandoned Laboratory
+
+## Actions:
+- Go to Outside to Saffron (only when in first room)
+- Go up
+- Go down
+- Go left
+- Go right
+ 
+## Encounters:
+-Trainers
+	*Uses poison-type (lvl 40-45)
 
 - x=start
 - o=room with mr.x
@@ -498,19 +511,61 @@ trainers, so he/she must stop Mr. X first.
 								[x]	
 
 
-Cinnebar Island
+### ---Story Progression---
+- Progress through the lab to find and stop Mr. X
+- Encounter Rival
+	* He says Prof. Haney asked him to stop Mr. X so Player can just quit and 
+	go home.  Player challenges Rival to a battle; winner stops Mr. X
+- Rival Battle
+	* Uses all-types (lvl 41-47)
+	* Upon victory Rival tells you that you better not fail and then leaves
+- Enter Mr. X's room and he tells you more about his plan and past
+- Battle Mr. X
+	* Uses poison-type (lvl 41-47)
+	* Upon victory Mr. X tells Player that although he has stopped his plans
+	they will battle one more time in the future
+	* Mr. X escapes but leaves something behind... Player finds Hidden Move Surf!
+- Player may now enter Saffron Gym
 
-	Actions:
-	-Visit Pokepet Center
-	-Visit Pokepet Mart
-	-Visit Gym Leader
 
 
 
+#Cinnebar Island
+
+##Actions:
+- Visit Pokepet Center
+- Visit Pokepet Mart
+- Visit Gym Leader (entrance blocked my old man)
+	* Uses fire-type (lvl 44-48)
+	* Receive Fire Badge upon victory
+- Go to Route 12
+- Go to Route 11 
 
 
+### ---Story Progression---
+- An old man denies access to the gym.  In order to enter, Player must answer
+riddles he asks
+	* Riddle #1
+	* Riddle #2
+	* Riddle #3
+
+- After 7th badge is received, Fly back to Viridian City to obtain 8th and final badge!
 
 
+#Route 12
 
+##Actions:
+- Go to Cinnebar Island
+- Go to Crystal Cave
+
+## Encounters:
+- Wild Pokepet (lvl 40-44)
+	* cloyster
+	* slowpoke
+	* lapras
+	* seal
+	* poliwag
+- Trainers
+	* Uses pokepet found in current route (lvl 44-46)
 
 
