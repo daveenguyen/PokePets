@@ -1,4 +1,7 @@
+#include <string>
+#include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using namespace std;
@@ -10,11 +13,41 @@ using namespace std;
 #include "Type.h"
 #include "Move.h"
 
-#define WINDOWS_OS // uncomment if using windows
+//#define WINDOWS_OS // uncomment if using windows
 #ifdef WINDOWS_OS
 #include "windows.h"
 #endif
 
+#define DIVIDER_LENGTH 120
+
+// ANSI Color Codes
+#define C_RED     "\33[31;49m"
+#define C_GREEN   "\33[32;49m"
+#define C_YELLOW  "\33[33;49m"
+#define C_BLUE    "\33[34;49m"
+#define C_MAGENTA "\33[35;49m"
+#define C_CYAN    "\33[36;49m"
+#define C_WHITE   "\33[37;49m"
+#define C_BOLD    "\33[31;1m"
+#define C_RESET   "\33[0m"
+
+#define C_NORMAL    "\33[38;5;144m"  // 144 :af/af/87
+#define C_FIRE      "\33[38;5;209m"  // 209 :ff/87/5f
+#define C_WATER     "\33[38;5;69m"  // 69:  5f/87/ff
+#define C_ELECTRIC  "\33[38;5;221m"  // 221 :ff/d7/5f
+#define C_GRASS     "\33[38;5;113m"  // 113 :87/d7/5f
+#define C_ICE       "\33[38;5;116m"  // 116 :87/d7/d7
+#define C_FIGHTING  "\33[38;5;167m"  // 167 :d7/5f/5f
+#define C_POISON    "\33[38;5;133m"  // 133 :af/5f/af
+#define C_GROUND    "\33[38;5;185m"  // 185 :d7/d7/5f
+#define C_FLYING    "\33[38;5;141m"  // 141 :af/87/ff
+#define C_PSYCHIC   "\33[38;5;204m"  // 204 :ff/5f/87
+#define C_BUG       "\33[38;5;142m"  // 142 :af/af/00
+#define C_ROCK      "\33[38;5;143m"  // 143 :af/af/5f
+#define C_GHOST     "\33[38;5;96m"  // 96:  87/5f/87
+#define C_DRAGON    "\33[38;5;99m"  // 99:  87/5f/ff
+#define C_DARK      "\33[38;5;95m"  // 95:  87/5f/5f
+#define C_STEEL     "\33[38;5;146m"  // 146 :af/af/d7
 
 void TestPokemon();
 void TestParser();
@@ -27,6 +60,9 @@ void printPokemonInfo(Pokemon* pkmn);
 void printPokemonMoves(Pokemon* pkmn);
 void printAttackOptions(Pokemon* pkmn);
 void printHpBars(Pokemon* pkmn);
+void drawPokemons(Pokemon* myPkmn, Pokemon* enemyPkmn);
+void printTypeWithColor(int i);
+void printBattleOptions(Pokemon* pkmn);
 
 int main() {
     TestPokemon();
@@ -34,8 +70,6 @@ int main() {
 }
 
 void TestPokemon() {
-
-
     cout << "Enter a pokedex number: ";
     int dexNum;
     cin  >> dexNum;
@@ -65,14 +99,18 @@ void TestPokemon() {
     int battleNum;
     cin >> battleNum;
 
+    // battle loop
     for (int i = 0; i < battleNum; ++i)
     {
         Pokemon enemyPkmn(rand()%151+1, myPokemon.getLevel());
         builder.setPokemon(&enemyPkmn);
         builder.initSpecies();
+
+        // reset both pokemon
         enemyPkmn.reset();
         myPokemon.reset();
 
+        // start battle
         // cout << "You are challenged by Dude!" << endl;
         // cout << "Dude sent out " << enemyPkmn.getNickname() << '!' << endl;
         cout << "A wild " << enemyPkmn.getNickname() << " appeared!" << endl;
@@ -83,24 +121,82 @@ void TestPokemon() {
         {
             delay(1750);
             cout << endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl<< endl;
-            cout << "______________________________________________"<<endl;
-            cout << "\t\t\t" <<enemyPkmn.getNickname() << " Lv." << enemyPkmn.getLevel() << endl;
+            for(int i = 0; i < DIVIDER_LENGTH; ++i)
+                cout << "_";
+            cout <<endl;
 
-            cout << "\t\t\t";
+
+            for(int i = 32; i < DIVIDER_LENGTH; ++i)
+                cout << " ";
+            cout <<enemyPkmn.getNickname() << " Lv." << enemyPkmn.getLevel() << endl;
+
+            for(int i = 32; i < DIVIDER_LENGTH; ++i)
+                cout << " ";
             printHpBars(&enemyPkmn);
 
-            cout << "\t\t\t" <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "\%" << endl;
+            for(int i = 32; i < DIVIDER_LENGTH; ++i)
+                cout << " ";
+            cout <<"HP: " << (int)(float(enemyPkmn.getCurHP())/enemyPkmn.getStats(0)*100) << "%";
+            switch (enemyPkmn.getStatus())
+            {
+                case 1: // paralysis (PAR)
+                    cout << C_ELECTRIC << " PAR" << C_RESET;
+                    break;
+                case 2: // sleep (SLP)
+                cout << C_NORMAL << " SLP" << C_RESET;
+                    break;
+                case 3: // freeze (FRZ)
+                    cout << C_ICE << " FRZ" << C_RESET;
+                    break;
+                case 4: // burn (BRN)
+                    cout << C_FIRE << " BRN" << C_RESET;
+                    break;
+                case 5: // poison (PSN)
+                    cout << C_POISON << " PSN" << C_RESET;
+                    break;
+                default:
+                    break;
+
+            }
+            cout << endl;
+            drawPokemons(&myPokemon, &enemyPkmn);
 
             cout << myPokemon.getNickname() << " Lv." << myPokemon.getLevel() << endl;
             printHpBars(&myPokemon);
-            cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0) << endl << endl;
+            cout << "HP: " << myPokemon.getCurHP() << " / " << myPokemon.getStats(0);
+            switch (myPokemon.getStatus())
+            {
+                case 1: // paralysis (PAR)
+                    cout << C_ELECTRIC << " PAR" << C_RESET;
+                    break;
+                case 2: // sleep (SLP)
+                cout << C_NORMAL << " SLP" << C_RESET;
+                    break;
+                case 3: // freeze (FRZ)
+                    cout << C_ICE << " FRZ" << C_RESET;
+                    break;
+                case 4: // burn (BRN)
+                    cout << C_FIRE << " BRN" << C_RESET;
+                    break;
+                case 5: // poison (PSN)
+                    cout << C_POISON << " PSN" << C_RESET;
+                    break;
+                default:
+                    break;
+
+            }
+            cout << endl;
+            cout << endl << endl;
             int num;
+            printBattleOptions(&myPokemon);
             printAttackOptions(&myPokemon);
-            cout << "\nWhat would " << myPokemon.getNickname() << " do? ";
+            cout << "\nWhat will " << myPokemon.getNickname() << " do? ";
             cin >> num;
             num--;
 
-            cout << "______________________________________________"<<endl;
+            for(int i = 0; i < DIVIDER_LENGTH; ++i)
+                cout << "_";
+            cout <<endl;
 
             myPokemon.useMove(num,&enemyPkmn);
             int moveCount = 0;
@@ -152,13 +248,9 @@ void printPokemonInfo(Pokemon* pkmn)
     cout << "  CUR HP: " << pkmn->getCurHP()  << endl;
     cout << "  STATUS: " << pkmn->getStatus() << endl << endl;
 
-    // for (int i=0; i < 2 && pkmn->getType(i).getTypeNum() != 0; ++i) {
-        // DBParser type(pkmn->getType(i), 1);
-        // cout << " TYPE["<< i << "]: " << type.getTypeString() << endl;
-    // }
     cout << " TYPE[0]: " << pkmn->getType(0).getIdentifier() << endl;
     if (pkmn->getType(1).getTypeNum() != pkmn->getType(0).getTypeNum())
-        cout << " TYPE[0]: " << pkmn->getType(1).getIdentifier() << endl;
+        cout << " TYPE[1]: " << pkmn->getType(1).getIdentifier() << endl;
     cout << endl;
 }
 
@@ -187,48 +279,60 @@ void printPokemonMoves(Pokemon* pkmn)
 
 void printAttackOptions(Pokemon* pkmn)
 {
-    cout << "___ ATTACK OPTIONS" << endl;
+    cout << "    ATTACK OPTIONS" << endl;
+    for(int i = 0; i < DIVIDER_LENGTH; ++i)
+        cout << "-";
+    cout <<endl;
+
+    // line 1
     for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
-        cout << i+1 << ". ";
-        // Move myMove();
-        cout << pkmn->getMove(i).getIdentifier() << endl;
-        cout << "   " << pkmn->getMove(i).getType().getIdentifier() << "  PP " << pkmn->getCurPP(i) << '/' << pkmn->getMove(i).getPP() << endl;
+
+        cout << left << setfill(' ');
+        cout << "| " << i+1 << ". ";
+        cout << setw(DIVIDER_LENGTH/4-5) << pkmn->getMove(i).getIdentifier();
     }
+    cout << "|" << endl;
+
+    // line 2
+    for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
+        cout << "|    ";
+        printTypeWithColor(pkmn->getMove(i).getType().getTypeNum());
+        cout << setw((DIVIDER_LENGTH/4-15)) <<pkmn->getMove(i).getType().getIdentifier() << C_RESET;
+        cout << " PP ";
+        cout << right << setw(2) << pkmn->getCurPP(i);
+        cout << '/';
+        cout << left << setw(2) << pkmn->getMove(i).getPP() << ' ';
+    }
+    cout << "|" << endl;
+
+    // line 3
+    for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
+        cout << "|    ";
+        cout << "Power "; //6
+        cout << setw(3) << pkmn->getMove(i).getPower();
+        cout << setw(DIVIDER_LENGTH/4-18) << right << " Accuracy "; //10
+        cout << right << setw(3) << pkmn->getMove(i).getAccuracy() << ' ';
+    }
+    cout << "|" << endl;
+
+    for(int i = 0; i < DIVIDER_LENGTH; ++i)
+        cout << "-";
+    cout <<endl;
 }
 
-// void printBattleOptions(Trainer* trainer)
-// {
-//     cout << "1. Fight" << endl;
-//     cout << "2. PokePets" << endl;
-//     cout << "3. Run" << endl << endl;
-//     cout << "What will " << trainer->curPokemon() << " do? " << endl;
-//     int option;
-//     cin >> option;
+void printBattleOptions(Pokemon* pkmn)
+{
 
-//     switch (option)
-//     {
-//         case 1:
-//         {
-//             fight(trainer);
-//             break;
-//         }
-//         case 2:
-//         {
-//             pokepets(trainer);
-//             break;
-//         }
-//         case 3:
-//         {
-//             run(trainer);
-//             break;
-//         }
-//         default:
-//         {
-//             printBattleOptions(trainer);
-//             break;
-//         }
-//     }
-// }
+    cout << "    BATTLE OPTIONS" << endl;
+    cout << "----------------------" << endl;
+    cout << " 1. Fight " << endl;
+    cout << " 2. PokePets " << endl;
+    cout << " 3. Bag " << endl;
+    cout << " 4. Run " << endl;
+    cout << "\nWhat will " << pkmn->getNickname() << " do? ";
+
+    cout << endl;
+}
 
 void delay(int ms)
 {
@@ -243,16 +347,136 @@ void printHpBars(Pokemon* pkmn)
 {
     double hpPercent = pkmn->getCurHP()/(double)pkmn->getStats(0);
 
-    cout << "[" ;
-    for (int i = 0; i < 20; ++i)
+    cout << "[" << C_BOLD;
+
+    if (hpPercent > 0.5)
+    {
+        cout << C_GREEN;
+    }
+    else if (hpPercent > 0.2)
+    {
+        cout << C_YELLOW;
+    }
+    else
+    {
+        cout << C_RED;
+    }
+
+    for (int i = 0; i < 30; ++i)
     {
         if (hpPercent >= 0)
-            cout << '-';
+            cout << '=';
         else
             cout << ' ';
 
-        hpPercent -= 0.05;
+        hpPercent -= 0.03333333333;
     }
+    cout << C_RESET;
     cout << "]" << endl;
 
+}
+
+void drawPokemons(Pokemon* myPkmn, Pokemon* enemyPkmn)
+{
+
+    int backNum  = myPkmn->getDexNum();
+    int frontNum = enemyPkmn->getDexNum();
+
+    string pkmnBack[16];
+    string pkmnFront[16];
+
+    stringstream ss;
+    ss << frontNum;
+    string str = ss.str();
+
+    string filePathStr = "../data/xterm/front/" + str + ".xterm";
+
+    ifstream reader;
+    reader.open(filePathStr.c_str());
+    for (int i = 0; i < 16; ++i)
+    {
+        getline(reader,pkmnFront[i]);
+    }
+
+    ss.str("");
+    ss << backNum;
+    str = ss.str();
+    filePathStr = "../data/xterm/back/" + str + ".xterm";
+    reader.close();
+    reader.open(filePathStr.c_str());
+    for (int i = 0; i < 16; ++i)
+    {
+        getline(reader,pkmnBack[i]);
+    }
+
+    for (int i = 0; i < 16; i++)
+    {
+        cout << setw(DIVIDER_LENGTH-32) << ' ' << pkmnFront[i] << endl;
+    }
+
+    for (int i = 0; i < 16; i++)
+    {
+        cout << setw(32) << pkmnBack[i] << endl;
+    }
+}
+
+void printTypeWithColor(int i)
+{
+    switch (i)
+    {
+        case 1:
+            cout << C_NORMAL   ;
+            break;
+        case 2:
+            cout << C_FIGHTING ;
+            break;
+        case 3:
+            cout << C_FLYING   ;
+            break;
+        case 4:
+            cout << C_POISON   ;
+            break;
+        case 5:
+            cout << C_GROUND   ;
+            break;
+        case 6:
+            cout << C_ROCK     ;
+            break;
+        case 7:
+            cout << C_BUG      ;
+            break;
+        case 8:
+            cout << C_GHOST    ;
+            break;
+        case 9:
+            cout << C_STEEL    ;
+            break;
+        case 10:
+            cout << C_FIRE     ;
+            break;
+        case 11:
+            cout << C_WATER    ;
+            break;
+        case 12:
+            cout << C_GRASS    ;
+            break;
+        case 13:
+            cout << C_ELECTRIC ;
+            break;
+        case 14:
+            cout << C_PSYCHIC  ;
+            break;
+        case 15:
+            cout << C_ICE      ;
+            break;
+        case 16:
+            cout << C_DRAGON   ;
+            break;
+        case 17:
+            cout << C_DARK     ;
+            break;
+        default:
+            cout << C_RESET;
+            break;
+    }
 }

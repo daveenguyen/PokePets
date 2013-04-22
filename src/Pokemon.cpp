@@ -63,6 +63,11 @@ void Pokemon::setLevel(int i)
     _level = i;
 }
 
+void Pokemon::setStatus(int i)
+{
+    _status = i;
+}
+
 string Pokemon::getNickname()
 {
     // if not nicknamed, return species' name
@@ -259,6 +264,77 @@ int Pokemon::getStats(int i)
     return calc_stat;
 }
 
+int Pokemon::getBattleStats(int i)
+{
+    int stat;
+    switch (i)
+    {
+        case 1: // hp
+            stat = getStats(1);
+
+        case 2: // atk
+            stat = getStats(2);
+            if (_atkStage > 0)
+                stat *= (2+_atkStage)/double(2);
+            else if (_atkStage < 0)
+                stat *= (-2)/double(_atkStage-2);
+            if (_status == 4)
+                stat /= double(2);
+            break;
+
+        case 3: // def
+            stat = getStats(3);
+            if (_defStage > 0)
+                stat *= (2+_defStage)/double(2);
+            else if (_defStage < 0)
+                stat *= (-2)/double(_defStage-2);
+            break;
+
+        case 4: // satk
+            stat = getStats(4);
+            if (_sAtkStage > 0)
+                stat *= (2+_sAtkStage)/double(2);
+            else if (_sAtkStage < 0)
+                stat *= (-2)/double(_sAtkStage-2);
+            break;
+
+        case 5: // sdef
+            stat = getStats(5);
+            if (_sDefStage > 0)
+                stat *= (2+_sDefStage)/double(2);
+            else if (_sDefStage < 0)
+                stat *= (-2)/double(_sDefStage-2);
+            break;
+
+        case 6: // speed
+            stat = getStats(6);
+            if (_speedStage > 0)
+                stat *= (2+_speedStage)/double(2);
+            else if (_speedStage < 0)
+                stat *= (-2)/double(_speedStage-2);
+            if (_status == 1)
+                stat /= double(2);
+            break;
+
+        case 7: // accuracy
+            stat = 100;
+            if (_accuracyStage > 0)
+                stat *= (3+_accuracyStage)/double(3);
+            else if (_accuracyStage < 0)
+                stat *= (-3)/double(_accuracyStage-3);
+            break;
+
+        case 8: // evasion
+            stat = 100;
+            if (_evasionStage > 0)
+                stat *= (3+_evasionStage)/double(3);
+            else if (_evasionStage < 0)
+                stat *= (-3)/double(_evasionStage-3);
+            break;
+    }
+    return stat;
+}
+
 int Pokemon::getCurPP(int i)
 {
     return _curPP[i];
@@ -333,6 +409,7 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 1:
         {
             // ailment
+            doAilment(target, &_moves[i]);
             break;
         }
         case 2:
@@ -349,11 +426,13 @@ void Pokemon::useMove(int i, Pokemon* target)
         {
             // damage + ailment
             doDamage(target, &_moves[i]);
+            doAilment(target, &_moves[i]);
             break;
         }
         case 5:
         {
             // swagger
+            doAilment(target, &_moves[i]);
             break;
         }
         case 6:
@@ -405,11 +484,6 @@ void Pokemon::useMove(int i, Pokemon* target)
             break;
         }
     }
-    //// Inflicts damage
-    //0, 4, 6, 7, 8
-
-    //// inflicts status ailment
-    //1, 4, 5
 
     //// lowers target's stats or raises user's stats
     //2,
@@ -447,52 +521,107 @@ void Pokemon::useMove(int i, Pokemon* target)
 
 void Pokemon::doDamage(Pokemon* target, Move* move)
 {
-// MODIFIERS
-    double modifier = 0.85 + (double)rand() / (double)RAND_MAX * 0.15;
-    int moveTypeId = move->getType_id();
-
-    // stab
-    if (moveTypeId == getType(0).getTypeNum() || moveTypeId == getType(1).getTypeNum())
+// CHECK MISS
+    if (rand() % 100 <= move->getAccuracy() || move->getAccuracy() == 0)
     {
-        modifier *= 1.15;
-    }
 
-    // crit
-    int crit_rate = move->getCrit_rate(); // add items or moves
-    crit_rate *= 625; // each stage is 6.25%
-    if (crit_rate > 5000) crit_rate = 5000;
-    if (rand() % 10000 < crit_rate)
+    // MODIFIERS
+        double modifier = 0.85 + (double)rand() / (double)RAND_MAX * 0.15;
+        int moveTypeId = move->getType_id();
+
+        // stab
+        if (moveTypeId == getType(0).getTypeNum() || moveTypeId == getType(1).getTypeNum())
+        {
+            modifier *= 1.15;
+        }
+
+        // crit
+        int crit_rate = move->getCrit_rate(); // add items or moves
+        crit_rate *= 625; // each stage is 6.25%
+        if (crit_rate > 5000) crit_rate = 5000;
+        if (rand() % 10000 < crit_rate)
+        {
+            cout << "A critical hit!" << endl;
+            modifier *= 2;
+        }
+
+        // type
+        int targetType1 = target->getType(0).getTypeNum();
+        int targetType2 = target->getType(1).getTypeNum();
+        double typeMod = 1;
+        typeMod *= move->getType().getEfficacy(targetType1);
+        if (targetType2 != targetType1)
+            typeMod *= move->getType().getEfficacy(targetType2);
+
+        if (typeMod > 1)
+            cout << "It's super effective!" << endl;
+        else if (typeMod == 0)
+        {
+            cout << "It doesn't affect " << target->getNickname() << "..." << endl;
+            typeMod = 0.125; // our own implementation instead of x0 it's 1/8
+        }
+        else if (typeMod < 1)
+            cout << "It's not very effective..." << endl;
+
+        modifier *= typeMod;
+
+        // other like items, field advantage, or if double/triple
+
+    // DAMAGE
+        // which atk, which def
+        int atk;
+        int def;
+        // physical
+        if (move->getDamage_class_id() == 2)
+        {
+            atk = getBattleStats(1);
+            def = target->getBattleStats(2);
+        }
+        // special
+        else if (move->getDamage_class_id() == 3)
+        {
+            atk = getBattleStats(3);
+            def = target->getBattleStats(4);
+        }
+        int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
+
+        target->adjustHP(-damage);
+    }
+    else
     {
-        cout << "A critical hit!" << endl;
-        modifier *= 2;
+        cout << getNickname() << "'s attack missed!" << endl;
     }
+}
 
-    // type
-    int targetType1 = target->getType(0).getTypeNum();
-    int targetType2 = target->getType(1).getTypeNum();
-    double typeMod = 1;
-    typeMod *= move->getType().getEfficacy(targetType1);
-    if (targetType2 != targetType1)
-        typeMod *= move->getType().getEfficacy(targetType2);
-
-    if (typeMod > 1)
-        cout << "It's super effective!" << endl;
-    else if (typeMod == 0)
-        cout << "It doesn't affect " << target->getNickname() << "..." << endl;
-    else if (typeMod < 1)
-        cout << "It's not very effective..." << endl;
-
-    modifier *= typeMod;
-
-    // other like items, field advantage, or if double/triple
-
-// DAMAGE
-    // which atk, which def
-    int atk;
-    int def;
-    atk = getStats(1);
-    def = target->getStats(2);
-    int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
-
-    target->adjustHP(-damage);
+void Pokemon::doAilment(Pokemon* target, Move* move)
+{
+    // cout << move->getAilment_chance();
+    // cout << "DOAILMENT" << endl;
+    if (rand() % 100 <= move->getAilment_chance() || move->getAilment_chance() == 0)
+        switch (move->getMeta_ailment_id())
+        {
+            case 1:
+                cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
+                target->setStatus(1);
+                break;
+            case 2:
+                cout << target->getNickname() << " fell asleep!" << endl;
+                target->setStatus(2);
+                break;
+            case 3:
+                cout << target->getNickname() << " was frozen solid!" << endl;
+                target->setStatus(3);
+                break;
+            case 4:
+                cout << target->getNickname() << " was burned!" << endl;
+                target->setStatus(4);
+                break;
+            case 5:
+                cout << target->getNickname() << " was poisoned!" << endl;
+                target->setStatus(5);
+                // cout << target->getNickname() << " was badly poisoned!" << endl;
+                break;
+            default:
+                break;
+        }
 }
