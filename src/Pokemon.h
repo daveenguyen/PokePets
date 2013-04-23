@@ -49,6 +49,9 @@ class Pokemon : public PokemonSpecies
         void   checkExperience();
         void   useMove(int i, Pokemon* target);
 
+        bool   isWild();
+        void   setIsWild(bool value);
+
     private:
 
         string  _nickname;
@@ -83,11 +86,13 @@ class Pokemon : public PokemonSpecies
         int _accuracyStage;
         // int _critStage;
 
-
         void initMoves();
         void doDamage(Pokemon* target, Move* move);
         void doAilment(Pokemon* target, Move* move);
-
+        void doHealUser(Move* move);
+        void doLowersTargetStat(Pokemon* target, Move* move);
+        void doRaiseUserStat(Move* move);
+        void doRaiseTargetStat(Pokemon* target, Move* move);
 };
 
 #endif // POKEMON_H

@@ -2,43 +2,134 @@
 #include <iostream>
 using namespace std;
 
-#include "DBParser.h"
+#include "CSVReader.h"
 #include "Move.h"
 #include "Pokemon.h"
 
 Move::Move(int moveNum)
 {
     _moveNum          = moveNum;
-    initMoveFromDB();
+    initMove();
 }
 
-void Move::initMoveFromDB()
+void Move::initMove()
 {
-    DBParser db(_moveNum, 3);
+    int token = 0;
 
-    _identifier       = db.cur_move._identifier;
-    // _type_id          = db.cur_move._type_id;
-    setType_id(db.cur_move._type_id);
-    _power            = db.cur_move._power;
-    _pp               = db.cur_move._pp;
-    _accuracy         = db.cur_move._accuracy;
-    _priority         = db.cur_move._priority;
-    _target_id        = db.cur_move._target_id;
-    _damage_class_id  = db.cur_move._damage_class_id;
-    _effect_id        = db.cur_move._effect_id;
-    _effect_chance    = db.cur_move._effect_chance;
-    _meta_category_id = db.cur_move._meta_category_id;
-    _meta_ailment_id  = db.cur_move._meta_ailment_id;
-    _min_hits         = db.cur_move._min_hits;
-    _max_hits         = db.cur_move._max_hits;
-    _min_turns        = db.cur_move._min_turns;
-    _max_turns        = db.cur_move._max_turns;
-    _recoil           = db.cur_move._recoil;
-    _healing          = db.cur_move._healing;
-    _crit_rate        = db.cur_move._crit_rate;
-    _ailment_chance   = db.cur_move._ailment_chance;
-    _flinch_chance    = db.cur_move._flinch_chance;
-    _stat_chance      = db.cur_move._stat_chance;
+    CSVReader _reader;
+
+// MOVE_NAMES_CSV
+    _reader.openFile(MOVE_NAMES_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            _reader.readLine();
+            _reader.readField();
+            token = _reader.getField<int>();
+        } while ( token < _moveNum && !_reader.isEof());
+
+        if (token != _moveNum || _reader.isEof())
+        {
+            break;
+        }
+
+        _reader.readField();
+        if (_reader.getField<int>() == LANGUAGE_ID)
+        {
+            _reader.readField();
+            // _species->setName(_reader.getField<string>());
+            _identifier = _reader.getField<string>();
+            break;
+        }
+    }
+
+
+
+// MOVES_CSV
+    _reader.openFile(MOVES_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            _reader.readLine();
+            _reader.readField();
+            token = _reader.getField<int>();
+        } while ( token < _moveNum && !_reader.isEof());
+
+        if (token != _moveNum || _reader.isEof()) break;
+
+        _reader.readField(); // no need for identifier
+        _reader.readField();
+        // _moveNum = _reader.getField<int>();
+        _reader.readField();
+        _type_id = _reader.getField<int>();
+        _reader.readField();
+        _power = _reader.getField<int>();
+        _reader.readField();
+        _pp = _reader.getField<int>();
+        _reader.readField();
+        _accuracy = _reader.getField<int>();
+        _reader.readField();
+        _priority = _reader.getField<int>();
+        _reader.readField();
+        _target_id = _reader.getField<int>();
+        _reader.readField();
+        _damage_class_id = _reader.getField<int>();
+        _reader.readField();
+        _effect_id = _reader.getField<int>();
+        _reader.readField();
+        _effect_chance = _reader.getField<int>();
+    }
+
+
+
+// MOVE_META_CSV
+    _reader.openFile(MOVE_META_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            _reader.readLine();
+            _reader.readField();
+            token = _reader.getField<int>();
+        } while ( token < _moveNum && !_reader.isEof());
+
+        if (token != _moveNum || _reader.isEof()) break;
+
+        _reader.readField();
+        _meta_category_id = _reader.getField<int>();
+        _reader.readField();
+        _meta_ailment_id = _reader.getField<int>();
+        _reader.readField();
+        _min_hits = _reader.getField<int>();
+        _reader.readField();
+        _max_hits = _reader.getField<int>();
+        _reader.readField();
+        _min_turns = _reader.getField<int>();
+        _reader.readField();
+        _max_turns = _reader.getField<int>();
+        _reader.readField();
+        _recoil = _reader.getField<int>();
+        _reader.readField();
+        _healing = _reader.getField<int>();
+        _reader.readField();
+        _crit_rate = _reader.getField<int>();
+        _reader.readField();
+        _ailment_chance = _reader.getField<int>();
+        _reader.readField();
+        _flinch_chance = _reader.getField<int>();
+        _reader.readField();
+        _stat_chance = _reader.getField<int>();
+    }
+
+    setType_id(_type_id);
 }
 
 // move info
@@ -46,7 +137,7 @@ void Move::initMoveFromDB()
 void Move::setMoveNum(int i)
 {
     _moveNum = i;
-    initMoveFromDB();
+    initMove();
 }
 
 void Move::setIdentifier(string i)

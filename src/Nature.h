@@ -16,7 +16,8 @@ class Nature
         int    getNatureNum();
         int    getDecStat();
         int    getIncStat();
-        void   initNature(int natureNum);
+        void   setNatureNum(int i);
+        void   initNature();
 
     private:
 

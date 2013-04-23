@@ -14,7 +14,7 @@ class Move
 
         ~Move() {};
 
-        void   initMoveFromDB();
+        void   initMove();
 
         // move info
         void    setMoveNum(int moveNum);

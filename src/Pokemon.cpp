@@ -15,7 +15,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _genderValue  = rand() % 256;
     _abilityIndex = rand() % 2;
     // _nature       = rand() % 25;
-    _nature.initNature(rand() % 25);
+    _nature.setNatureNum(rand() % 25);
     _level        = level;
     _curExp       = 0;
 
@@ -49,6 +49,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _speedStage = 0;
     _evasionStage = 0;
     _accuracyStage = 0;
+    _isWild = true;
 }
 
 Pokemon::~Pokemon() {}
@@ -414,6 +415,7 @@ void Pokemon::useMove(int i, Pokemon* target)
     cout << getNickname() << " used " << _moves[i].getIdentifier() << "!" << endl;
 
     _curPP[i]--;
+    cout << _moves[i].getMeta_category_id() << endl;
     switch (_moves[i].getMeta_category_id())
     {
         case 0:
@@ -431,11 +433,14 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 2:
         {
             // net-good-stats
+            doLowersTargetStat(target, &_moves[i]);
+            doRaiseUserStat(&_moves[i]);
             break;
         }
         case 3:
         {
             // heal
+            doHealUser(&_moves[i]);
             break;
         }
         case 4:
@@ -449,18 +454,21 @@ void Pokemon::useMove(int i, Pokemon* target)
         {
             // swagger
             doAilment(target, &_moves[i]);
+            doRaiseTargetStat(target, &_moves[i]);
             break;
         }
         case 6:
         {
             // damage + lower
             doDamage(target, &_moves[i]);
+            doLowersTargetStat(target, &_moves[i]);
             break;
         }
         case 7:
         {
             // damage + raise
             doDamage(target, &_moves[i]);
+            doRaiseUserStat(&_moves[i]);
             break;
         }
         case 8:
@@ -504,18 +512,6 @@ void Pokemon::useMove(int i, Pokemon* target)
     //// lowers target's stats or raises user's stats
     //2,
 
-    //// raises target's stats
-    //5
-
-    //// heals the user
-    //3
-
-    //// lowers target's stats
-    //2, 6
-
-    //// raises user's stats
-    //2, 7
-
     //// absorbs damage done to heal the user
     //8
 
@@ -554,7 +550,12 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         // crit
         int crit_rate = move->getCrit_rate(); // add items or moves
         crit_rate *= 625; // each stage is 6.25%
-        if (crit_rate > 5000) crit_rate = 5000;
+
+        if (crit_rate > 5000)
+        {
+            crit_rate = 5000;
+        }
+
         if (rand() % 10000 < crit_rate)
         {
             cout << "A critical hit!" << endl;
@@ -565,19 +566,27 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         int targetType1 = target->getType(0).getTypeNum();
         int targetType2 = target->getType(1).getTypeNum();
         double typeMod = 1;
+
         typeMod *= move->getType().getEfficacy(targetType1);
+
         if (targetType2 != targetType1)
+        {
             typeMod *= move->getType().getEfficacy(targetType2);
+        }
 
         if (typeMod > 1)
+        {
             cout << "It's super effective!" << endl;
+        }
         else if (typeMod == 0)
         {
             cout << "It doesn't affect " << target->getNickname() << "..." << endl;
             typeMod = 0.125; // our own implementation instead of x0 it's 1/8
         }
         else if (typeMod < 1)
+        {
             cout << "It's not very effective..." << endl;
+        }
 
         modifier *= typeMod;
 
@@ -611,33 +620,75 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
 
 void Pokemon::doAilment(Pokemon* target, Move* move)
 {
-    // cout << move->getAilment_chance();
-    // cout << "DOAILMENT" << endl;
     if (rand() % 100 <= move->getAilment_chance() || move->getAilment_chance() == 0)
+    {
         switch (move->getMeta_ailment_id())
         {
             case 1:
-                cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
-                target->setStatus(1);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
+                    target->setStatus(1);
+                }
                 break;
             case 2:
-                cout << target->getNickname() << " fell asleep!" << endl;
-                target->setStatus(2);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " fell asleep!" << endl;
+                    target->setStatus(2);
+                }
                 break;
             case 3:
-                cout << target->getNickname() << " was frozen solid!" << endl;
-                target->setStatus(3);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " was frozen solid!" << endl;
+                    target->setStatus(3);
+                }
                 break;
             case 4:
-                cout << target->getNickname() << " was burned!" << endl;
-                target->setStatus(4);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " was burned!" << endl;
+                    target->setStatus(4);
+                }
                 break;
             case 5:
-                cout << target->getNickname() << " was poisoned!" << endl;
-                target->setStatus(5);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " was poisoned!" << endl;
+                    target->setStatus(5);
+                }
                 // cout << target->getNickname() << " was badly poisoned!" << endl;
                 break;
             default:
                 break;
         }
+    }
+}
+
+void Pokemon::doHealUser(Move* move)
+{
+
+}
+
+void Pokemon::doLowersTargetStat(Pokemon* target, Move* move)
+{
+
+}
+
+void Pokemon::doRaiseUserStat(Move* move)
+{
+
+}
+void Pokemon::doRaiseTargetStat(Pokemon* target, Move* move)
+{
+
+}
+
+bool Pokemon::isWild(){
+    return _isWild;
+}
+
+void Pokemon::setIsWild(bool value){
+    _isWild = value;
 }

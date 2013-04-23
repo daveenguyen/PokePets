@@ -18,4 +18,13 @@
 #define TYPE_NAMES_CSV              "../data/csv/type_names.csv"
 #define TYPE_EFFICACY_CSV           "../data/csv/type_efficacy.csv"
 
+// CSV for Nature class
+#define NATURES_CSV                 "../data/csv/natures.csv"
+#define NATURE_NAMES_CSV            "../data/csv/nature_names.csv"
+
+// CSV for Move class
+#define MOVES_CSV                   "../data/csv/moves.csv"
+#define MOVE_META_CSV               "../data/csv/move_meta.csv"
+#define MOVE_NAMES_CSV              "../data/csv/move_names.csv"
+
 #endif // PARSER_H
