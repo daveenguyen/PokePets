@@ -4,25 +4,22 @@
 #include <iomanip>
 #include <string>
 
+using namespace std;
+
 //#define WINDOWS_OS // uncomment if using windows
 #ifdef WINDOWS_OS
     #include <windows.h>
 #endif
 
-using namespace std;
-
 #include "CSVReader.h"
-#include "PokemonBuilder.h"
 #include "Pokemon.h"
-
-#include "Type.h"
-#include "Move.h"
 #include "PokemonBattle.h"
-
+#include "PokemonBuilder.h"
 
 #define DIVIDER_LENGTH 120
 
 void TestPokemon();
+void printAllInfo(Pokemon* pkmn);
 void printPokemonStats(Pokemon* pkmn);
 void printPokemonInfo(Pokemon* pkmn);
 void printPokemonMoves(Pokemon* pkmn);
@@ -51,12 +48,7 @@ void TestPokemon() {
     builder.initSpecies();
     myPokemon.reset();
 
-    printPokemonInfo(&myPokemon);
-    printPokemonMoves(&myPokemon);
-
-    cout << endl;
-
-    printPokemonStats(&myPokemon);
+    printAllInfo(&myPokemon);
 
     cout << "How many battles would you like? " ;
     int battleNum;
@@ -76,7 +68,7 @@ void TestPokemon() {
 
         // start battle
         PokemonBattle battle(&myPokemon, &enemyPkmn);
-        battle.startBattle();
+        battle.start();
     }
 
 }
@@ -84,6 +76,13 @@ void TestPokemon() {
 void DamagePokemon(Pokemon* pkmn, int points)
 {
     pkmn->adjustHP(-points);
+}
+
+void printAllInfo(Pokemon* pkmn)
+{
+    printPokemonInfo(pkmn);
+    printPokemonMoves(pkmn);
+    printPokemonStats(pkmn);
 }
 
 void printPokemonInfo(Pokemon* pkmn)

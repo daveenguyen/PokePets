@@ -70,12 +70,6 @@ void Nature::initNature()
         _reader.readField();
         _increased_stat_id = _reader.getField<int>();
     }
-
-    // DBParser db(natureNum+1, 2);
-    // _natureNum         = natureNum;
-    // _identifier        = db.getNatureString();
-    // _decreased_stat_id = db.getNatureDecStat();
-    // _increased_stat_id = db.getNatureIncStat();
 }
 
 string Nature::toString()
@@ -101,4 +95,5 @@ int Nature::getIncStat()
 void Nature::setNatureNum(int i)
 {
     _natureNum = i;
+    initNature();
 }

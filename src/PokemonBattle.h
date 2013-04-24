@@ -6,6 +6,7 @@
 
 #include "Pokemon.h" // parent class
 #include "Nature.h"         // pokemon has a nature
+#include "Colors.h"
 
 class PokemonBattle
 {
@@ -14,6 +15,14 @@ class PokemonBattle
         PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn);
         ~PokemonBattle(){};
 
+        void start();
+
+    private:
+        Pokemon* myPkmn;
+        Pokemon* enemyPkmn;
+        int  _state;
+        int  _playerMove;
+        bool _battleDone;
         void printBattleInit();
         void printBattleOptions();
         void printTypeColor(int i);
@@ -29,15 +38,6 @@ class PokemonBattle
         void doEndTurn();
         bool meFirst();
         bool isDead(Pokemon* pkmn);
-
-        void startBattle();
-
-    private:
-        Pokemon* myPkmn;
-        Pokemon* enemyPkmn;
-        int  _state;
-        int  _playerMove;
-        bool _battleDone;
         void checkPrintFaint();
 
 

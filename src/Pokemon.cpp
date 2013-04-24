@@ -14,7 +14,6 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _nickname     = "";
     _genderValue  = rand() % 256;
     _abilityIndex = rand() % 2;
-    // _nature       = rand() % 25;
     _nature.setNatureNum(rand() % 25);
     _level        = level;
     _curExp       = 0;
@@ -33,11 +32,6 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _EVs[3]       = 0;
     _EVs[4]       = 0;
     _EVs[5]       = 0;
-
-    // _moves[0]     = 0;
-    // _moves[1]     = 0;
-    // _moves[2]     = 0;
-    // _moves[3]     = 0;
 
     _curHP        = getStats(0);
     _status       = 0;

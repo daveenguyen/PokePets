@@ -10,6 +10,7 @@ set(PP_OBJECTS
     Nature
     Pokemon
     PokemonSpecies
+    PokemonBattle
     PokemonBuilder
     Type)
 

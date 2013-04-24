@@ -5,7 +5,6 @@
 using namespace std;
 
 #include "PokemonBattle.h"
-#include "Colors.h"
 
 //#define WINDOWS_OS // uncomment if using windows
 
@@ -22,7 +21,7 @@ PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn):myPkmn(myPkmn)
 {
 }
 
-void PokemonBattle::startBattle()
+void PokemonBattle::start()
 {
     printBattleInit();
 
