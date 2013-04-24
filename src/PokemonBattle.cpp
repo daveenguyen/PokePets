@@ -425,39 +425,32 @@ void PokemonBattle::checkPP(int move)
 
 void PokemonBattle::doPlayerMove()
 {
-    if (myPkmn->getStatus() != 1 || rand()%100 >= 25)
-    {
-        // paralysis
-        if (_playerMove!=-1)
-        {
-            myPkmn->useMove(_playerMove,enemyPkmn);
-        }
-        else
-        {
-            // struggle
-        }
-    }
-    else
+    if (myPkmn->getStatus() == 1 && rand()%100 < 25)
     {
         // paralyzed
         cout << C_ELECTRIC;
         cout << myPkmn->getNickname() << " is paralyzed! \nIt can't move!\n";
         cout << C_RESET;
     }
+    else if (myPkmn->getStatus() == 2 || myPkmn->getStatus() == 3)
+    {
+        myPkmn->checkAilment();
+        if (myPkmn->getStatus() == 0)
+            doPlayerMove();
+    }
+    else if (_playerMove!=-1)
+    {
+        myPkmn->useMove(_playerMove,enemyPkmn);
+    }
+    else
+    {
+        // struggle
+    }
 }
 
 void PokemonBattle::doEnemyMove()
 {
-    if (enemyPkmn->getStatus() != 1 || rand()%100 >= 25)
-    {
-        int moveCount = 0;
-        for (int i = 0; i < 4 && enemyPkmn->getMove(i).getMoveNum() != 0; ++i)
-        {
-            moveCount++;
-        }
-        enemyPkmn->useMove(rand()%moveCount,myPkmn);
-    }
-    else
+    if (enemyPkmn->getStatus() == 1 && rand()%100 < 25)
     {
         // paralyzed
         cout << C_ELECTRIC;
@@ -465,6 +458,21 @@ void PokemonBattle::doEnemyMove()
             cout << "Wild ";
         cout << enemyPkmn->getNickname() << " is paralyzed! \nIt can't move!\n";
         cout << C_RESET;
+    }
+    else if (enemyPkmn->getStatus() == 2 || enemyPkmn->getStatus() == 3)
+    {
+        enemyPkmn->checkAilment();
+        if (enemyPkmn->getStatus() == 0)
+            doEnemyMove();
+    }
+    else
+    {
+        int moveCount = 0;
+        for (int i = 0; i < 4 && enemyPkmn->getMove(i).getMoveNum() != 0; ++i)
+        {
+            moveCount++;
+        }
+        enemyPkmn->useMove(rand()%moveCount,myPkmn);
     }
 }
 
@@ -531,12 +539,7 @@ void PokemonBattle::doEndTurn()
         // check for burn or poison
         if (meFirst())
         {
-            if (myPkmn->getStatus() == 2)
-            {
-                // 2 sleep
-                //dec sleepcounter
-            }
-            else if (myPkmn->getStatus() == 4)
+            if (myPkmn->getStatus() == 4)
             {
                 // 4 burn
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
@@ -553,12 +556,7 @@ void PokemonBattle::doEndTurn()
                 cout << C_RESET;
             }
 
-            if (enemyPkmn->getStatus() == 2 && !isDead(myPkmn))
-            {
-            // 2 sleep
-                //dec sleepcounter
-            }
-            else if (enemyPkmn->getStatus() == 4 && !isDead(myPkmn))
+            if (enemyPkmn->getStatus() == 4 && !isDead(myPkmn))
             {
                 // 4 burn
                 enemyPkmn->adjustHP((int)(-enemyPkmn->getStats(0)/8.0));
@@ -596,12 +594,7 @@ void PokemonBattle::doEndTurn()
         // enemy first
         else
         {
-            if (enemyPkmn->getStatus() == 2)
-            {
-            // 2 sleep
-                //dec sleepcounter
-            }
-            else if (enemyPkmn->getStatus() == 4)
+            if (enemyPkmn->getStatus() == 4)
             {
                 // 4 burn
                 enemyPkmn->adjustHP((int)(-enemyPkmn->getStats(0)/8.0));
@@ -635,12 +628,7 @@ void PokemonBattle::doEndTurn()
             }
 
 
-            if (myPkmn->getStatus() == 2 && !isDead(enemyPkmn))
-            {
-            // 2 sleep
-                //dec sleepcounter
-            }
-            else if (myPkmn->getStatus() == 4 && !isDead(enemyPkmn))
+            if (myPkmn->getStatus() == 4 && !isDead(enemyPkmn))
             {
                 // 4 burn
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));

@@ -51,6 +51,8 @@ class Pokemon : public PokemonSpecies
         void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
         void   checkExperience();
         void   useMove(int i, Pokemon* target);
+        void   setAilmentCounter(int i);
+        void   checkAilment();
 
         bool   isWild();
         void   setIsWild(bool value);
@@ -76,6 +78,7 @@ class Pokemon : public PokemonSpecies
         int  _curHP;
 
         int  _status;
+        int _ailmentCounter;
 
         bool _isWild;
 

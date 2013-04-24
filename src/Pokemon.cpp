@@ -655,6 +655,7 @@ void Pokemon::doAilment(Pokemon* target, Move* move)
                 {
                     cout << target->getNickname() << " fell asleep!" << endl;
                     target->setStatus(2);
+                    target->setAilmentCounter(rand()%(move->getMax_turns()+1 - move->getMin_turns()) + move->getMin_turns());
                 }
                 break;
             case 3:
@@ -758,7 +759,7 @@ void Pokemon::doRaiseUserStat(Move* move)
 
 void Pokemon::doRaiseTargetStat(Pokemon* target, Move* move)
 {
-
+    doLowersTargetStat(target, move);
 }
 
 bool Pokemon::isWild(){
@@ -767,4 +768,32 @@ bool Pokemon::isWild(){
 
 void Pokemon::setIsWild(bool value){
     _isWild = value;
+}
+
+void Pokemon::setAilmentCounter(int i)
+{
+    _ailmentCounter = i;
+}
+
+void Pokemon::checkAilment()
+{
+    if (_status == 2)
+    {
+        _ailmentCounter--;
+        cout << getNickname() << " is fast asleep..." << endl;;
+        if (_ailmentCounter <= 0)
+        {
+            _status = 0;
+            cout << getNickname() << " woke up!" << endl;
+        }
+    }
+    else if (_status == 3)
+    {
+        cout << getNickname() << " is frozen solid..." << endl;;
+        if (rand()%100 < 25)
+        {
+            _status = 0;
+            cout << getNickname() << " thawed out!" << endl;
+        }
+    }
 }
