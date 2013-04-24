@@ -114,11 +114,11 @@ void PokemonBattle::printBattleOptions()
             break;
         case 2:
             // pokepets
-            _state = 2;
+            // _state = 2;
             break;
         case 3:
             // bag
-            _state = 3;
+            // _state = 3;
             break;
         case 4:
             // run
@@ -425,6 +425,9 @@ void PokemonBattle::checkPP(int move)
 
 void PokemonBattle::doPlayerMove()
 {
+    if (myPkmn->getStatus() != 1 || rand()%100 >= 25)
+    {
+        // paralysis
         if (_playerMove!=-1)
         {
             myPkmn->useMove(_playerMove,enemyPkmn);
@@ -433,16 +436,32 @@ void PokemonBattle::doPlayerMove()
         {
             // struggle
         }
+    }
+    else
+    {
+        // paralyzed
+        cout << myPkmn->getNickname() << " is paralyzed! \nIt can't move!\n";
+    }
 }
 
 void PokemonBattle::doEnemyMove()
 {
-    int moveCount = 0;
-    for (int i = 0; i < 4 && enemyPkmn->getMove(i).getMoveNum() != 0; ++i)
+    if (enemyPkmn->getStatus() != 1 || rand()%100 >= 25)
     {
-        moveCount++;
+        int moveCount = 0;
+        for (int i = 0; i < 4 && enemyPkmn->getMove(i).getMoveNum() != 0; ++i)
+        {
+            moveCount++;
+        }
+        enemyPkmn->useMove(rand()%moveCount,myPkmn);
     }
-    enemyPkmn->useMove(rand()%moveCount,myPkmn);
+    else
+    {
+        // paralyzed
+        if (enemyPkmn->isWild())
+            cout << "Wild ";
+        cout << enemyPkmn->getNickname() << " is paralyzed! \nIt can't move!\n";
+    }
 }
 
 void PokemonBattle::doMove()
@@ -505,7 +524,7 @@ bool PokemonBattle::meFirst()
 
 bool PokemonBattle::isDead(Pokemon* pkmn)
 {
-    return (pkmn->getCurHP()==0);
+    return (pkmn->getCurHP()<=0);
 }
 
 void PokemonBattle::doEndTurn()

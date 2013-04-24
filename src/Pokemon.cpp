@@ -340,7 +340,7 @@ int Pokemon::getBattleStats(int i)
             else if (_statStage[5] < 0)
                 stat *= (-2)/double(_statStage[5]-2);
             if (_status == 1)
-                stat /= double(2);
+                stat *= double(0.75);
             break;
 
         case 7: // accuracy
