@@ -75,6 +75,26 @@ void Pokemon::setStatus(int i)
     _status = i;
 }
 
+int  Pokemon::getStatStage(int i)
+{
+    return _statStage[i];
+}
+
+void Pokemon::setStatStage(int i, int value)
+{
+    _statStage[i] = value;
+
+    if (_statStage[i] > 6)
+    {
+        _statStage[i] = 6;
+    }
+    else if (_statStage[i] < -6)
+    {
+        _statStage[i] = -6;
+    }
+}
+
+
 string Pokemon::getNickname()
 {
     // if not nicknamed, return species' name
@@ -672,18 +692,17 @@ void Pokemon::doHealUser(Move* move)
 
 void Pokemon::doLowersTargetStat(Pokemon* target, Move* move)
 {
-
-}
-
-void Pokemon::doRaiseUserStat(Move* move)
-{
     for (int i = 0; i < 8; i++)
     {
         if (move->getStatChange(i) != 0 && _statStage[i] < 6 && _statStage[i] > -6)
         {
             int curStatChange = move->getStatChange(i);
 
-            cout << getNickname() << "'s ";
+            if (target->isWild())
+            {
+                cout << "Wild ";
+            }
+            cout << target->getNickname() << "'s ";
 
             switch (i)
             {
@@ -727,18 +746,14 @@ void Pokemon::doRaiseUserStat(Move* move)
             }
 
             cout << endl;
-            _statStage[i] += move->getStatChange(i);
-
-            if (_statStage[i] >= 6)
-            {
-                _statStage[i] = 6;
-            }
-            else if (_statStage[i] <= -6)
-            {
-                _statStage[i] = -6;
-            }
+            target->setStatStage(i, target->getStatStage(i) + move->getStatChange(i));
         }
     }
+}
+
+void Pokemon::doRaiseUserStat(Move* move)
+{
+    doLowersTargetStat(this, move);
 }
 
 void Pokemon::doRaiseTargetStat(Pokemon* target, Move* move)

@@ -32,10 +32,26 @@ int main() {
 void TestPokemon() {
     cout << "Enter a pokedex number: ";
     int dexNum;
-    cin  >> dexNum;
+    while ( ! (cin >> dexNum))
+    {
+        cout << "Invalid input!  Try again: ";
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
+
     cout << "Enter level: ";
     int lvl;
-    cin  >> lvl;
+    while ( ! (cin >> lvl))
+    {
+        cout << "Invalid input!  Try again: ";
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
+
     cout << endl;
 
     Pokemon myPokemon(dexNum, lvl);
@@ -47,12 +63,21 @@ void TestPokemon() {
     builder.setPokemon(&myPokemon);
     builder.initSpecies();
     myPokemon.reset();
+    myPokemon.setIsWild(false);
 
     printAllInfo(&myPokemon);
 
     cout << "How many battles would you like? " ;
     int battleNum;
-    cin >> battleNum;
+
+    while ( ! (cin >> battleNum))
+    {
+        cout << "Invalid input!  Try again: ";
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
 
     // battle loop
     for (int i = 0; i < battleNum; ++i)

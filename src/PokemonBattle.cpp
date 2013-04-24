@@ -96,7 +96,15 @@ void PokemonBattle::printBattleOptions()
     cout << endl;
 
     int userInput;
-    cin >> userInput;
+    while ( ! (cin >> userInput))
+    {
+        cout << "Invalid input!  Try again: ";
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
+
 
     switch (userInput)
     {
@@ -268,7 +276,15 @@ void PokemonBattle::printAttackOptions(Pokemon* pkmn)
     cout << endl;
 
     int userInput;
-    cin >> userInput;
+
+    while ( ! (cin >> userInput))
+    {
+        cout << "Invalid input!  Try again: ";
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
 
     switch (userInput)
     {

@@ -30,6 +30,9 @@ class Pokemon : public PokemonSpecies
         void setStatus(int i);
         // void setStats(int i, int x);
 
+        int  getStatStage(int i);
+        void setStatStage(int i, int value);
+
         string getNickname();
         string getGender();
         int    getAbility();
