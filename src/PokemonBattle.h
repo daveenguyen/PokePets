@@ -16,12 +16,12 @@ class PokemonBattle
 
         void printBattleInit();
         void printBattleOptions();
+        void printTypeColor(int i);
         void printCommon();
         void printAttackOptions(Pokemon* pkmn);
         void delay(int ms);
         void printHpBars(Pokemon* pkmn);
         void drawPokemons();
-        void printTypeWithColor(int i);
         void checkPP(int move);
         void doPlayerMove();
         void doEnemyMove();
@@ -35,8 +35,10 @@ class PokemonBattle
     private:
         Pokemon* myPkmn;
         Pokemon* enemyPkmn;
-        int _state;
-        int _playerMove;
+        int  _state;
+        int  _playerMove;
+        bool _battleDone;
+        void checkPrintFaint();
 
 
 };

@@ -369,6 +369,10 @@ void Pokemon::adjustExperience(int baseExp, int faintLvl, bool isWild, int parti
     ++expGain;
 
     _curExp += (int)expGain;
+    if (expGain > 0)
+    {
+        cout << getNickname() << " gained " << expGain << " experience!" << endl;
+    }
     checkExperience();
 }
 
@@ -415,7 +419,6 @@ void Pokemon::useMove(int i, Pokemon* target)
     cout << getNickname() << " used " << _moves[i].getIdentifier() << "!" << endl;
 
     _curPP[i]--;
-    cout << _moves[i].getMeta_category_id() << endl;
     switch (_moves[i].getMeta_category_id())
     {
         case 0:

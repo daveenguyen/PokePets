@@ -5,7 +5,6 @@
 using namespace std;
 
 #include "CSVReader.h"
-// class CSVReader;
 
 class Type
 {

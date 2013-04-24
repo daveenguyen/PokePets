@@ -6,7 +6,6 @@ project(PokePets_src)
 # list of source that makes up PokePets!
 set(PP_OBJECTS
     CSVReader
-    DBParser
     Move
     Nature
     Pokemon

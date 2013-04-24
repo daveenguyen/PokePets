@@ -5,9 +5,10 @@
 using namespace std;
 
 #include "PokemonBattle.h"
-
+#include "Colors.h"
 
 //#define WINDOWS_OS // uncomment if using windows
+
 #ifdef WINDOWS_OS
     #include <windows.h>
 #else
@@ -17,35 +18,6 @@ using namespace std;
 #define DIVIDER_LENGTH 120
 
 
-#define C_RED     "\33[31;49m"
-#define C_GREEN   "\33[32;49m"
-#define C_YELLOW  "\33[33;49m"
-#define C_BLUE    "\33[34;49m"
-#define C_MAGENTA "\33[35;49m"
-#define C_CYAN    "\33[36;49m"
-#define C_WHITE   "\33[37;49m"
-#define C_BOLD    "\33[31;1m"
-#define C_RESET   "\33[0m"
-
-#define C_NORMAL    "\33[38;5;144m"  // 144: af/af/87
-#define C_FIRE      "\33[38;5;209m"  // 209: ff/87/5f
-#define C_WATER     "\33[38;5;69m"   // 69:  5f/87/ff
-#define C_ELECTRIC  "\33[38;5;221m"  // 221: ff/d7/5f
-#define C_GRASS     "\33[38;5;113m"  // 113: 87/d7/5f
-#define C_ICE       "\33[38;5;116m"  // 116: 87/d7/d7
-#define C_FIGHTING  "\33[38;5;167m"  // 167: d7/5f/5f
-#define C_POISON    "\33[38;5;133m"  // 133: af/5f/af
-#define C_GROUND    "\33[38;5;185m"  // 185: d7/d7/5f
-#define C_FLYING    "\33[38;5;141m"  // 141: af/87/ff
-#define C_PSYCHIC   "\33[38;5;204m"  // 204: ff/5f/87
-#define C_BUG       "\33[38;5;142m"  // 142: af/af/00
-#define C_ROCK      "\33[38;5;143m"  // 143: af/af/5f
-#define C_GHOST     "\33[38;5;96m"   // 96:  87/5f/87
-#define C_DRAGON    "\33[38;5;99m"   // 99:  87/5f/ff
-#define C_DARK      "\33[38;5;95m"   // 95:  87/5f/5f
-#define C_STEEL     "\33[38;5;146m"  // 146: af/af/d7
-
-
 PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn):myPkmn(myPkmn), enemyPkmn(enemyPkmn)
 {
 }
@@ -53,47 +25,17 @@ PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn):myPkmn(myPkmn)
 void PokemonBattle::startBattle()
 {
     printBattleInit();
-    _state = 0;
 
-    bool battleDone = false;
-    // while (myPkmn->getCurHP() > 0 && enemyPkmn->getCurHP() > 0 && _state != -1)
-    while (!battleDone)
+    while (!_battleDone)
     {
         printCommon();
-        if (isDead(myPkmn))
-        {
-            _state = -2;
-        }
-        else if (isDead(enemyPkmn))
-        {
-            _state = -3;
-        }
 
         switch(_state)
         {
-            case -3:
-                // enemy dead
-                if (enemyPkmn->isWild())
-                {
-                    cout << "Wild ";
-                }
-                else
-                {
-                    cout << "The foe's ";
-                }
-                cout << enemyPkmn->getNickname() << " fainted!" << endl;
-                battleDone = true;
-                delay(1750);
-                break;
-            case -2:
-                // you dead
-                cout << myPkmn->getNickname() << " fainted!" << endl;
-                battleDone = true;
-                delay(1750);
-                break;
             case -1:
-                cout << "You run away!";
-                battleDone = true;
+                cout << "You ran away!";
+                cout.flush();
+                _battleDone = true;
                 delay(1750);
                 break;
             case 0:
@@ -137,6 +79,9 @@ void PokemonBattle::printBattleInit()
     }
 
     cout << "Go! " << myPkmn->getNickname() << '!' << endl;
+
+    _state = 0;
+    _battleDone = false;
 }
 
 
@@ -144,10 +89,10 @@ void PokemonBattle::printBattleOptions()
 {
     cout << "    BATTLE OPTIONS" << endl;
     cout << "----------------------" << endl;
-    cout << " 1. Fight " << endl;
-    cout << " 2. PokePets " << endl;
-    cout << " 3. Bag " << endl;
-    cout << " 4. Run " << endl;
+    cout << " 1. Fight" << endl;
+    cout << " 2. PokePets" << endl;
+    cout << " 3. Bag" << endl;
+    cout << " 4. Run" << endl;
     cout << "\nWhat will " << myPkmn->getNickname() << " do? ";
     cout << endl;
 
@@ -259,7 +204,9 @@ void PokemonBattle::printCommon()
         default:
             break;
     }
+
     cout << endl;
+    cout << "EXP: " << myPkmn->getCurExp() << " / " << myPkmn->getExpToLvl(myPkmn->getLevel()) << endl;
     cout << endl << endl;
 }
 
@@ -289,8 +236,9 @@ void PokemonBattle::printAttackOptions(Pokemon* pkmn)
     // line 2
     for (int i=0; i < moveCount; ++i) {
         cout << "|    ";
-        printTypeWithColor(pkmn->getMove(i).getType().getTypeNum());
-        cout << setw((DIVIDER_LENGTH/4-15)) <<pkmn->getMove(i).getType().getIdentifier() << C_RESET;
+        printTypeColor(pkmn->getMove(i).getType().getTypeNum());
+        cout << setw((DIVIDER_LENGTH/4-15)) << pkmn->getMove(i).getType().getIdentifier();
+        printTypeColor(0); // reset color
         cout << " PP ";
         cout << right << setw(2) << pkmn->getCurPP(i);
         cout << '/';
@@ -415,67 +363,6 @@ void PokemonBattle::drawPokemons()
     }
 }
 
-void PokemonBattle::printTypeWithColor(int i)
-{
-    switch (i)
-    {
-        case 1:
-            cout << C_NORMAL;
-            break;
-        case 2:
-            cout << C_FIGHTING;
-            break;
-        case 3:
-            cout << C_FLYING;
-            break;
-        case 4:
-            cout << C_POISON;
-            break;
-        case 5:
-            cout << C_GROUND;
-            break;
-        case 6:
-            cout << C_ROCK;
-            break;
-        case 7:
-            cout << C_BUG;
-            break;
-        case 8:
-            cout << C_GHOST;
-            break;
-        case 9:
-            cout << C_STEEL;
-            break;
-        case 10:
-            cout << C_FIRE;
-            break;
-        case 11:
-            cout << C_WATER;
-            break;
-        case 12:
-            cout << C_GRASS;
-            break;
-        case 13:
-            cout << C_ELECTRIC;
-            break;
-        case 14:
-            cout << C_PSYCHIC;
-            break;
-        case 15:
-            cout << C_ICE;
-            break;
-        case 16:
-            cout << C_DRAGON;
-            break;
-        case 17:
-            cout << C_DARK;
-            break;
-        default:
-            cout << C_RESET;
-            break;
-    }
-}
-
 void PokemonBattle::checkPP(int move)
 {
     if (myPkmn->getMove(move-1).getPP() > 0)
@@ -550,6 +437,10 @@ void PokemonBattle::doMove()
         {
             doEnemyMove();
         }
+        else
+        {
+            checkPrintFaint();
+        }
     }
     // enemy first
     else
@@ -560,10 +451,17 @@ void PokemonBattle::doMove()
         {
             doPlayerMove();
         }
+        else
+        {
+            checkPrintFaint();
+        }
     }
 
-    doEndTurn();
-    _state = 0;
+    if(!isDead(myPkmn)&&!isDead(enemyPkmn))
+    {
+        doEndTurn();
+        _state = 0;
+    }
 }
 
 bool PokemonBattle::meFirst()
@@ -600,7 +498,7 @@ void PokemonBattle::doEndTurn()
         {
             if (myPkmn->getStatus() == 2)
             {
-            // 2 sleep
+                // 2 sleep
                 //dec sleepcounter
             }
             else if (myPkmn->getStatus() == 4)
@@ -608,12 +506,14 @@ void PokemonBattle::doEndTurn()
                 // 4 burn
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
                 cout << myPkmn->getNickname() << " was hurt by burn." << endl;
+                checkPrintFaint();
             }
             else if (myPkmn->getStatus() == 5)
             {
-            // 5 poison
+                // 5 poison
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
                 cout << myPkmn->getNickname() << " was hurt by poison." << endl;
+                checkPrintFaint();
             }
 
             if (enemyPkmn->getStatus() == 2)
@@ -635,6 +535,7 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by burn." << endl;
+                checkPrintFaint();
             }
             else if (enemyPkmn->getStatus() == 5)
             {
@@ -650,6 +551,7 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by poison." << endl;
+                checkPrintFaint();
             }
         }
         // enemy first
@@ -673,6 +575,7 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by burn." << endl;
+                checkPrintFaint();
             }
             else if (enemyPkmn->getStatus() == 5)
             {
@@ -687,6 +590,7 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by poison." << endl;
+                checkPrintFaint();
             }
 
 
@@ -700,12 +604,14 @@ void PokemonBattle::doEndTurn()
                 // 4 burn
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
                 cout << myPkmn->getNickname() << " was hurt by burn." << endl;
+                checkPrintFaint();
             }
             else if (myPkmn->getStatus() == 5)
             {
             // 5 poison
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
                 cout << myPkmn->getNickname() << " was hurt by poison." << endl;
+                checkPrintFaint();
             }
         }
     }
@@ -720,4 +626,93 @@ void PokemonBattle::delay(int ms)
     #else
         usleep(ms*1000);
     #endif
+}
+
+
+void PokemonBattle::printTypeColor(int i)
+{
+    switch (i)
+    {
+        case 1:
+            cout << C_NORMAL;
+            break;
+        case 2:
+            cout << C_FIGHTING;
+            break;
+        case 3:
+            cout << C_FLYING;
+            break;
+        case 4:
+            cout << C_POISON;
+            break;
+        case 5:
+            cout << C_GROUND;
+            break;
+        case 6:
+            cout << C_ROCK;
+            break;
+        case 7:
+            cout << C_BUG;
+            break;
+        case 8:
+            cout << C_GHOST;
+            break;
+        case 9:
+            cout << C_STEEL;
+            break;
+        case 10:
+            cout << C_FIRE;
+            break;
+        case 11:
+            cout << C_WATER;
+            break;
+        case 12:
+            cout << C_GRASS;
+            break;
+        case 13:
+            cout << C_ELECTRIC;
+            break;
+        case 14:
+            cout << C_PSYCHIC;
+            break;
+        case 15:
+            cout << C_ICE;
+            break;
+        case 16:
+            cout << C_DRAGON;
+            break;
+        case 17:
+            cout << C_DARK;
+            break;
+        default:
+            cout << C_RESET;
+            break;
+    }
+}
+
+void PokemonBattle::checkPrintFaint()
+{
+    if (isDead(enemyPkmn))
+    {
+        // enemy dead
+        if (enemyPkmn->isWild())
+        {
+            cout << "Wild ";
+        }
+        else
+        {
+            cout << "The foe's ";
+        }
+        cout << enemyPkmn->getNickname() << " fainted!" << endl;
+        _battleDone = true;
+
+        myPkmn->adjustExperience(enemyPkmn->getBaseExp(), enemyPkmn->getLevel(), enemyPkmn->isWild(), 1);
+    }
+    else if (isDead(myPkmn))
+    {
+        // you dead
+        cout << myPkmn->getNickname() << " fainted!" << endl;
+        _battleDone = true;
+        delay(1750);
+    }
 }
