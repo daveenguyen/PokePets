@@ -600,7 +600,7 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         else if (typeMod == 0)
         {
             cout << "It doesn't affect " << target->getNickname() << "..." << endl;
-            typeMod = 0.125; // our own implementation instead of x0 it's 1/8
+            typeMod = 1/6.0; // our own implementation instead of x0 it's 1/6
         }
         else if (typeMod < 1)
         {

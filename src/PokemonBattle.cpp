@@ -89,8 +89,8 @@ void PokemonBattle::printBattleOptions()
     cout << "    BATTLE OPTIONS" << endl;
     cout << "----------------------" << endl;
     cout << " 1. Fight" << endl;
-    cout << " 2. PokePets" << endl;
-    cout << " 3. Bag" << endl;
+    // cout << " 2. PokePets" << endl;
+    // cout << " 3. Bag" << endl;
     cout << " 4. Run" << endl;
     cout << "\nWhat will " << myPkmn->getNickname() << " do? ";
     cout << endl;
@@ -440,7 +440,9 @@ void PokemonBattle::doPlayerMove()
     else
     {
         // paralyzed
+        cout << C_ELECTRIC;
         cout << myPkmn->getNickname() << " is paralyzed! \nIt can't move!\n";
+        cout << C_RESET;
     }
 }
 
@@ -458,9 +460,11 @@ void PokemonBattle::doEnemyMove()
     else
     {
         // paralyzed
+        cout << C_ELECTRIC;
         if (enemyPkmn->isWild())
             cout << "Wild ";
         cout << enemyPkmn->getNickname() << " is paralyzed! \nIt can't move!\n";
+        cout << C_RESET;
     }
 }
 
@@ -475,10 +479,6 @@ void PokemonBattle::doMove()
         {
             doEnemyMove();
         }
-        else
-        {
-            checkPrintFaint();
-        }
     }
     // enemy first
     else
@@ -489,10 +489,6 @@ void PokemonBattle::doMove()
         {
             doPlayerMove();
         }
-        else
-        {
-            checkPrintFaint();
-        }
     }
 
     if(!isDead(myPkmn)&&!isDead(enemyPkmn))
@@ -500,6 +496,7 @@ void PokemonBattle::doMove()
         doEndTurn();
         _state = 0;
     }
+    checkPrintFaint();
 }
 
 bool PokemonBattle::meFirst()
@@ -543,27 +540,30 @@ void PokemonBattle::doEndTurn()
             {
                 // 4 burn
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
+                cout << C_FIRE;
                 cout << myPkmn->getNickname() << " was hurt by burn." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
             else if (myPkmn->getStatus() == 5)
             {
                 // 5 poison
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
+                cout << C_POISON;
                 cout << myPkmn->getNickname() << " was hurt by poison." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
 
-            if (enemyPkmn->getStatus() == 2)
+            if (enemyPkmn->getStatus() == 2 && !isDead(myPkmn))
             {
             // 2 sleep
                 //dec sleepcounter
             }
-            else if (enemyPkmn->getStatus() == 4)
+            else if (enemyPkmn->getStatus() == 4 && !isDead(myPkmn))
             {
                 // 4 burn
                 enemyPkmn->adjustHP((int)(-enemyPkmn->getStats(0)/8.0));
 
+                cout << C_FIRE;
                 if (enemyPkmn->isWild())
                 {
                     cout << "Wild ";
@@ -573,13 +573,14 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by burn." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
-            else if (enemyPkmn->getStatus() == 5)
+            else if (enemyPkmn->getStatus() == 5 && !isDead(myPkmn))
             {
             // 5 poison
                 enemyPkmn->adjustHP((int)(-enemyPkmn->getStats(0)/8.0));
 
+                cout << C_POISON;
                 if (enemyPkmn->isWild())
                 {
                     cout << "Wild ";
@@ -589,7 +590,7 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by poison." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
         }
         // enemy first
@@ -604,6 +605,7 @@ void PokemonBattle::doEndTurn()
             {
                 // 4 burn
                 enemyPkmn->adjustHP((int)(-enemyPkmn->getStats(0)/8.0));
+                cout << C_FIRE;
                 if (enemyPkmn->isWild())
                 {
                     cout << "Wild ";
@@ -613,12 +615,13 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by burn." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
             else if (enemyPkmn->getStatus() == 5)
             {
             // 5 poison
                 enemyPkmn->adjustHP((int)(-enemyPkmn->getStats(0)/8.0));
+                cout << C_POISON;
                 if (enemyPkmn->isWild())
                 {
                     cout << "Wild ";
@@ -628,30 +631,33 @@ void PokemonBattle::doEndTurn()
                     cout << "The foe's ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by poison." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
 
 
-            if (myPkmn->getStatus() == 2)
+            if (myPkmn->getStatus() == 2 && !isDead(enemyPkmn))
             {
             // 2 sleep
                 //dec sleepcounter
             }
-            else if (myPkmn->getStatus() == 4)
+            else if (myPkmn->getStatus() == 4 && !isDead(enemyPkmn))
             {
                 // 4 burn
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
+                cout << C_FIRE;
                 cout << myPkmn->getNickname() << " was hurt by burn." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
-            else if (myPkmn->getStatus() == 5)
+            else if (myPkmn->getStatus() == 5 && !isDead(enemyPkmn))
             {
             // 5 poison
                 myPkmn->adjustHP((int)(-myPkmn->getStats(0)/8.0));
+                cout << C_POISON;
                 cout << myPkmn->getNickname() << " was hurt by poison." << endl;
-                checkPrintFaint();
+                cout << C_RESET;
             }
         }
+        checkPrintFaint();
     }
 
     delay(1750);
