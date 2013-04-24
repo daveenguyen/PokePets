@@ -4,8 +4,7 @@
 #include <ctime>
 #include <string>
 
-#include "Pokemon.h" // parent class
-#include "Nature.h"         // pokemon has a nature
+#include "Pokemon.h"
 #include "Colors.h"
 
 class PokemonBattle
@@ -39,8 +38,6 @@ class PokemonBattle
         bool meFirst();
         bool isDead(Pokemon* pkmn);
         void checkPrintFaint();
-
-
 };
 
 #endif // POKEMONBATTLE_H

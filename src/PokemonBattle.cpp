@@ -206,6 +206,10 @@ void PokemonBattle::printCommon()
 
     cout << endl;
     cout << "EXP: " << myPkmn->getCurExp() << " / " << myPkmn->getExpToLvl(myPkmn->getLevel()) << endl;
+    for(int i = 0; i < DIVIDER_LENGTH; ++i)
+    {
+        cout << "_";
+    }
     cout << endl << endl;
 }
 
@@ -706,6 +710,7 @@ void PokemonBattle::checkPrintFaint()
         _battleDone = true;
 
         myPkmn->adjustExperience(enemyPkmn->getBaseExp(), enemyPkmn->getLevel(), enemyPkmn->isWild(), 1);
+        delay(1750);
     }
     else if (isDead(myPkmn))
     {

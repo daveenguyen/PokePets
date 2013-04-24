@@ -53,5 +53,6 @@
     #define MOVES_CSV                   "../data/csv/moves.csv"
     #define MOVE_META_CSV               "../data/csv/move_meta.csv"
     #define MOVE_NAMES_CSV              "../data/csv/move_names.csv"
+    #define MOVE_META_STAT_CHANGES_CSV  "../data/csv/move_meta_stat_changes.csv"
 
 #endif // PARSER_H

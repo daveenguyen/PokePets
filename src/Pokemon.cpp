@@ -36,13 +36,9 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _curHP        = getStats(0);
     _status       = 0;
 
-    _atkStage = 0;
-    _defStage = 0;
-    _sAtkStage = 0;
-    _sDefStage = 0;
-    _speedStage = 0;
-    _evasionStage = 0;
-    _accuracyStage = 0;
+    for (int i = 0; i < 8; i++)
+        _statStage[i] = 0;
+
     _isWild = true;
 }
 
@@ -59,13 +55,13 @@ void Pokemon::reset()
     _curPP[i] = _moves[i].getPP();
     }
 
-    _atkStage = 0;
-    _defStage = 0;
-    _sAtkStage = 0;
-    _sDefStage = 0;
-    _speedStage = 0;
-    _evasionStage = 0;
-    _accuracyStage = 0;
+    _statStage[1] = 0;
+    _statStage[2] = 0;
+    _statStage[3] = 0;
+    _statStage[4] = 0;
+    _statStage[5] = 0;
+    _statStage[6] = 0;
+    _statStage[7] = 0;
 }
 
 
@@ -285,62 +281,62 @@ int Pokemon::getBattleStats(int i)
 
         case 2: // atk
             stat = getStats(2);
-            if (_atkStage > 0)
-                stat *= (2+_atkStage)/double(2);
-            else if (_atkStage < 0)
-                stat *= (-2)/double(_atkStage-2);
+            if (_statStage[1] > 0)
+                stat *= (2+_statStage[1])/double(2);
+            else if (_statStage[1] < 0)
+                stat *= (-2)/double(_statStage[1]-2);
             if (_status == 4)
                 stat /= double(2);
             break;
 
         case 3: // def
             stat = getStats(3);
-            if (_defStage > 0)
-                stat *= (2+_defStage)/double(2);
-            else if (_defStage < 0)
-                stat *= (-2)/double(_defStage-2);
+            if (_statStage[2] > 0)
+                stat *= (2+_statStage[2])/double(2);
+            else if (_statStage[2] < 0)
+                stat *= (-2)/double(_statStage[2]-2);
             break;
 
         case 4: // satk
             stat = getStats(4);
-            if (_sAtkStage > 0)
-                stat *= (2+_sAtkStage)/double(2);
-            else if (_sAtkStage < 0)
-                stat *= (-2)/double(_sAtkStage-2);
+            if (_statStage[3] > 0)
+                stat *= (2+_statStage[3])/double(2);
+            else if (_statStage[3] < 0)
+                stat *= (-2)/double(_statStage[3]-2);
             break;
 
         case 5: // sdef
             stat = getStats(5);
-            if (_sDefStage > 0)
-                stat *= (2+_sDefStage)/double(2);
-            else if (_sDefStage < 0)
-                stat *= (-2)/double(_sDefStage-2);
+            if (_statStage[4] > 0)
+                stat *= (2+_statStage[4])/double(2);
+            else if (_statStage[4] < 0)
+                stat *= (-2)/double(_statStage[4]-2);
             break;
 
         case 6: // speed
             stat = getStats(6);
-            if (_speedStage > 0)
-                stat *= (2+_speedStage)/double(2);
-            else if (_speedStage < 0)
-                stat *= (-2)/double(_speedStage-2);
+            if (_statStage[5] > 0)
+                stat *= (2+_statStage[5])/double(2);
+            else if (_statStage[5] < 0)
+                stat *= (-2)/double(_statStage[5]-2);
             if (_status == 1)
                 stat /= double(2);
             break;
 
         case 7: // accuracy
             stat = 100;
-            if (_accuracyStage > 0)
-                stat *= (3+_accuracyStage)/double(3);
-            else if (_accuracyStage < 0)
-                stat *= (-3)/double(_accuracyStage-3);
+            if (_statStage[7] > 0)
+                stat *= (3+_statStage[7])/double(3);
+            else if (_statStage[7] < 0)
+                stat *= (-3)/double(_statStage[7]-3);
             break;
 
         case 8: // evasion
             stat = 100;
-            if (_evasionStage > 0)
-                stat *= (3+_evasionStage)/double(3);
-            else if (_evasionStage < 0)
-                stat *= (-3)/double(_evasionStage-3);
+            if (_statStage[6] > 0)
+                stat *= (3+_statStage[6])/double(3);
+            else if (_statStage[6] < 0)
+                stat *= (-3)/double(_statStage[6]-3);
             break;
     }
     return stat;
@@ -365,7 +361,7 @@ void Pokemon::adjustExperience(int baseExp, int faintLvl, bool isWild, int parti
     _curExp += (int)expGain;
     if (expGain > 0)
     {
-        cout << getNickname() << " gained " << expGain << " experience!" << endl;
+        cout << getNickname() << " gained " << (int)expGain << " experience!" << endl;
     }
     checkExperience();
 }
@@ -430,8 +426,14 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 2:
         {
             // net-good-stats
-            doLowersTargetStat(target, &_moves[i]);
-            doRaiseUserStat(&_moves[i]);
+            if (_moves[i].getTarget_id()==7)
+            {
+                doRaiseUserStat(&_moves[i]);
+            }
+            else
+            {
+                doLowersTargetStat(target, &_moves[i]);
+            }
             break;
         }
         case 3:
@@ -675,8 +677,70 @@ void Pokemon::doLowersTargetStat(Pokemon* target, Move* move)
 
 void Pokemon::doRaiseUserStat(Move* move)
 {
+    for (int i = 0; i < 8; i++)
+    {
+        if (move->getStatChange(i) != 0 && _statStage[i] < 6 && _statStage[i] > -6)
+        {
+            int curStatChange = move->getStatChange(i);
 
+            cout << getNickname() << "'s ";
+
+            switch (i)
+            {
+                case 1:
+                    cout << "Attack ";
+                    break;
+                case 2:
+                    cout << "Defense ";
+                    break;
+                case 3:
+                    cout << "Special Attack ";
+                    break;
+                case 4:
+                    cout << "Special Defense ";
+                    break;
+                case 5:
+                    cout << "Speed ";
+                    break;
+                case 6:
+                    cout << "Accuracy ";
+                    break;
+                case 7:
+                    cout << "Evasion ";
+                    break;
+                default:
+                    break;
+            }
+
+            if (curStatChange > 1 || curStatChange < -1)
+                cout << "sharply " ;
+
+            if (curStatChange > 0)
+            {
+                // buff
+                cout << "rose!";
+            }
+            else if (curStatChange < 0)
+            {
+                // debuff
+                cout << "fell!";
+            }
+
+            cout << endl;
+            _statStage[i] += move->getStatChange(i);
+
+            if (_statStage[i] >= 6)
+            {
+                _statStage[i] = 6;
+            }
+            else if (_statStage[i] <= -6)
+            {
+                _statStage[i] = -6;
+            }
+        }
+    }
 }
+
 void Pokemon::doRaiseTargetStat(Pokemon* target, Move* move)
 {
 

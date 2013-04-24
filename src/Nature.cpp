@@ -42,7 +42,7 @@ void Nature::initNature()
         {
             _reader.readField();
             // _species->setName(_reader.getField<string>());
-            _identifier = _reader.getField<string>();
+            _identifier = _reader.getCurField();//.getField<string>();
             break;
         }
     }

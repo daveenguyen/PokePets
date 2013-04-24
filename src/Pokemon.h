@@ -77,13 +77,14 @@ class Pokemon : public PokemonSpecies
         bool _isWild;
 
         // battle stats/boosts
-        int _atkStage;
-        int _defStage;
-        int _sAtkStage;
-        int _sDefStage;
-        int _speedStage;
-        int _evasionStage;
-        int _accuracyStage;
+        int _statStage[8];
+        // int _atkStage;
+        // int _defStage;
+        // int _sAtkStage;
+        // int _sDefStage;
+        // int _speedStage;
+        // int _evasionStage;
+        // int _accuracyStage;
         // int _critStage;
 
         void initMoves();

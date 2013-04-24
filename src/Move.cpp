@@ -41,7 +41,7 @@ void Move::initMove()
         {
             _reader.readField();
             // _species->setName(_reader.getField<string>());
-            _identifier = _reader.getField<string>();
+            _identifier = _reader.getCurField();//getField<string>();
             break;
         }
     }
@@ -130,6 +130,42 @@ void Move::initMove()
     }
 
     setType_id(_type_id);
+
+    for(int i = 0; i < 8; i++)
+    {
+        _statChange[i] = 0;
+    }
+
+
+// MOVE_META_STAT_CHANGES_CSV
+    _reader.openFile(MOVE_META_STAT_CHANGES_CSV);
+    token = 0;
+
+    while (true)
+    {
+        do
+        {
+            _reader.readLine();
+            _reader.readField();
+            token = _reader.getField<int>();
+        } while ( token < _moveNum && !_reader.isEof());
+
+        if (token != _moveNum || _reader.isEof()) break;
+
+        int curStatId;
+        _reader.readField();
+        curStatId = _reader.getField<int>();
+        _reader.readField();
+        _statChange[curStatId-1] = _reader.getField<int>();
+    }
+
+    for(int i = 0; i < 8; i++)
+    {
+        if (_statChange[i] != 0)
+        {
+            cout << _identifier << " " << i << " " << _statChange[i] << endl;
+        }
+    }
 }
 
 // move info
@@ -314,4 +350,14 @@ int Move::getStat_chance()
 Type Move::getType()
 {
     return _type;
+}
+
+int Move::getStatChange(int i)
+{
+    return _statChange[i];
+}
+
+void Move::setStatChange(int i, int value)
+{
+    _statChange[i] = 0;
 }
