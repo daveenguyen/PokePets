@@ -14,8 +14,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _nickname     = "";
     _genderValue  = rand() % 256;
     _abilityIndex = rand() % 2;
-    // _nature       = rand() % 25;
-    _nature.initNature(rand() % 25);
+    _nature.setNatureNum(rand() % 25);
     _level        = level;
     _curExp       = 0;
 
@@ -34,13 +33,13 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _EVs[4]       = 0;
     _EVs[5]       = 0;
 
-    // _moves[0]     = 0;
-    // _moves[1]     = 0;
-    // _moves[2]     = 0;
-    // _moves[3]     = 0;
-
     _curHP        = getStats(0);
     _status       = 0;
+
+    for (int i = 0; i < 8; i++)
+        _statStage[i] = 0;
+
+    _isWild = true;
 }
 
 Pokemon::~Pokemon() {}
@@ -55,6 +54,14 @@ void Pokemon::reset()
     {
     _curPP[i] = _moves[i].getPP();
     }
+
+    _statStage[1] = 0;
+    _statStage[2] = 0;
+    _statStage[3] = 0;
+    _statStage[4] = 0;
+    _statStage[5] = 0;
+    _statStage[6] = 0;
+    _statStage[7] = 0;
 }
 
 
@@ -67,6 +74,26 @@ void Pokemon::setStatus(int i)
 {
     _status = i;
 }
+
+int  Pokemon::getStatStage(int i)
+{
+    return _statStage[i];
+}
+
+void Pokemon::setStatStage(int i, int value)
+{
+    _statStage[i] = value;
+
+    if (_statStage[i] > 6)
+    {
+        _statStage[i] = 6;
+    }
+    else if (_statStage[i] < -6)
+    {
+        _statStage[i] = -6;
+    }
+}
+
 
 string Pokemon::getNickname()
 {
@@ -274,62 +301,62 @@ int Pokemon::getBattleStats(int i)
 
         case 2: // atk
             stat = getStats(2);
-            if (_atkStage > 0)
-                stat *= (2+_atkStage)/double(2);
-            else if (_atkStage < 0)
-                stat *= (-2)/double(_atkStage-2);
+            if (_statStage[1] > 0)
+                stat *= (2+_statStage[1])/double(2);
+            else if (_statStage[1] < 0)
+                stat *= (-2)/double(_statStage[1]-2);
             if (_status == 4)
                 stat /= double(2);
             break;
 
         case 3: // def
             stat = getStats(3);
-            if (_defStage > 0)
-                stat *= (2+_defStage)/double(2);
-            else if (_defStage < 0)
-                stat *= (-2)/double(_defStage-2);
+            if (_statStage[2] > 0)
+                stat *= (2+_statStage[2])/double(2);
+            else if (_statStage[2] < 0)
+                stat *= (-2)/double(_statStage[2]-2);
             break;
 
         case 4: // satk
             stat = getStats(4);
-            if (_sAtkStage > 0)
-                stat *= (2+_sAtkStage)/double(2);
-            else if (_sAtkStage < 0)
-                stat *= (-2)/double(_sAtkStage-2);
+            if (_statStage[3] > 0)
+                stat *= (2+_statStage[3])/double(2);
+            else if (_statStage[3] < 0)
+                stat *= (-2)/double(_statStage[3]-2);
             break;
 
         case 5: // sdef
             stat = getStats(5);
-            if (_sDefStage > 0)
-                stat *= (2+_sDefStage)/double(2);
-            else if (_sDefStage < 0)
-                stat *= (-2)/double(_sDefStage-2);
+            if (_statStage[4] > 0)
+                stat *= (2+_statStage[4])/double(2);
+            else if (_statStage[4] < 0)
+                stat *= (-2)/double(_statStage[4]-2);
             break;
 
         case 6: // speed
             stat = getStats(6);
-            if (_speedStage > 0)
-                stat *= (2+_speedStage)/double(2);
-            else if (_speedStage < 0)
-                stat *= (-2)/double(_speedStage-2);
+            if (_statStage[5] > 0)
+                stat *= (2+_statStage[5])/double(2);
+            else if (_statStage[5] < 0)
+                stat *= (-2)/double(_statStage[5]-2);
             if (_status == 1)
-                stat /= double(2);
+                stat *= double(0.75);
             break;
 
         case 7: // accuracy
             stat = 100;
-            if (_accuracyStage > 0)
-                stat *= (3+_accuracyStage)/double(3);
-            else if (_accuracyStage < 0)
-                stat *= (-3)/double(_accuracyStage-3);
+            if (_statStage[7] > 0)
+                stat *= (3+_statStage[7])/double(3);
+            else if (_statStage[7] < 0)
+                stat *= (-3)/double(_statStage[7]-3);
             break;
 
         case 8: // evasion
             stat = 100;
-            if (_evasionStage > 0)
-                stat *= (3+_evasionStage)/double(3);
-            else if (_evasionStage < 0)
-                stat *= (-3)/double(_evasionStage-3);
+            if (_statStage[6] > 0)
+                stat *= (3+_statStage[6])/double(3);
+            else if (_statStage[6] < 0)
+                stat *= (-3)/double(_statStage[6]-3);
             break;
     }
     return stat;
@@ -352,6 +379,10 @@ void Pokemon::adjustExperience(int baseExp, int faintLvl, bool isWild, int parti
     ++expGain;
 
     _curExp += (int)expGain;
+    if (expGain > 0)
+    {
+        cout << getNickname() << " gained " << (int)expGain << " experience!" << endl;
+    }
     checkExperience();
 }
 
@@ -415,11 +446,20 @@ void Pokemon::useMove(int i, Pokemon* target)
         case 2:
         {
             // net-good-stats
+            if (_moves[i].getTarget_id()==7)
+            {
+                doRaiseUserStat(&_moves[i]);
+            }
+            else
+            {
+                doLowersTargetStat(target, &_moves[i]);
+            }
             break;
         }
         case 3:
         {
             // heal
+            doHealUser(&_moves[i]);
             break;
         }
         case 4:
@@ -433,18 +473,21 @@ void Pokemon::useMove(int i, Pokemon* target)
         {
             // swagger
             doAilment(target, &_moves[i]);
+            doRaiseTargetStat(target, &_moves[i]);
             break;
         }
         case 6:
         {
             // damage + lower
             doDamage(target, &_moves[i]);
+            doLowersTargetStat(target, &_moves[i]);
             break;
         }
         case 7:
         {
             // damage + raise
             doDamage(target, &_moves[i]);
+            doRaiseUserStat(&_moves[i]);
             break;
         }
         case 8:
@@ -488,18 +531,6 @@ void Pokemon::useMove(int i, Pokemon* target)
     //// lowers target's stats or raises user's stats
     //2,
 
-    //// raises target's stats
-    //5
-
-    //// heals the user
-    //3
-
-    //// lowers target's stats
-    //2, 6
-
-    //// raises user's stats
-    //2, 7
-
     //// absorbs damage done to heal the user
     //8
 
@@ -538,7 +569,12 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         // crit
         int crit_rate = move->getCrit_rate(); // add items or moves
         crit_rate *= 625; // each stage is 6.25%
-        if (crit_rate > 5000) crit_rate = 5000;
+
+        if (crit_rate > 5000)
+        {
+            crit_rate = 5000;
+        }
+
         if (rand() % 10000 < crit_rate)
         {
             cout << "A critical hit!" << endl;
@@ -549,19 +585,27 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         int targetType1 = target->getType(0).getTypeNum();
         int targetType2 = target->getType(1).getTypeNum();
         double typeMod = 1;
+
         typeMod *= move->getType().getEfficacy(targetType1);
+
         if (targetType2 != targetType1)
+        {
             typeMod *= move->getType().getEfficacy(targetType2);
+        }
 
         if (typeMod > 1)
+        {
             cout << "It's super effective!" << endl;
+        }
         else if (typeMod == 0)
         {
             cout << "It doesn't affect " << target->getNickname() << "..." << endl;
-            typeMod = 0.125; // our own implementation instead of x0 it's 1/8
+            typeMod = 1/6.0; // our own implementation instead of x0 it's 1/6
         }
         else if (typeMod < 1)
+        {
             cout << "It's not very effective..." << endl;
+        }
 
         modifier *= typeMod;
 
@@ -595,33 +639,132 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
 
 void Pokemon::doAilment(Pokemon* target, Move* move)
 {
-    // cout << move->getAilment_chance();
-    // cout << "DOAILMENT" << endl;
     if (rand() % 100 <= move->getAilment_chance() || move->getAilment_chance() == 0)
+    {
         switch (move->getMeta_ailment_id())
         {
             case 1:
-                cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
-                target->setStatus(1);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " is paralyzed! It may be unable to move!" << endl;
+                    target->setStatus(1);
+                }
                 break;
             case 2:
-                cout << target->getNickname() << " fell asleep!" << endl;
-                target->setStatus(2);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " fell asleep!" << endl;
+                    target->setStatus(2);
+                }
                 break;
             case 3:
-                cout << target->getNickname() << " was frozen solid!" << endl;
-                target->setStatus(3);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " was frozen solid!" << endl;
+                    target->setStatus(3);
+                }
                 break;
             case 4:
-                cout << target->getNickname() << " was burned!" << endl;
-                target->setStatus(4);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " was burned!" << endl;
+                    target->setStatus(4);
+                }
                 break;
             case 5:
-                cout << target->getNickname() << " was poisoned!" << endl;
-                target->setStatus(5);
+                if (target->getStatus() == 0)
+                {
+                    cout << target->getNickname() << " was poisoned!" << endl;
+                    target->setStatus(5);
+                }
                 // cout << target->getNickname() << " was badly poisoned!" << endl;
                 break;
             default:
                 break;
         }
+    }
+}
+
+void Pokemon::doHealUser(Move* move)
+{
+
+}
+
+void Pokemon::doLowersTargetStat(Pokemon* target, Move* move)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if (move->getStatChange(i) != 0 && _statStage[i] < 6 && _statStage[i] > -6)
+        {
+            int curStatChange = move->getStatChange(i);
+
+            if (target->isWild())
+            {
+                cout << "Wild ";
+            }
+            cout << target->getNickname() << "'s ";
+
+            switch (i)
+            {
+                case 1:
+                    cout << "Attack ";
+                    break;
+                case 2:
+                    cout << "Defense ";
+                    break;
+                case 3:
+                    cout << "Special Attack ";
+                    break;
+                case 4:
+                    cout << "Special Defense ";
+                    break;
+                case 5:
+                    cout << "Speed ";
+                    break;
+                case 6:
+                    cout << "Accuracy ";
+                    break;
+                case 7:
+                    cout << "Evasion ";
+                    break;
+                default:
+                    break;
+            }
+
+            if (curStatChange > 1 || curStatChange < -1)
+                cout << "sharply " ;
+
+            if (curStatChange > 0)
+            {
+                // buff
+                cout << "rose!";
+            }
+            else if (curStatChange < 0)
+            {
+                // debuff
+                cout << "fell!";
+            }
+
+            cout << endl;
+            target->setStatStage(i, target->getStatStage(i) + move->getStatChange(i));
+        }
+    }
+}
+
+void Pokemon::doRaiseUserStat(Move* move)
+{
+    doLowersTargetStat(this, move);
+}
+
+void Pokemon::doRaiseTargetStat(Pokemon* target, Move* move)
+{
+
+}
+
+bool Pokemon::isWild(){
+    return _isWild;
+}
+
+void Pokemon::setIsWild(bool value){
+    _isWild = value;
 }

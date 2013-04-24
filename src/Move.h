@@ -14,7 +14,7 @@ class Move
 
         ~Move() {};
 
-        void   initMoveFromDB();
+        void   initMove();
 
         // move info
         void    setMoveNum(int moveNum);
@@ -68,6 +68,10 @@ class Move
         int     getFlinch_chance();
         int     getStat_chance();
 
+        // meta stat change
+        int     getStatChange(int i);
+        void    setStatChange(int i, int value);
+
         Type    getType();
 
 
@@ -99,6 +103,9 @@ class Move
         int     _ailment_chance;
         int     _flinch_chance;
         int     _stat_chance;
+
+        // meta stat changes
+        int     _statChange[8];
 
         Type    _type;
 };

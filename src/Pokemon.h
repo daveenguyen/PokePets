@@ -30,6 +30,9 @@ class Pokemon : public PokemonSpecies
         void setStatus(int i);
         // void setStats(int i, int x);
 
+        int  getStatStage(int i);
+        void setStatStage(int i, int value);
+
         string getNickname();
         string getGender();
         int    getAbility();
@@ -48,6 +51,9 @@ class Pokemon : public PokemonSpecies
         void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
         void   checkExperience();
         void   useMove(int i, Pokemon* target);
+
+        bool   isWild();
+        void   setIsWild(bool value);
 
     private:
 
@@ -74,20 +80,23 @@ class Pokemon : public PokemonSpecies
         bool _isWild;
 
         // battle stats/boosts
-        int _atkStage;
-        int _defStage;
-        int _sAtkStage;
-        int _sDefStage;
-        int _speedStage;
-        int _evasionStage;
-        int _accuracyStage;
+        int _statStage[8];
+        // int _atkStage;
+        // int _defStage;
+        // int _sAtkStage;
+        // int _sDefStage;
+        // int _speedStage;
+        // int _evasionStage;
+        // int _accuracyStage;
         // int _critStage;
-
 
         void initMoves();
         void doDamage(Pokemon* target, Move* move);
         void doAilment(Pokemon* target, Move* move);
-
+        void doHealUser(Move* move);
+        void doLowersTargetStat(Pokemon* target, Move* move);
+        void doRaiseUserStat(Move* move);
+        void doRaiseTargetStat(Pokemon* target, Move* move);
 };
 
 #endif // POKEMON_H
