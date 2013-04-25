@@ -34,10 +34,18 @@
 - Visit Pokepet Center
 - Visit Pokepet Mart
 - Visit Gym Leader (cannot enter until 7 badges are obtained)
-	* Uses ground-type (lvl 40-50)
+	* Uses ground-type (lvl 50-55)
 	* Receive Ground Badge upon victory
 - Go Route 2
 - Go to Viridian Forest 
+
+### ---Story Progression---
+*NOTE* This progression is for ONLY after you have obtained 7 badges
+- Enter gym to find out that the 8th gym leader is Mr. X!
+- After all badges are obtained Prof Haney thanks Player for stopping Mr. X and
+tells Player that he/she should challenge the Elite Four!
+- Head to PokePet League via Crystal Cave (Player can reach Crystal Cave via Route 12)
+
 
 # Route 2 
 	
@@ -528,11 +536,9 @@ trainers, so he/she must stop Mr. X first.
 - Player may now enter Saffron Gym
 
 
+# Cinnebar Island
 
-
-#Cinnebar Island
-
-##Actions:
+## Actions:
 - Visit Pokepet Center
 - Visit Pokepet Mart
 - Visit Gym Leader (entrance blocked my old man)
@@ -552,20 +558,71 @@ riddles he asks
 - After 7th badge is received, Fly back to Viridian City to obtain 8th and final badge!
 
 
-#Route 12
+# Route 12
 
-##Actions:
+## Actions:
 - Go to Cinnebar Island
 - Go to Crystal Cave
 
 ## Encounters:
 - Wild Pokepet (lvl 40-44)
-	* cloyster
+	* shellder
 	* slowpoke
 	* lapras
 	* seal
 	* poliwag
+	* krabby
 - Trainers
 	* Uses pokepet found in current route (lvl 44-46)
+
+# Crystal Cave
+
+## Actions:
+- Go to Route 12
+- Go to PokePet League 
+
+## Encounters:
+- Wild Pokepet (lvl 40-44)
+	* magmar
+	* kabuto
+	* omanyte
+	* kangaskan
+	* tauros
+	* electabuzz
+	* jynx
+- Trainers
+	* Uses pokepet found in current route (lvl 47-49)
+
+# PokePet League
+
+## Actions:
+- Visit Pokepet Center
+- Visit Pokepet Mart
+- Battle Elite Four! 
+	* Four consectutive battles! If Player Loses, must start over
+
+- Go to Crystal Cave
+
+## Elite Four
+- Dale White
+	*uses electric-type (lvl 50-54)
+- Davee Ngyuen
+	*uses water-type (lvl 52-56)
+- Albert Vang
+	*uses dragon-type (lvl 54-58)
+- Angel Marquez
+	*uses ghost-type (lvl 56-60)
+
+### ---Story Progression---
+- After Elite Four are defeated, Prof Haney comes in and tells Player that
+he is the new PokePet League Champion....or would have been because Rival beat
+them first so he is the New Champ.  Player must defeat Rival to become champ!
+
+- Rival Battle
+	* uses all-types (lvl 60-65)
+
+- After Rival is beaten, Player is the new champ!
+- End Game!
+
 
 
