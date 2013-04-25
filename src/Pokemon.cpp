@@ -33,7 +33,7 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _EVs[4]       = 0;
     _EVs[5]       = 0;
 
-    _curHP        = getStats(0);
+    _curHP        = -1;
     _status       = 0;
 
     for (int i = 0; i < 8; i++)
@@ -45,15 +45,12 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
 Pokemon::~Pokemon() {}
 void Pokemon::reset()
 {
-    _curHP = getStats(0);
+    if (_curHP == -1)
+        _curHP = getStats(0);
     if (_curExp == 0)
         _curExp = getExpToLvl(_level-1);
     if (_moves[0].getMoveNum()==0)
         initMoves();
-    for (int i = 0; i < 4; ++i)
-    {
-    _curPP[i] = _moves[i].getPP();
-    }
 
     _statStage[1] = 0;
     _statStage[2] = 0;
@@ -345,18 +342,18 @@ int Pokemon::getBattleStats(int i)
 
         case 7: // accuracy
             stat = 100;
-            if (_statStage[7] > 0)
-                stat *= (3+_statStage[7])/double(3);
-            else if (_statStage[7] < 0)
-                stat *= (-3)/double(_statStage[7]-3);
-            break;
-
-        case 8: // evasion
-            stat = 100;
             if (_statStage[6] > 0)
                 stat *= (3+_statStage[6])/double(3);
             else if (_statStage[6] < 0)
                 stat *= (-3)/double(_statStage[6]-3);
+            break;
+
+        case 8: // evasion
+            stat = 100;
+            if (_statStage[7] > 0)
+                stat *= (3+_statStage[7])/double(3);
+            else if (_statStage[7] < 0)
+                stat *= (-3)/double(_statStage[7]-3);
             break;
     }
     return stat;
@@ -413,7 +410,78 @@ void Pokemon::checkExperience()
         float hpRatio = float(_curHP)/getStats(0);
         ++_level;
         _curHP = (int)(hpRatio * getStats(0));
-        cout << "LEVEL UP!" << endl;
+        cout << getNickname() << "grew to level " << _level << "!" << endl;
+
+        int moveCount = 0;
+        for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
+        {
+            ++moveCount;
+        }
+
+        int vectorSize = getLevelUpMoves().size();
+        for (int i = 0; i < vectorSize; ++i)
+        {
+            if (_level == getLevelUpMoves()[i]._level)
+            {
+                Move tempmove(getLevelUpMoves()[i]._move_id);
+                int learnIndex;
+                if (moveCount < 4)
+                {
+                    learnIndex = moveCount;
+                }
+                else
+                {
+                    cout << getNickname() << " is trying to learn " << tempmove.getIdentifier() << endl;
+
+                    int moveCount = 0;
+                    for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
+                    {
+                        ++moveCount;
+                    }
+                    for (int i=0; i < moveCount; ++i) {
+                        cout << i+1 << ". " << getMove(i).getIdentifier() << endl;;
+                    }
+                    cout << "5. Don't learn" << endl;
+                    cout << "Which should be forgotten?" << endl;
+
+                    int userInput = 0;
+
+                    while ( !(cin >> userInput) || (userInput <= 0 && userInput > 5) )
+                    {
+                        cout << "Invalid input!  Try again: ";
+                        cin.clear ();   // reset fail flag
+
+                        // skip past invalid input
+                        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+                    }
+                    learnIndex = userInput-1;
+                }
+
+                if (learnIndex<4)
+                {
+
+                    if (_moves[learnIndex].getMoveNum() != 0)
+                    {
+                        cout << "1, 2 and... poof! ";
+                        cout << getNickname() << " forgot " << _moves[learnIndex].getIdentifier() << " and";
+                    }
+                    else
+                    {
+                        cout << getNickname();
+                    }
+                    _moves[learnIndex].setMoveNum(getLevelUpMoves()[i]._move_id);
+                    _curPP[learnIndex] = _moves[learnIndex].getPP();
+                    cout << " learned " << _moves[learnIndex].getIdentifier() << "!" << endl;
+                }
+                else if (learnIndex==4)
+                {
+                    cout << getNickname() << " did not learn " << tempmove.getIdentifier() << "." << endl;
+                }
+
+            }
+            if (getLevelUpMoves()[i]._level > _level)
+                break;
+        }
     }
 }
 
@@ -553,7 +621,7 @@ void Pokemon::useMove(int i, Pokemon* target)
 void Pokemon::doDamage(Pokemon* target, Move* move)
 {
 // CHECK MISS
-    if (rand() % 100 <= move->getAccuracy() || move->getAccuracy() == 0)
+    if (rand() % 100 <= (move->getAccuracy()*(double)(getBattleStats(7))/(double)(target->getBattleStats(8))) || move->getAccuracy() == 0)
     {
 
     // MODIFIERS
@@ -695,7 +763,7 @@ void Pokemon::doLowersTargetStat(Pokemon* target, Move* move)
 {
     for (int i = 0; i < 8; i++)
     {
-        if (move->getStatChange(i) != 0 && _statStage[i] < 6 && _statStage[i] > -6)
+        if (move->getStatChange(i) != 0 && target->getStatStage(i) < 6 && target->getStatStage(i) > -6)
         {
             int curStatChange = move->getStatChange(i);
 

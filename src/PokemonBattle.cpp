@@ -434,7 +434,10 @@ void PokemonBattle::doPlayerMove()
     }
     else if (myPkmn->getStatus() == 2 || myPkmn->getStatus() == 3)
     {
+        if (myPkmn->getStatus() == 3)
+            cout << C_ICE;
         myPkmn->checkAilment();
+        cout << C_RESET;
         if (myPkmn->getStatus() == 0)
             doPlayerMove();
     }
@@ -445,6 +448,7 @@ void PokemonBattle::doPlayerMove()
     else
     {
         // struggle
+        myPkmn->useMove(165, enemyPkmn);
     }
 }
 
@@ -461,7 +465,10 @@ void PokemonBattle::doEnemyMove()
     }
     else if (enemyPkmn->getStatus() == 2 || enemyPkmn->getStatus() == 3)
     {
+        if (enemyPkmn->getStatus() == 3)
+            cout << C_ICE;
         enemyPkmn->checkAilment();
+        cout << C_RESET;
         if (enemyPkmn->getStatus() == 0)
             doEnemyMove();
     }
