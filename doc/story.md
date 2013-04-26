@@ -34,8 +34,8 @@
 - Visit Pokepet Center
 - Visit Pokepet Mart
 - Visit Gym Leader (cannot enter until 7 badges are obtained)
-	* Uses ground-type (lvl 50-55)
-	* Receive Ground Badge upon victory
+	* Uses poison-type (lvl 50-55)
+	* Receive Poison Badge upon victory
 - Go Route 2
 - Go to Viridian Forest 
 
@@ -417,8 +417,8 @@ for the musician if haven't done so already
 - Visit Pokepet Center
 - Visit Pokepet Mart
 - Visit Gym Leader
-	* Uses poison-type (lvl 39-42)
-	* Receive Poison Badge upon victory
+	* Uses insect-type (lvl 39-42)
+	* Receive Insect Badge upon victory
 
 - Go to Route 9
 - Go to Route 10
