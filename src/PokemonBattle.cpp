@@ -17,7 +17,8 @@ using namespace std;
 #define DIVIDER_LENGTH 120
 
 
-PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn):myPkmn(myPkmn), enemyPkmn(enemyPkmn)
+PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn, string enemyName):
+    myPkmn(myPkmn), enemyPkmn(enemyPkmn), enemyName(enemyName)
 {
 }
 
@@ -69,8 +70,8 @@ void PokemonBattle::printBattleInit()
 
     if (!enemyPkmn->isWild())
     {
-        cout << "You are challenged by Dude!" << endl;
-        cout << "Dude sent out " << enemyPkmn->getNickname() << '!' << endl;
+        cout << "You are challenged by " << enemyName << "!" << endl;
+        cout << enemyName << " sent out " << enemyPkmn->getNickname() << '!' << endl;
     }
     else
     {

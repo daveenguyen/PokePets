@@ -39,6 +39,19 @@ class PokemonSpecies
 
         PokemonSpecies(int dexNum=0);
 
+        PokemonSpecies(int _dexNum,
+                string _name,
+                Type _types[2],
+                int _abilities[3],
+                int _genderRate,
+                int _baseStats[6],
+                int _baseExp,
+                int _effortYield[6],
+                int _capRate,
+                int _baseHappiness,
+                int _growthRate,
+                int _expToLvl[100]);
+
         ~PokemonSpecies();
 
         void    clear();

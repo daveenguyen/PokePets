@@ -159,13 +159,13 @@ void Move::initMove()
         _statChange[curStatId-1] = _reader.getField<int>();
     }
 
-    for(int i = 0; i < 8; i++)
-    {
-        if (_statChange[i] != 0)
-        {
-            cout << _identifier << " " << i << " " << _statChange[i] << endl;
-        }
-    }
+    // for(int i = 0; i < 8; i++)
+    // {
+    //     if (_statChange[i] != 0)
+    //     {
+    //         cout << _identifier << " " << i << " " << _statChange[i] << endl;
+    //     }
+    // }
 }
 
 // move info

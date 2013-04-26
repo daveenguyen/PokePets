@@ -19,12 +19,13 @@ using namespace std;
 #define DIVIDER_LENGTH 120
 
 void TestPokemon();
-void printAllInfo(Pokemon* pkmn);
-void printPokemonStats(Pokemon* pkmn);
-void printPokemonInfo(Pokemon* pkmn);
-void printPokemonMoves(Pokemon* pkmn);
 
 int main() {
+// so the game starts with the intro dialogue
+// then when you can actually do actions
+// you go choose your starter
+// and then battle your rival
+// then from there on you go get badge
     TestPokemon();
     return 0;
 }
@@ -65,7 +66,6 @@ void TestPokemon() {
     myPokemon.reset();
     myPokemon.setIsWild(false);
 
-    printAllInfo(&myPokemon);
 
     cout << "How many battles would you like? " ;
     int battleNum;
@@ -96,61 +96,4 @@ void TestPokemon() {
         battle.start();
     }
 
-}
-
-void DamagePokemon(Pokemon* pkmn, int points)
-{
-    pkmn->adjustHP(-points);
-}
-
-void printAllInfo(Pokemon* pkmn)
-{
-    printPokemonInfo(pkmn);
-    printPokemonMoves(pkmn);
-    printPokemonStats(pkmn);
-}
-
-void printPokemonInfo(Pokemon* pkmn)
-{
-
-    cout << "___ POKEMON INFO" << endl;
-    cout << "NICKNAME: " << pkmn->getNickname() << endl;
-    cout << "  GENDER: " << pkmn->getGender() << endl;
-
-    // cout << " ABILITY: " << pkmn->getAbility() << endl;
-
-    cout << "  NATURE: " << pkmn->getNature() << endl;
-
-    cout << "   LEVEL: " << pkmn->getLevel()  << endl;
-    cout << " CUR EXP: " << pkmn->getCurExp() << endl;
-    cout << "  CUR HP: " << pkmn->getCurHP()  << endl;
-    cout << "  STATUS: " << pkmn->getStatus() << endl << endl;
-
-    cout << " TYPE[0]: " << pkmn->getType(0).getIdentifier() << endl;
-    if (pkmn->getType(1).getTypeNum() != pkmn->getType(0).getTypeNum())
-        cout << " TYPE[1]: " << pkmn->getType(1).getIdentifier() << endl;
-    cout << endl;
-}
-
-void printPokemonStats(Pokemon* pkmn)
-{
-    cout << "___ STATS" << endl;
-    cout << "      HP: " << pkmn->getStats(0) << endl;
-    cout << "     ATK: " << pkmn->getStats(1) << endl;
-    cout << "     DEF: " << pkmn->getStats(2) << endl;
-    cout << "   S.ATK: " << pkmn->getStats(3) << endl;
-    cout << "   S.DEF: " << pkmn->getStats(4) << endl;
-    cout << "   SPEED: " << pkmn->getStats(5) << endl << endl;
-}
-void printPokemonMoves(Pokemon* pkmn)
-{
-    for (int i=0; i < 4 && pkmn->getMove(i).getMoveNum() != 0; ++i) {
-        cout << "___ ";
-        // Move myMove();
-        cout << pkmn->getMove(i).getIdentifier() << endl;
-        cout << "    TYPE: " << pkmn->getMove(i).getType().getIdentifier() << endl;
-        cout << "   POWER: " << pkmn->getMove(i).getPower() << endl;
-        cout << "      PP: " << pkmn->getMove(i).getPP() << endl;
-        cout << "Accuracy: " << pkmn->getMove(i).getAccuracy() << endl << endl;
-    }
 }

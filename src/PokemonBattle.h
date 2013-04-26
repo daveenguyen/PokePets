@@ -11,7 +11,7 @@ class PokemonBattle
 {
     public:
 
-        PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn);
+        PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn, string enemyName="");
         ~PokemonBattle(){};
 
         void start();
@@ -19,6 +19,7 @@ class PokemonBattle
     private:
         Pokemon* myPkmn;
         Pokemon* enemyPkmn;
+        string enemyName;
         int  _state;
         int  _playerMove;
         bool _battleDone;

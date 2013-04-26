@@ -410,7 +410,7 @@ void Pokemon::checkExperience()
         float hpRatio = float(_curHP)/getStats(0);
         ++_level;
         _curHP = (int)(hpRatio * getStats(0));
-        cout << getNickname() << "grew to level " << _level << "!" << endl;
+        cout << getNickname() << " grew to level " << _level << "!" << endl;
 
         int moveCount = 0;
         for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
