@@ -98,6 +98,10 @@ string Pokemon::getNickname()
     if (_nickname=="") return getName();
     else return _nickname;
 }
+void Pokemon::setNickname(string i)
+{
+    _nickname = i;
+}
 
 string Pokemon::getGender()
 {

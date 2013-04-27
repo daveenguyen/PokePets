@@ -82,6 +82,7 @@ void PokemonBattle::printBattleInit()
 
     _state = 0;
     _battleDone = false;
+    delay(1750);
 }
 
 

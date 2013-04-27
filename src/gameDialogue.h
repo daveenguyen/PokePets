@@ -3,15 +3,23 @@
 
 #include <string>
 
-
 using namespace std;
 
+#include "Pokemon.h"
+#include "CSVReader.h"
+#include "PokemonBuilder.h"
 
-const string playName;
+string playerName;
+string rivalName;
+bool   isBoy;
+int    myPokePetNum;
+string petName;
 
-const string rivalName;
+Pokemon myPokemon(0,5);
+CSVReader reader;
+PokemonBuilder builder;
 
-const string gender;
+int curLocation;
 
 const string npcName[]={	"Prof Haney",
 							"Old Man",
@@ -21,14 +29,14 @@ const string npcName[]={	"Prof Haney",
 							"Musician",
 							"Dojo Master"};
 
-const string badge[]={		"Rock Badge",}
+const string badge[]={		"Rock Badge",
 							"Water Badge",
 							"Lighting Badge",
 							"Field Badge",
 							"Insect Badge",
 							"Mind Badge",
 							"Flame Badge",
-							"Poison Badge",
+							"Poison Badge"};
 
 
 const string gymLeader[]={	"Brock",
@@ -64,7 +72,7 @@ const string item[]={		"Potion",
 
 const string specialItem[]={"HM Fly",
 							"HM Surf",
-							"PokePet Flute"}
+							"PokePet Flute"};
 
 const string location[]={	"Pallet Town",
 							"Viridian City",
@@ -103,23 +111,22 @@ const string route[]={		"Route 1",
 							"Route 9",
 							"Route 10",
 							"Route 11",
-							"Route 12",}
+							"Route 12"};
 
 const string introText[]={	"Hello there!",
 							"Welcome to the world of PokePets! My name is Haney!",
 							"I study PokePets. People call me the PokePet Professor!",
 							"This world is filled with creatures called PokePets!",
-							"For some people, PokePets are just pets.," 
+							"For some people, PokePets are just pets."
 							"Others use them for fights!",
 							"Oh sorry, I got so carried away that I didn't catch your name.",
-							
 								//get *playerName*
-							"Are you a boy or girl",
-								//get *gender
-							
-							"Hi",
-								//*playerName
-							
+
+							"Are you a boy or girl?",
+								//get *gender*
+
+							"Hi *playerName*!",
+
 							"You are about to embark on an incredible journey!",
 							"But you also had a rival ever since you were young.",
 							"Err.. what was *his/her* name again??",
@@ -127,8 +134,10 @@ const string introText[]={	"Hello there!",
 
 							"Are you ready? Because your journey starts now!"};
 
-const string palletTown[]={	""}
+const string palletTown[]={	""};
 
+const string yesNo[] = {"Yes",
+						"No"};
 
 
 
