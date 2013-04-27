@@ -279,7 +279,7 @@ void printPalletTown()
                 if (myPokePetNum==0)
                 {
                     cout << "Mom: " << playerName <<
-                        "! Hurry go visit Prof Haney!" <<
+                        "! Hurry go visit Prof Haney! " <<
                         "He's been waiting for you!" << endl;
                 }
                 else
@@ -384,6 +384,7 @@ void getPokePet()
         myPokemon.reset();
         myPokemon.setIsWild(false);
         myPokemon.setNickname(petName);
+        petName = myPokemon.getNickname();
     }
 }
 
@@ -483,7 +484,7 @@ void checkPet()
             cout << endl;
             break;
         case 2:
-            cout << "___ " << petName << "'s STATS" << endl;
+            cout << "___ " << myPokemon.getNickname() << "'s STATS" << endl;
             cout << "      HP: " << myPokemon.getStats(0) << endl;
             cout << "     ATK: " << myPokemon.getStats(1) << endl;
             cout << "     DEF: " << myPokemon.getStats(2) << endl;
@@ -492,7 +493,7 @@ void checkPet()
             cout << "   SPEED: " << myPokemon.getStats(5) << endl << endl;
             break;
         case 3:
-            cout << "___ " << petName << "'s MOVES" << endl;
+            cout << "___ " << myPokemon.getNickname() << "'s MOVES" << endl;
             for (int i=0; i < 4 && myPokemon.getMove(i).getMoveNum() != 0; ++i) {
                 cout << "___ ";
                 // Move myMove();
@@ -509,7 +510,7 @@ void checkPet()
             break;
         case 5:
             //Play with Pet
-            cout << "** playing with " << petName << " **" << endl;
+            cout << "** playing with " << myPokemon.getNickname() << " **" << endl;
         default:
             break;
     }
