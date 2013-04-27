@@ -27,6 +27,7 @@ void battleRival();
 void randomBattle();
 void printRoute1();
 void getPokePet();
+void checkPet();
 int  getInputPrompt(const string prompt, int numOptions, const string* options);
 
 
@@ -266,7 +267,7 @@ void printPalletTown()
 {
     while (curLocation == 0)
     {
-        cout << "Welcome to " << location[curLocation] << endl;
+        cout << "\nWelcome to " << location[curLocation] << endl;
         string locActions[] = {"Visit Home", "Visit ", "Visit Prof Haney's Lab", "Go to Route 1"};
         locActions[1] += rivalName;
         locActions[1] += "'s home";
@@ -275,6 +276,17 @@ void printPalletTown()
         {
             case 1:
             // visit home
+                if (myPokePetNum==0)
+                {
+                    cout << "Mom: " << playerName <<
+                        "! Hurry go visit Prof Haney!" <<
+                        "He's been waiting for you!" << endl;
+                }
+                else
+                {
+                    cout << "Mom: You and your PokePet look tired.  You guys should rest!" << endl;
+                    myPokemon.adjustHP(myPokemon.getStats(0)); // heal pokemon
+                }
                 break;
             case 2:
             // visit rival's home
@@ -301,6 +313,10 @@ void printPalletTown()
                 {
                     cout << "Travelling to Route 1!" << endl;
                     curLocation = 1;
+                }
+                else if (myPokemon.getCurHP()==0)
+                {
+                    cout << "You need to heal your PokePet before going here." << endl;
                 }
                 else
                 {
@@ -334,7 +350,7 @@ void getPokePet()
             getline(reader,filePathStr);
             cout << filePathStr << endl;
         }
-        cout << pokes+1 << endl;
+        cout << pokes+1 << ": " << pokeOptions[pokes] << endl;
     }
 
     myPokePetNum = getInputPrompt("Which PokePet would you like?", 4, pokeOptions);
@@ -403,20 +419,25 @@ void printRoute1()
     while (curLocation == 1)
     {
         cout << "You're in " << route[0] << endl;
-        cout << "You're stuck here forever!" << endl;
-        randomBattle();
-        // cout << "Welcome to " << location[curLocation] << endl;
-        // string locActions[] = {"Visit Home", "Visit ", "Visit Prof Haney's Lab", "Go to Route 1"};
-        // locActions[1] += rivalName;
-        // locActions[1] += "'s home";
+        string locActions[] = {"Go to Pallet Town", "Battle", "Check your pet"};
 
-        // switch (getInputPrompt("What would you like to do?", 4, locActions))
-        // {
-        //     case 1:
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch (getInputPrompt("What would you like to do?", 3, locActions))
+        {
+            case 1:
+                cout << "Travelling to Pallet Town!" << endl;
+                curLocation = 0;
+                break;
+            case 2:
+            // random battle
+                randomBattle();
+                break;
+            case 3:
+            // check pet
+                checkPet();
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -433,4 +454,63 @@ void randomBattle()
     // start battle
     PokemonBattle battle(&myPokemon, &enemyPkmn);
     battle.start();
+}
+
+void checkPet()
+{
+    // view status
+    // feed
+    // play games
+    string tmpstring[] = {"View Pet's Info", "View Pet's Stats", "View Pet's Moves", "Feed Pet", "Play with Pet"};
+    switch(getInputPrompt("What would you like to do?", 5, tmpstring))
+    {
+        case 1:
+            cout << "___ " << myPokemon.getNickname() << "'s' INFO" << endl;\
+            cout << "  GENDER: " << myPokemon.getGender() << endl;
+
+            // cout << " ABILITY: " << myPokemon.getAbility() << endl;
+
+            cout << "  NATURE: " << myPokemon.getNature() << endl;
+
+            cout << "   LEVEL: " << myPokemon.getLevel()  << endl;
+            cout << " CUR EXP: " << myPokemon.getCurExp() << " / " << myPokemon.getExpToLvl(myPokemon.getLevel()) << endl;
+            cout << "  CUR HP: " << myPokemon.getCurHP()  << " / " << myPokemon.getStats(0) << endl;
+            cout << "  STATUS: " << myPokemon.getStatus() << endl << endl;
+
+            cout << " TYPE[0]: " << myPokemon.getType(0).getIdentifier() << endl;
+            if (myPokemon.getType(1).getTypeNum() != myPokemon.getType(0).getTypeNum())
+                cout << " TYPE[1]: " << myPokemon.getType(1).getIdentifier() << endl;
+            cout << endl;
+            break;
+        case 2:
+            cout << "___ " << petName << "'s STATS" << endl;
+            cout << "      HP: " << myPokemon.getStats(0) << endl;
+            cout << "     ATK: " << myPokemon.getStats(1) << endl;
+            cout << "     DEF: " << myPokemon.getStats(2) << endl;
+            cout << "   S.ATK: " << myPokemon.getStats(3) << endl;
+            cout << "   S.DEF: " << myPokemon.getStats(4) << endl;
+            cout << "   SPEED: " << myPokemon.getStats(5) << endl << endl;
+            break;
+        case 3:
+            cout << "___ " << petName << "'s MOVES" << endl;
+            for (int i=0; i < 4 && myPokemon.getMove(i).getMoveNum() != 0; ++i) {
+                cout << "___ ";
+                // Move myMove();
+                cout << myPokemon.getMove(i).getIdentifier() << endl;
+                cout << "    TYPE: " << myPokemon.getMove(i).getType().getIdentifier() << endl;
+                cout << "   POWER: " << myPokemon.getMove(i).getPower() << endl;
+                cout << "      PP: " << myPokemon.getMove(i).getPP() << endl;
+                cout << "Accuracy: " << myPokemon.getMove(i).getAccuracy() << endl << endl;
+            }
+            break;
+        case 4:
+            //Feed Pet
+            myPokemon.adjustHP(myPokemon.getStats(0)*0.2); // heal pokemon
+            break;
+        case 5:
+            //Play with Pet
+            cout << "** playing with " << petName << " **" << endl;
+        default:
+            break;
+    }
 }
