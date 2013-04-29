@@ -113,6 +113,47 @@ const string route[]={		"Route 1",
 							"Route 11",
 							"Route 12"};
 
+const string yesNo[] = {"Yes",
+						"No"};
+
+//things trainers say when they lose
+const string winLose[]={"You blacked out!", //use this when Player loses
+						"What! How did I lose?",
+						"Man, You're good.",
+						"Even though I lost, that battle was fun",
+						"You got lucky",
+						"Aww..I was so close"
+						"How did you get your PokePet to be so strong?"};
+
+//things trainers say to Player
+const string trainerQuote[]={	"Is that a PokePet? Lets battle!",
+								"I love bug-type PokePets!",
+								"I love rock-type PokePets!",
+								"I love water-type PokePets!",
+								"I love fire-type PokePets!",
+								"I love grass-type PokePets!",
+								"I love electric-type PokePets!",
+								"I love ghost-type PokePets!",
+								"I love ice-type PokePets!",
+								"I love psychic-type PokePets!",
+								"Are you a trainer too? Can we battle?",
+								"You think you can beat me?"
+								"Check out my new PokePet!",
+								"YO LETS BATTLE,"
+								"Can I test my PokePet against yours?",
+								"Help me level up my PokePet!"};
+
+const string rivalQuote[]={	//1st Rival Battle
+							"Lets Battle! I know my PokePet is bettter than yours!", 
+							//if Player wins
+							"You got lucky this time...",
+							"Why can't I win!",
+							"Whatever, I'll beat you next time."
+							//if Rival wins
+							"Hmph, told you mine was better.",		
+							"You're so weak!",
+							"You seriously thought you could win? Hah"};
+
 const string introText[]={	"Hello there!",
 							"Welcome to the world of PokePets! My name is Haney!",
 							"I study PokePets. People call me the PokePet Professor!",
@@ -134,12 +175,38 @@ const string introText[]={	"Hello there!",
 
 							"Are you ready? Because your journey starts now!"};
 
-const string palletTown[]={	""};
+const string palletTown[]={	"Prof Haney wants to talk to you!",
+							"I want you to choose one of these PokePets and become good friends.",
+							"Your Pokepet seems to like you.",
+							"You should try to collect all the PokePet badges!",
+							"Go past Viridian Forest to Pewter City and challenge the gym leader there"};
 
-const string yesNo[] = {"Yes",
-						"No"};
+const string viridianCity[]={	"Gym is closed"};
+								//add more text after 7 badges  
 
 
+const string pewterCity[]={		"My name is Brock and I am the Pewter City Gym Leader.",
+								"My rock-type PokePet is the toughest!"
+								"If you want this badge, you gotta beat me first!",
+								"Whoa you're really something...",
+								"You beat me fair and square, here take this badge.",
+								"The next gym is in Cerulean City.",
+								"You can get there through going pass Mt.Moon via Route 3."};
+
+//these are what Mr.X says to Player when they meet in Mt. Moon					
+const string mtMoon[]={		"Perfect! With this drug, all the PokePets here will grow angry and stronger!",
+							"Hmm..Who are you?",
+							"Don't stand in my way or else..",
+							"You're quite the trainer, but you're too late",
+							"I'm done with what I wanted to accomplish here"};
+
+
+const string ceruleanCity[]={	"My name is Misty and water-types are my specialty.",
+								"There's no way you're getting this badge",
+								"A win is a win, here take this with you",
+								"Head to Vermillion City, The next gym you seek is there",
+								"Thank you for stopping those PokeDrug Trainers",
+								"Please take this PokePet as a reward"};
 
 
 #endif
