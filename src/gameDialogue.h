@@ -106,10 +106,39 @@ const int wildPokePet[][]={	{0},						//Pallet Town
 						   	{0},						//PokePet League	
 						   	};
 
-const int levelRange[][]={	{0},
-							{2,4}
+const int levelRange[][]={	{0},						//Pallet Town
+						   	{2,4},						//Route 1
+						   	{0},						//Viridian City
+						   	{3,6},						//Route 2
+						   	{4,11},						//Viridian Forest
+						   	{0},						//Pewter City
+						   	{7,9},						//Route 3
+						   	{8,10},						//Mt Moon
+						   	{0},						//Cerulean City
+						   	{10,14},					//Route 4
+						   	{16,22}						//Route 5
+						   	{0},						//Underground Passage
+						   	{0},						//Vermillion City
+						   	{18,22}, 					//Route 6,snorlax(lvl30) is on this route; need pokeflute
+						   	{18,22}, 					//Rock Tunnel
+						   	{0},						//Lavendar Town
+						   	{19,21},					//Ghost Tower
+						   	{21,24},					//Route 7
+						   	{0},						//Underground Passage, Player recieves fly from old man
+						   	{0},						//Celadon City
+						   	{20,26},					//Route 8
+						   	{0},						//Fuchsia City
+						   	{25,29},					//Route 9
+						   	{26,30},					//Route 10
+						   	{0},						//Saffron City
+						   	{0},						//Cinnebar Island
+						   	{18,22},					//Route 11
+						   	{35,40},					//Route 12
+						   	{40,45}						//Crystal Cave
+						   	{0},						//PokePet League	
+						   	};
 
-const string location[]={	"Pallet Town",
+const string location[]={	"Pallet Town",				
 							"Route 1",
 							"Viridian City",
 							"Route 2",
@@ -153,7 +182,7 @@ const string winLose[]={"You blacked out!", //use this when Player loses
 						"Aww..I was so close"
 						"How did you get your PokePet to be so strong?"};
 
-//things trainers say to Player
+//things trainers say to Player before battle! or when encountered
 const string trainerQuote[]={	"Is that a PokePet? Lets battle!",
 								"I love bug-type PokePets!",
 								"I love rock-type PokePets!",
