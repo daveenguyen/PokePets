@@ -74,44 +74,50 @@ const string specialItem[]={"HM Fly",
 							"HM Surf",
 							"PokePet Flute"};
 
+const int wildPokePet[][]={	{0},
+						   	{16,19},
+						   	{0},
+						   	[]
+
+
+
+
+						   	};
+
+const int levelRange[][]={	{0},
+							{2,4}
+
 const string location[]={	"Pallet Town",
+							"Route 1",
 							"Viridian City",
-							"Pewter City",
-							"Cerulean City",
-							"Vermillion City",
-							"Lavendar Town",
-							"Celadon City",
-							"Fuchsia City",
-							"Saffron City",
-							"Cinnebar Island",
-							"PokePet League"};
-
-const string place[]={		"Home",
-							"Prof Haney's Lab",
-							"PokePet Center",
-							"PokePet Mart",
-							"Gym"
-							"Mt.Moon",
-							"Rock Tunnel",
-							"Underground Passage to Vermillion",
-							"Underground Passage to Celadon",
-							"Ghost Tower",
-							"Abandoned Lab",
-							"Dojo",
-							"Crystal Cave"};
-
-const string route[]={		"Route 1",
 							"Route 2",
+							"Viridian Forest"
+							"Pewter City",
 							"Route 3",
+							"Mt.Moon",
+							"Cerulean City",
 							"Route 4",
 							"Route 5",
+							"Underground Passage to Vermillion",
+							"Vermillion City",
 							"Route 6",
+							"Rock Tunnel",
+							"Lavendar Town",
+							"Ghost Tower",
 							"Route 7",
+							"Underground Passage to Celadon",
+							"Celadon City",
 							"Route 8",
+							"Fuchsia City",
 							"Route 9",
 							"Route 10",
+							"Saffron City",
+							"Cinnebar Island",
 							"Route 11",
-							"Route 12"};
+							"Route 12",
+							"Crystal Cave",
+							"PokePet League"};
+
 
 const string yesNo[] = {"Yes",
 						"No"};
@@ -141,10 +147,20 @@ const string trainerQuote[]={	"Is that a PokePet? Lets battle!",
 								"Check out my new PokePet!",
 								"YO LETS BATTLE,"
 								"Can I test my PokePet against yours?",
-								"Help me level up my PokePet!"};
+								"Help me level up my PokePet!",
+								//pokedrug trainers
+								"Try and stop us!",
+								"You're too late! We already drugged the river!",
+								"Why are you trying to stop us?"};
 
 const string rivalQuote[]={	//1st Rival Battle
 							"Lets Battle! I know my PokePet is bettter than yours!", 
+							//2nd Rival Battle
+							"There are PokeDrug trainers up ahead.",
+							"I'll stop them myself AFTER we beat you!"
+							//3rd Rival Battle
+							""
+
 							//if Player wins
 							"You got lucky this time...",
 							"Why can't I win!",
@@ -187,7 +203,7 @@ const string viridianCity[]={	"Gym is closed"};
 
 const string pewterCity[]={		"My name is Brock and I am the Pewter City Gym Leader.",
 								"My rock-type PokePet is the toughest!"
-								"If you want this badge, you gotta beat me first!",
+								"If you want this badge, you gotta beat me first!",d
 								"Whoa you're really something...",
 								"You beat me fair and square, here take this badge.",
 								"The next gym is in Cerulean City.",
@@ -207,6 +223,17 @@ const string ceruleanCity[]={	"My name is Misty and water-types are my specialty
 								"Head to Vermillion City, The next gym you seek is there",
 								"Thank you for stopping those PokeDrug Trainers",
 								"Please take this PokePet as a reward"};
+
+const string vermillionCity[]={	"I'm Lt. Surge and I use electric-type PokePets",
+								"You have no chance against me!",
+								"You're pretty tough after all",
+								"The next gym is located in Celadon City."};
+
+const string oldMan[]={		""}
+
+const string lavendarTown[]={	""}
+
+
 
 
 #endif
