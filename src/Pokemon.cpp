@@ -574,7 +574,7 @@ void Pokemon::useMove(int i, Pokemon* target)
             absorb -= target->getCurHP();
             if (absorb > 0)
             {
-                cout << getNickname() << " restored some health" << end;
+                cout << getNickname() << " restored some health" << endl;
                 adjustHP(absorb);
             }
             break;
@@ -883,3 +883,21 @@ void Pokemon::checkAilment()
     }
 }
 
+int Pokemon::cureStatus(int item, int quantity)
+{
+    switch (_status)
+    {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        default:
+            break;
+    }
+}

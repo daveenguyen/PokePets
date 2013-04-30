@@ -74,7 +74,7 @@ const string specialItem[]={"HM Fly",
 							"HM Surf",
 							"PokePet Flute"};
 
-const int wildPokePet[][]={	{0},						//Pallet Town
+const int wildPokePet[][8]={	{0},						//Pallet Town
 						   	{16,19},					//Route 1
 						   	{0},						//Viridian City
 						   	{29,32,56,21},				//Route 2
@@ -84,7 +84,7 @@ const int wildPokePet[][]={	{0},						//Pallet Town
 						   	{41,35,74,95},				//Mt Moon
 						   	{0},						//Cerulean City
 						   	{63,96,43,48,69,54},		//Route 4
-						   	{66,27,23,81,100,20,29,32}	//Route 5
+						   	{66,27,23,81,100,20,29,32},	//Route 5
 						   	{0},						//Underground Passage
 						   	{0},						//Vermillion City
 						   	{17,96,19,22}, 				//Route 6,snorlax is on this route; need pokeflute
@@ -102,11 +102,11 @@ const int wildPokePet[][]={	{0},						//Pallet Town
 						   	{0},						//Cinnebar Island
 						   	{129,72,118,116,120},		//Route 11
 						   	{90,79,131,86,60,98},		//Route 12
-						   	{126,140,138,115,128,124}	//Crystal Cave
-						   	{0},						//PokePet League	
+						   	{126,140,138,115,128,124},	//Crystal Cave
+						   	{0},						//PokePet League
 						   	};
 
-const int levelRange[][]={	{0},						//Pallet Town
+const int levelRange[][2]={	{0},						//Pallet Town
 						   	{2,4},						//Route 1
 						   	{0},						//Viridian City
 						   	{3,6},						//Route 2
@@ -116,7 +116,7 @@ const int levelRange[][]={	{0},						//Pallet Town
 						   	{8,10},						//Mt Moon
 						   	{0},						//Cerulean City
 						   	{10,14},					//Route 4
-						   	{16,22}						//Route 5
+						   	{16,22},						//Route 5
 						   	{0},						//Underground Passage
 						   	{0},						//Vermillion City
 						   	{18,22}, 					//Route 6,snorlax(lvl30) is on this route; need pokeflute
@@ -134,11 +134,11 @@ const int levelRange[][]={	{0},						//Pallet Town
 						   	{0},						//Cinnebar Island
 						   	{18,22},					//Route 11
 						   	{35,40},					//Route 12
-						   	{40,45}						//Crystal Cave
-						   	{0},						//PokePet League	
+						   	{40,45},						//Crystal Cave
+						   	{0},						//PokePet League
 						   	};
 
-const string location[]={	"Pallet Town",				
+const string location[]={	"Pallet Town",
 							"Route 1",
 							"Viridian City",
 							"Route 2",
@@ -205,7 +205,7 @@ const string trainerQuote[]={	"Is that a PokePet? Lets battle!",
 								"Why are you trying to stop us?"};
 
 const string rivalQuote[]={	//1st Rival Battle
-							"Lets Battle! I know my PokePet is bettter than yours!", 
+							"Lets Battle! I know my PokePet is bettter than yours!",
 							//2nd Rival Battle
 							"There are PokeDrug trainers up ahead.",
 							"I'll stop them myself AFTER we beat you!"
@@ -217,7 +217,7 @@ const string rivalQuote[]={	//1st Rival Battle
 							"Why can't I win!",
 							"Whatever, I'll beat you next time."
 							//if Rival wins
-							"Hmph, told you mine was better.",		
+							"Hmph, told you mine was better.",
 							"You're so weak!",
 							"You seriously thought you could win? Hah"};
 
@@ -249,18 +249,18 @@ const string palletTown[]={	"Prof Haney wants to talk to you!",
 							"Go past Viridian Forest to Pewter City and challenge the gym leader there"};
 
 const string viridianCity[]={	"Gym is closed"};
-								//add more text after 7 badges  
+								//add more text after 7 badges
 
 
 const string pewterCity[]={		"My name is Brock and I am the Pewter City Gym Leader.",
 								"My rock-type PokePet is the toughest!"
-								"If you want this badge, you gotta beat me first!",d
+								"If you want this badge, you gotta beat me first!",
 								"Whoa you're really something...",
 								"You beat me fair and square, here take this badge.",
 								"The next gym is in Cerulean City.",
 								"You can get there through going pass Mt.Moon via Route 3."};
 
-//these are what Mr.X says to Player when they meet in Mt. Moon					
+//these are what Mr.X says to Player when they meet in Mt. Moon
 const string mtMoon[]={		"Perfect! With this drug, all the PokePets here will grow angry and stronger!",
 							"Hmm..Who are you?",
 							"Don't stand in my way or else..",
@@ -280,9 +280,9 @@ const string vermillionCity[]={	"I'm Lt. Surge and I use electric-type PokePets"
 								"You're pretty tough after all",
 								"The next gym is located in Celadon City."};
 
-const string oldMan[]={		""}
+const string oldMan[]={		""};
 
-const string lavendarTown[]={	""}
+const string lavendarTown[]={	""};
 
 
 

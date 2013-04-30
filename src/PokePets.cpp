@@ -226,8 +226,7 @@ void gameIntro()
         getline(cin, rivalName);
 
 
-        string tmpPrompt = rivalName;
-        tmpPrompt += " is your rival's name.  Is that correct?";
+        string tmpPrompt = rivalName + " is your rival's name.  Is that correct?";
         if (getInputPrompt(tmpPrompt, 2, yesNo)==1) done = true;
 
     }while (!done);
@@ -268,9 +267,7 @@ void printPalletTown()
     while (curLocation == 0)
     {
         cout << "\nWelcome to " << location[curLocation] << endl;
-        string locActions[] = {"Visit Home", "Visit ", "Visit Prof Haney's Lab", "Go to Route 1"};
-        locActions[1] += rivalName;
-        locActions[1] += "'s home";
+        string locActions[] = {"Visit Home", ("Visit "+rivalName+"'s home"), "Visit "+npcName[0]+"'s Lab", "Go to Route 1"};
 
         switch (getInputPrompt("What would you like to do?", 4, locActions))
         {
@@ -357,9 +354,7 @@ void getPokePet()
     if (myPokePetNum==4) myPokePetNum = 0;
     else
     {
-        string tmpPrompt = "Would you like to give your ";
-        tmpPrompt += pokeOptions[myPokePetNum-1];
-        tmpPrompt += " a nickname?";
+        string tmpPrompt = "Would you like to give your " + pokeOptions[myPokePetNum-1] + " a nickname?";
 
 
         if (getInputPrompt(tmpPrompt, 2, yesNo)==1)
@@ -419,7 +414,7 @@ void printRoute1()
 {
     while (curLocation == 1)
     {
-        cout << "You're in " << route[0] << endl;
+        cout << "You're in " << location[curLocation] << endl;
         string locActions[] = {"Go to Pallet Town", "Battle", "Check your pet"};
 
         switch (getInputPrompt("What would you like to do?", 3, locActions))
