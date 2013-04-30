@@ -74,14 +74,36 @@ const string specialItem[]={"HM Fly",
 							"HM Surf",
 							"PokePet Flute"};
 
-const int wildPokePet[][]={	{0},
-						   	{16,19},
-						   	{0},
-						   	[]
-
-
-
-
+const int wildPokePet[][]={	{0},						//Pallet Town
+						   	{16,19},					//Route 1
+						   	{0},						//Viridian City
+						   	{29,32,56,21},				//Route 2
+						   	{10,11,12,14,16,25,17},		//Viridian Forest
+						   	{0},						//Pewter City
+						   	{21,19,39},					//Route 3
+						   	{41,35,74,95},				//Mt Moon
+						   	{0},						//Cerulean City
+						   	{63,96,43,48,69,54},		//Route 4
+						   	{66,27,23,81,100,20,29,32}	//Route 5
+						   	{0},						//Underground Passage
+						   	{0},						//Vermillion City
+						   	{17,96,19,22}, 				//Route 6,snorlax is on this route; need pokeflute
+						   	{66,74,50,41}, 				//Rock Tunnel
+						   	{0},						//Lavendar Town
+						   	{92,93,104},				//Ghost Tower
+						   	{52,58,37,39,63,16},		//Route 7
+						   	{0},						//Underground Passage, Player recieves fly from old man
+						   	{0},						//Celadon City
+						   	{84,21,88},					//Route 8
+						   	{0},						//Fuchsia City
+						   	{123,77,46,83,102},			//Route 9
+						   	{111,114,113,132},			//Route 10
+						   	{0},						//Saffron City
+						   	{0},						//Cinnebar Island
+						   	{129,72,118,116,120},		//Route 11
+						   	{90,79,131,86,60,98},		//Route 12
+						   	{126,140,138,115,128,124}	//Crystal Cave
+						   	{0},						//PokePet League	
 						   	};
 
 const int levelRange[][]={	{0},
