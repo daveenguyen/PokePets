@@ -33,7 +33,7 @@ void PokemonBattle::start()
         switch(_state)
         {
             case -1:
-                cout << "You ran away!";
+                cout << "You ran away!" << endl;
                 cout.flush();
                 _battleDone = true;
                 delay(1750);
@@ -125,7 +125,16 @@ void PokemonBattle::printBattleOptions()
         case 4:
             // run
             //http://bulbapedia.bulbagarden.net/wiki/Escape
-            _state = -1;
+            if (enemyPkmn->isWild())
+            {
+                _state = -1;
+            }
+            else
+            {
+                cout << "You cannot run away from a trainer battle!" << endl;
+                cout.flush();
+                delay(1750);
+            }
             break;
         default:
             break;
@@ -164,13 +173,14 @@ void PokemonBattle::printCommon()
         cout << " ";
     cout <<"HP: " << (int)(float(enemyPkmn->getCurHP())/enemyPkmn->getStats(0)*100) << "%";
 
+    // print status
     switch (enemyPkmn->getStatus())
     {
         case 1: // paralysis (PAR)
             cout << C_ELECTRIC << " PAR" << C_RESET;
             break;
         case 2: // sleep (SLP)
-        cout << C_NORMAL << " SLP" << C_RESET;
+            cout << C_NORMAL << " SLP" << C_RESET;
             break;
         case 3: // freeze (FRZ)
             cout << C_ICE << " FRZ" << C_RESET;
@@ -577,7 +587,7 @@ void PokemonBattle::doEndTurn()
                 }
                 else
                 {
-                    cout << "The foe's ";
+                    cout << enemyName << "'s ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by burn." << endl;
                 cout << C_RESET;
@@ -594,7 +604,7 @@ void PokemonBattle::doEndTurn()
                 }
                 else
                 {
-                    cout << "The foe's ";
+                    cout << enemyName << "'s ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by poison." << endl;
                 cout << C_RESET;
@@ -614,7 +624,7 @@ void PokemonBattle::doEndTurn()
                 }
                 else
                 {
-                    cout << "The foe's ";
+                    cout << enemyName << "'s ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by burn." << endl;
                 cout << C_RESET;
@@ -630,7 +640,7 @@ void PokemonBattle::doEndTurn()
                 }
                 else
                 {
-                    cout << "The foe's ";
+                    cout << enemyName << "'s ";
                 }
                 cout << enemyPkmn->getNickname() << " was hurt by poison." << endl;
                 cout << C_RESET;
@@ -742,7 +752,7 @@ void PokemonBattle::checkPrintFaint()
         }
         else
         {
-            cout << "The foe's ";
+            cout << enemyName << "'s ";
         }
         cout << enemyPkmn->getNickname() << " fainted!" << endl;
         _battleDone = true;

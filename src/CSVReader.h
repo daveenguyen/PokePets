@@ -63,6 +63,9 @@ class CSVReader
             return t;
         };
 
+        /**
+         * Gets the current field as a string.
+         */
         string getCurField();
 
         /**

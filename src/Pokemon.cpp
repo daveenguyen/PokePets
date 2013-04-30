@@ -52,6 +52,7 @@ void Pokemon::reset()
     if (_moves[0].getMoveNum()==0)
         initMoves();
 
+    // reset battle stats
     _statStage[1] = 0;
     _statStage[2] = 0;
     _statStage[3] = 0;
@@ -269,7 +270,7 @@ int Pokemon::getStats(int i)
     // It is also rounded down before the Nature multiplier, if any, is applied.
     int calc_stat=0;
 
-    // hp calculation
+    // hp calculation uses a different formula
     if (i == 0)
     {
         calc_stat = ((_IVs[i] + (2 * getBaseStats(i)) + (_EVs[i] / (double)4) + 100) * _level)/100 + 10;
@@ -292,6 +293,7 @@ int Pokemon::getStats(int i)
     return calc_stat;
 }
 
+// Gets the adjusted stats due to statstages for battle
 int Pokemon::getBattleStats(int i)
 {
     int stat;
@@ -416,12 +418,14 @@ void Pokemon::checkExperience()
         _curHP = (int)(hpRatio * getStats(0));
         cout << getNickname() << " grew to level " << _level << "!" << endl;
 
+        // count current number of moves
         int moveCount = 0;
         for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
         {
             ++moveCount;
         }
 
+        // check level up moves
         int vectorSize = getLevelUpMoves().size();
         for (int i = 0; i < vectorSize; ++i)
         {
@@ -564,8 +568,15 @@ void Pokemon::useMove(int i, Pokemon* target)
         }
         case 8:
         {
-            // damage + heal
+            // damage + absorb heal
+            int absorb = target->getCurHP();
             doDamage(target, &_moves[i]);
+            absorb -= target->getCurHP();
+            if (absorb > 0)
+            {
+                cout << getNickname() << " restored some health" << end;
+                adjustHP(absorb);
+            }
             break;
         }
         case 9:
@@ -701,7 +712,9 @@ void Pokemon::doDamage(Pokemon* target, Move* move)
         }
         int damage = ((2 * _level + 10) / (double)250 * (atk / (double)def) * move->getPower() + 2) * modifier;
 
+        int curTarHp = target->getCurHP();
         target->adjustHP(-damage);
+        cout << getNickname() << " did " << (curTarHp-target->getCurHP()) << " damage" << endl;
     }
     else
     {
@@ -869,3 +882,4 @@ void Pokemon::checkAilment()
         }
     }
 }
+

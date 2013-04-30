@@ -57,6 +57,11 @@ class Pokemon : public PokemonSpecies
         bool   isWild();
         void   setIsWild(bool value);
 
+        /**
+         * cure a pokemon's status
+         */
+        virtual int cureStatus(int item, int quantity);
+
     private:
 
         string  _nickname;
@@ -84,14 +89,6 @@ class Pokemon : public PokemonSpecies
 
         // battle stats/boosts
         int _statStage[8];
-        // int _atkStage;
-        // int _defStage;
-        // int _sAtkStage;
-        // int _sDefStage;
-        // int _speedStage;
-        // int _evasionStage;
-        // int _accuracyStage;
-        // int _critStage;
 
         void initMoves();
         void doDamage(Pokemon* target, Move* move);
