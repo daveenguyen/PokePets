@@ -251,13 +251,24 @@ const string palletTown[]={	"Prof Haney wants to talk to you!",
 							"You should try to collect all the PokePet badges!",
 							"Go past Viridian Forest to Pewter City and challenge the gym leader there"};
 
+								//need 7 badges for gym to open
 const string viridianCity[]={	"Gym is closed"};
-								//add more text after 7 badges
+								//after 7 badges obtained
+								"Surprised to see me?",
+								"I am the Viridian City gym leader.",
+								"Even though you stopped my plans, I still have
+								a duty to do as a gym leader",
+								"You won't be getting this last badge!"
+								//after win
+								"Fascinating...your PokePets seem to find power
+								through a different way....",
+								"As much as I hate to do it, I have to give you this badge"};
 
 
 const string pewterCity[]={		"My name is Brock and I am the Pewter City Gym Leader.",
 								"My rock-type PokePet is the toughest!"
 								"If you want this badge, you gotta beat me first!",
+								//After win
 								"Whoa you're really something...",
 								"You beat me fair and square, here take this badge.",
 								"The next gym is in Cerulean City.",
@@ -267,12 +278,14 @@ const string pewterCity[]={		"My name is Brock and I am the Pewter City Gym Lead
 const string mtMoon[]={		"Perfect! With this drug, all the PokePets here will grow angry and stronger!",
 							"Hmm..Who are you?",
 							"Don't stand in my way or else..",
+							//after Player wins
 							"You're quite the trainer, but you're too late",
 							"I'm done with what I wanted to accomplish here"}; //Mr. X escapes
 
 
 const string ceruleanCity[]={	"My name is Misty and water-types are my specialty.",
 								"There's no way you're getting this badge",
+								//After win
 								"A win is a win, here take this with you",
 								"Head to Vermillion City, The next gym you seek is there",
 								"Thank you for stopping those PokeDrug Trainers",
@@ -281,7 +294,8 @@ const string ceruleanCity[]={	"My name is Misty and water-types are my specialty
 const string vermillionCity[]={	"I'm Lt. Surge and I use electric-type PokePets",
 								"You have no chance against me!",
 								"You're pretty tough after all",
-								"The next gym is located in Celadon City."};
+								"The next gym is located in Celadon City.",
+								"Take this badge and Go!"};
 
 							//when Player tries to wake up snorlax in Route 6
 const string oldMan[]={		"I saw you trying to wake that sleeping Pokepet.",
@@ -291,7 +305,8 @@ const string oldMan[]={		"I saw you trying to wake that sleeping Pokepet.",
 							//When player goes into Underground Passage to Celadon
 							"I love flying! Here take this!"};
 
-//const string lavendarTown[]={	""};
+//const string lavendarTown[]={	""}
+//musician is in Lavendar Town
 const string musician[]={	"You want this PokePet Flute?",
 							"If you find me the hidden treasure located in the GhostTower,
 							then I'll trade for it.",
@@ -302,10 +317,59 @@ const string musician[]={	"You want this PokePet Flute?",
 const string ghostTower[]={	"We meet again...",
 							"Soon all the ghost PokePet in this tower will grow with anger.",
 							"You need to get out of my way",
+							//After Player wins
 							"Even though I lost, you're still too late.",
 							"Soon this world will be filled with anger."}; //Mr. X escapes
 
-const
+const string celadonCity[]={"Ericka is my name and my grass-type PokePets are no joke.",
+							"You better get ready to lose!",
+							//After win
+							"I can't believe I lost...oh wells.",
+							"Please accept this badge as proof of victory."
+							"You should head to Fuschia City next, Good luck."};
+
+const string fuchsiaCity[]={"People call me Koga, the bug-type specialist!",
+							"I will swam you with bugs!",
+							//After win
+							"You battled well.",
+							"Take this, it's yours now."
+							"The next gym is located at Cinnebar Island,
+							but you'll need a PokePet that knows how to surf."};
+
+//story to go to saffron city, after fuchsia city
+const string profHaney[]={	"I saw you trying to wake that sleeping Pokepet.",
+							"You're going to need a special instrument to wake it up.",
+							"I heard a man in Lavendar Town has one.",
+							"You can get there by going through Rock Tunnel.",
+							//When player goes into Underground Passage to Celadon
+							"I love flying! Here take this!"};
+
+							//Player needs to finish Abandoned Lab before entering Gym
+const string saffronCity[]={"You can't come in",
+
+							"I knew you were coming...My psychic-type PokePets told me",
+							"I can predict your every move!",
+							"You can't win!",
+							//After win
+							"I sense a strong will within you.",
+							"Take this badge as proof that you beat me.",};
+
+const string abandonedLab[]={"AHh..I was expecting you.",
+							"Prof Haney sent you didn't he.",
+							"That poor man just doesn't understand anymore."
+							//After win
+							"It's such a shame...",
+							"With your talent, and my ideas, we could rule the world.",
+							"Let us meet again someday."};
+
+const string cinnebarIsland[]={	"Is it just me..or is it hot in here?",
+								"Oh wait, its probably just my fire-type PokePets",
+								"I hope you brought some burn heals"
+								//After win
+								"I can sense the flames in your passion for battling",
+								"Careful with this badge, its HOT!",
+								"I heard the gym in Viridian City is open again.",
+								"I wonder what happened..."};
 
 
 #endif

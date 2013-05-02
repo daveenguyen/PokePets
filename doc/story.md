@@ -417,7 +417,7 @@ for the musician if haven't done so already
 - Visit Pokepet Center
 - Visit Pokepet Mart
 - Visit Gym Leader
-	* Uses insect-type (lvl 39-42)
+	* Uses bug-type (lvl 39-42)
 	* Receive Insect Badge upon victory
 
 - Go to Route 9
