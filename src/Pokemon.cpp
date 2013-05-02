@@ -883,21 +883,109 @@ void Pokemon::checkAilment()
     }
 }
 
-int Pokemon::cureStatus(int item, int quantity)
+bool Pokemon::cureStatus(int item)
 {
     switch (_status)
     {
+        case 0:
+            // pokemon healthy
+            return true;
+            break;
         case 1:
+            return cureParalysis(item);
             break;
         case 2:
+            return cureSleep(item);
             break;
         case 3:
+            return cureFrozen(item);
             break;
         case 4:
+            return cureBurn(item);
             break;
         case 5:
+            return curePoison(item);
             break;
         default:
+            return false;
             break;
+    }
+}
+
+bool Pokemon::cureParalysis(int item)
+{
+    // Cured if using 1 Paralyze Heal(item 3) or Pokemon healing service(item -1)
+    if (item == 3 || item == -1)
+    {
+        _status = 0;
+        return true;
+    }
+    else return false;
+}
+
+bool Pokemon::cureSleep(int item)
+{
+    // Cured if using 1 Awakening(item 4) or Pokemon healing service(item -1)
+    if (item == 4 || item == -1)
+    {
+        _status = 0;
+        return true;
+    }
+    else return false;
+}
+
+bool Pokemon::cureFrozen(int item)
+{
+    // Cured if using 1 Paralyze Heal(item 6) or Pokemon healing service(item -1)
+    if (item == 6 || item == -1)
+    {
+        _status = 0;
+        return true;
+    }
+    else return false;
+}
+
+bool Pokemon::cureBurn(int item)
+{
+    // Cured if using 1 Paralyze Heal(item 5) or Pokemon healing service(item -1)
+    if (item == 5 || item == -1)
+    {
+        _status = 0;
+        return true;
+    }
+    else return false;
+}
+
+bool Pokemon::curePoison(int item)
+{
+    // Cured if using 1 Paralyze Heal(item 2) or Pokemon healing service(item -1)
+    if (item == 2 || item == -1)
+    {
+        _status = 0;
+        return true;
+    }
+    else return false;
+}
+
+
+void Pokemon::adjustEffort(int hp, int atk, int def, int satk, int sdef, int spd)
+{
+    int evSum = _EVs[0] + _EVs[1] + _EVs[2] + _EVs[3] + _EVs[4] + _EVs[5];
+    int evYield[] =  {hp, atk, def, satk, sdef, spd};
+
+    // iterate through each stats
+    for (int i = 0; i < 6 && evSum < 510; i++)
+    {
+        if (_EVs[i] < 255)
+        {
+            int curYield = evYield[i];
+
+            while (curYield > 0 && evSum < 510 && _EVs[i] < 255)
+            {
+                ++evSum;
+                ++_EVs[i];
+                --curYield;
+            }
+        }
     }
 }

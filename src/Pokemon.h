@@ -15,52 +15,65 @@ class Pokemon : public PokemonSpecies
         Pokemon(int dexNum, int level=1);
         ~Pokemon();
 
-        void reset();
+        void   reset();
 
-        void setNickname(string i);
-        // void setGender(string i);
-        // void setAbility(int i);
-        void setNature(string i);
-        void setLevel(int i);
-        void setCurExp(int i);
-        void setIV(int i, int x);
-        void setEV(int i, int x);
-        void setMove(int i, Move x);
-        // void setCurHP(int i);
-        void setStatus(int i);
-        // void setStats(int i, int x);
-
-        int  getStatStage(int i);
-        void setStatStage(int i, int value);
-
+        void   setNickname(string i);
         string getNickname();
-        string getGender();
-        int    getAbility();
+
+        void   setNature(string i);
         string getNature();
+
+        void   setLevel(int i);
         int    getLevel();
+
+        void   setCurExp(int i);
         int    getCurExp();
+
+        void   setIV(int i, int x);
         int    getIV(int i);
+
+        void   setEV(int i, int x);
         int    getEV(int i);
+
+        void   setMove(int i, Move x);
         Move   getMove(int i);
-        int    getCurHP();
+
+        void   setStatus(int i);
         int    getStatus();
-        int    getStats(int i);
-        int    getBattleStats(int i);
-        int    getCurPP(int i);
-        void   adjustHP(int i);
-        void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
-        void   checkExperience();
-        void   useMove(int i, Pokemon* target);
+
+        int    getStatStage(int i);
+        void   setStatStage(int i, int value);
+
+        void   setIsWild(bool value);
+        bool   isWild();
+
         void   setAilmentCounter(int i);
+
         void   checkAilment();
 
-        bool   isWild();
-        void   setIsWild(bool value);
+        void   checkExperience();
 
-        /**
-         * cure a pokemon's status
-         */
-        virtual int cureStatus(int item, int quantity);
+        void   adjustExperience(int baseExp, int faintLvl, bool isWild, int participated=1);
+
+        void   adjustEffort(int hp, int atk, int def, int satk, int sdef, int spd);
+
+        void   adjustHP(int i);
+
+        int    getStats(int i);
+
+        int    getBattleStats(int i);
+
+        int    getCurHP();
+
+        int    getCurPP(int i);
+
+        string getGender();
+
+        int    getAbility();
+
+        void   useMove(int i, Pokemon* target);
+
+        bool   cureStatus(int item);
 
     private:
 
@@ -70,14 +83,12 @@ class Pokemon : public PokemonSpecies
         int _abilityIndex;
 
         Nature _nature;
-        //int _nature;
 
         int _level;
         int _curExp;
         int _IVs[6];
         int _EVs[6];
 
-        //int _moves[4];
         Move _moves[4];
         int  _curPP[4];
         int  _curHP;
@@ -87,7 +98,7 @@ class Pokemon : public PokemonSpecies
 
         bool _isWild;
 
-        // battle stats/boosts
+        // battle stat boosts
         int _statStage[8];
 
         void initMoves();
@@ -97,6 +108,14 @@ class Pokemon : public PokemonSpecies
         void doLowersTargetStat(Pokemon* target, Move* move);
         void doRaiseUserStat(Move* move);
         void doRaiseTargetStat(Pokemon* target, Move* move);
+
+        // curing status by items
+        // returns true if status was cured
+        virtual bool cureParalysis(int item);
+        virtual bool cureSleep(int item);
+        virtual bool cureFrozen(int item);
+        virtual bool cureBurn(int item);
+        virtual bool curePoison(int item);
 };
 
 #endif // POKEMON_H

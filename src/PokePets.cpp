@@ -67,7 +67,6 @@ void printDialogue(const string* dialogue, int indexes)
         int prevIndex = 0;  // index of previous space or newline
         int curLength = 0;  // the current length of the string
         string curString = *dialogue;
-        // curString
 
         //http://stackoverflow.com/questions/4643512/replace-substring-with-another-substring-c
         size_t index = 0;
