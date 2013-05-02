@@ -438,7 +438,22 @@ void printRoute1()
 
 void randomBattle()
 {
-    Pokemon enemyPkmn(rand()%151+1, myPokemon.getLevel());
+
+    // generate random level from range
+    int minLvl = levelRange[curLocation][0];
+    int maxLvl = levelRange[curLocation][0];
+
+    // add 1 due to "page counting"
+    int numOfLvls = (maxLvl - minLvl + 1);
+    int randLvl = rand() % numOfLvls;
+    // add lvl offset
+    randLvl += minLvl;
+
+    Pokemon enemyPkmn(
+        wildPokePet[curLocation][rand()%8],
+        randLvl
+    );
+
     builder.setPokemon(&enemyPkmn);
     builder.initSpecies();
 
