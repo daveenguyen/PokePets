@@ -761,12 +761,12 @@ void PokemonBattle::checkPrintFaint()
         myPkmn->adjustExperience(enemyPkmn->getBaseExp(), enemyPkmn->getLevel(), enemyPkmn->isWild(), 1);
 
         myPkmn->adjustEffort(
-            myPkmn->getEffortYield(0),
-            myPkmn->getEffortYield(1),
-            myPkmn->getEffortYield(2),
-            myPkmn->getEffortYield(3),
-            myPkmn->getEffortYield(4),
-            myPkmn->getEffortYield(5)
+            enemyPkmn->getEffortYield(0),
+            enemyPkmn->getEffortYield(1),
+            enemyPkmn->getEffortYield(2),
+            enemyPkmn->getEffortYield(3),
+            enemyPkmn->getEffortYield(4),
+            enemyPkmn->getEffortYield(5)
         );
 
         delay(1750);
