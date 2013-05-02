@@ -438,32 +438,38 @@ void printRoute1()
 
 void randomBattle()
 {
+    if (myPokemon.getCurHP()>0)
+    {
+        // generate random level from range
+        int minLvl = levelRange[curLocation][0];
+        int maxLvl = levelRange[curLocation][0];
 
-    // generate random level from range
-    int minLvl = levelRange[curLocation][0];
-    int maxLvl = levelRange[curLocation][0];
+        // add 1 due to "page counting"
+        int numOfLvls = (maxLvl - minLvl + 1);
+        int randLvl = rand() % numOfLvls;
+        // add lvl offset
+        randLvl += minLvl;
 
-    // add 1 due to "page counting"
-    int numOfLvls = (maxLvl - minLvl + 1);
-    int randLvl = rand() % numOfLvls;
-    // add lvl offset
-    randLvl += minLvl;
+        Pokemon enemyPkmn(
+            wildPokePet[curLocation][rand()%8],
+            randLvl
+        );
 
-    Pokemon enemyPkmn(
-        wildPokePet[curLocation][rand()%8],
-        randLvl
-    );
+        builder.setPokemon(&enemyPkmn);
+        builder.initSpecies();
 
-    builder.setPokemon(&enemyPkmn);
-    builder.initSpecies();
+        // reset both pokemon
+        enemyPkmn.reset();
+        myPokemon.reset();
 
-    // reset both pokemon
-    enemyPkmn.reset();
-    myPokemon.reset();
-
-    // start battle
-    PokemonBattle battle(&myPokemon, &enemyPkmn);
-    battle.start();
+        // start battle
+        PokemonBattle battle(&myPokemon, &enemyPkmn);
+        battle.start();
+    }
+    else
+    {
+        cout << "You need to heal your pet!" << endl;
+    }
 }
 
 void checkPet()
