@@ -337,12 +337,10 @@ const string fuchsiaCity[]={"People call me Koga, the bug-type specialist!",
 							but you'll need a PokePet that knows how to surf."};
 
 //story to go to saffron city, after fuchsia city
-const string profHaney[]={	"I saw you trying to wake that sleeping Pokepet.",
-							"You're going to need a special instrument to wake it up.",
-							"I heard a man in Lavendar Town has one.",
-							"You can get there by going through Rock Tunnel.",
-							//When player goes into Underground Passage to Celadon
-							"I love flying! Here take this!"};
+const string profHaney[]={	"I need your help!",
+							"My old college, Leo, is up to something terrible!",
+							"You probably know him as Mr. X",
+							"His lab is in Saffron City! Hurry and stop him!"};
 
 							//Player needs to finish Abandoned Lab before entering Gym
 const string saffronCity[]={"You can't come in",
@@ -371,5 +369,25 @@ const string cinnebarIsland[]={	"Is it just me..or is it hot in here?",
 								"I heard the gym in Viridian City is open again.",
 								"I wonder what happened..."};
 
+const sting Dale[]={"Welcome to the Elite Four.",
+					"My name is Dale and I will show you that my electric-type
+					PokePets are the strongest you'll ever fight.",
+					"Let me teach you things you'll surely forget!"
+					//after win
+					"Hmm...I'll buy that."};
+
+const sting Davee[]={""};
+
+const sting Albert[]={	"Yo! My name is Albert and my dragons are the strongest!",
+						"Dragons are superior to everything!",
+						"I'm gonna mess you up",
+						//after win
+						"You proven you can beat the best. Go on."};
+
+const sting Angel[]={	"Hmm..someone actually beat Albert?",
+						"Damn just when I was going to go to sleep too...",
+						"Lets get this over with.",
+						//after win
+						"Props bro. Props"};
 
 #endif
