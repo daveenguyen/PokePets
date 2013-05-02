@@ -204,13 +204,16 @@ const string trainerQuote[]={	"Is that a PokePet? Lets battle!",
 								"You're too late! We already drugged the river!",
 								"Why are you trying to stop us?"};
 
-const string rivalQuote[]={	//1st Rival Battle
+const string rivalQuote[]={	//1st Rival Encounter
 							"Lets Battle! I know my PokePet is bettter than yours!",
-							//2nd Rival Battle
+							//2nd Rival Encounter
 							"There are PokeDrug trainers up ahead.",
-							"I'll stop them myself AFTER we beat you!"
-							//3rd Rival Battle
-							""
+							"I'll stop them myself AFTER I beat you!"
+							//3rd Rival Encounter
+							"Are you here to find the treasure too?",
+							"I couldn't find it, so you should just give up."
+							"Smell you later!"
+							//4th Rival Encounter
 
 							//if Player wins
 							"You got lucky this time...",
@@ -265,7 +268,7 @@ const string mtMoon[]={		"Perfect! With this drug, all the PokePets here will gr
 							"Hmm..Who are you?",
 							"Don't stand in my way or else..",
 							"You're quite the trainer, but you're too late",
-							"I'm done with what I wanted to accomplish here"};
+							"I'm done with what I wanted to accomplish here"}; //Mr. X escapes
 
 
 const string ceruleanCity[]={	"My name is Misty and water-types are my specialty.",
@@ -280,11 +283,29 @@ const string vermillionCity[]={	"I'm Lt. Surge and I use electric-type PokePets"
 								"You're pretty tough after all",
 								"The next gym is located in Celadon City."};
 
-const string oldMan[]={		""};
+							//when Player tries to wake up snorlax in Route 6
+const string oldMan[]={		"I saw you trying to wake that sleeping Pokepet.",
+							"You're going to need a special instrument to wake it up.",
+							"I heard a man in Lavendar Town has one.",
+							"You can get there by going through Rock Tunnel.",
+							//When player goes into Underground Passage to Celadon
+							"I love flying! Here take this!"};
 
-const string lavendarTown[]={	""};
+//const string lavendarTown[]={	""};
+const string musician[]={	"You want this PokePet Flute?",
+							"If you find me the hidden treasure located in the GhostTower,
+							then I'll trade for it.",
+							"Hey is that the treasure?",
+							"Here! take this flute!"}; // Player can now wake up snorlax
 
+//these are what Mr.X says to Player when they meet in GhostTower
+const string ghostTower[]={	"We meet again...",
+							"Soon all the ghost PokePet in this tower will grow with anger.",
+							"You need to get out of my way",
+							"Even though I lost, you're still too late.",
+							"Soon this world will be filled with anger."}; //Mr. X escapes
 
+const
 
 
 #endif
