@@ -967,7 +967,6 @@ bool Pokemon::curePoison(int item)
     else return false;
 }
 
-
 void Pokemon::adjustEffort(int hp, int atk, int def, int satk, int sdef, int spd)
 {
     int evSum = _EVs[0] + _EVs[1] + _EVs[2] + _EVs[3] + _EVs[4] + _EVs[5];
