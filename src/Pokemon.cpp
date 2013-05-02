@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <cstdlib> // for rand, srand
+#include <cstdlib> // for rand
 #include <time.h>
 #include <cmath>
 using namespace std;
@@ -9,7 +9,7 @@ using namespace std;
 
 Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
 {
-    srand(time(NULL));
+    // srand(time(NULL)); // should seed in main
 
     _nickname     = "";
     _genderValue  = rand() % 256;

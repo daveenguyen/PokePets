@@ -37,6 +37,7 @@ int  getInputPrompt(const string prompt, int numOptions, const string* options);
 int main()
 {
     // initialize game stuff
+    srand(time(NULL)); // seeding in main for RNG
     builder.setReader(&reader);
 
     curLocation  = 0;
