@@ -14,6 +14,7 @@ string playerName;
 string rivalName;
 bool   isBoy;
 int    myPokePetNum;
+int    rivalNum;
 string petName;
 
 // Pokemon myPokemon(0,5);
@@ -235,17 +236,17 @@ const string rivalQuote[]={
 	"Lets Battle! I know my PokePet is bettter than yours!",
 	//2nd Rival Encounter
 	"There are PokeDrug trainers up ahead.",
-	"I'll stop them myself AFTER I beat you!"
+	"I'll stop them myself AFTER I beat you!",
 	//3rd Rival Encounter
 	"Are you here to find the treasure too?",
-	"I couldn't find it, so you should just give up."
-	"Smell you later!"
+	"I couldn't find it, so you should just give up.",
+	"Smell you later!",
 	//4th Rival Encounter
 
 	//if Player wins
 	"You got lucky this time...",
 	"Why can't I win!",
-	"Whatever, I'll beat you next time."
+	"Whatever, I'll beat you next time.",
 	//if Rival wins
 	"Hmph, told you mine was better.",
 	"You're so weak!",

@@ -30,7 +30,7 @@ void Squirtle::evolve()
         evolving = true;
     }
     // evolve into blastoise at 36
-    else if (getDexNum()==7 && getLevel() >= 36)
+    else if (getDexNum()==8 && getLevel() >= 36)
     {
         setDexNum(9);
         evolving = true;

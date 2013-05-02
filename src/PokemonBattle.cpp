@@ -24,6 +24,7 @@ PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn, string enemyNa
 
 void PokemonBattle::start()
 {
+    delay(1750);
     printBattleInit();
 
     while (!_battleDone)
@@ -63,10 +64,10 @@ void PokemonBattle::start()
 void PokemonBattle::printBattleInit()
 {
     // clear screen
-    for (int i = 0; i < 60; ++i)
-    {
-        cout << endl;
-    }
+    // for (int i = 0; i < 60; ++i)
+    // {
+    //     cout << endl;
+    // }
 
     if (!enemyPkmn->isWild())
     {
@@ -144,10 +145,10 @@ void PokemonBattle::printBattleOptions()
 void PokemonBattle::printCommon()
 {
     // clear a bit of screen
-    for (int i = 0; i < 15; ++i)
-    {
-        cout << endl;
-    }
+    // for (int i = 0; i < 15; ++i)
+    // {
+    //     cout << endl;
+    // }
 
     for(int i = 0; i < DIVIDER_LENGTH; ++i)
     {

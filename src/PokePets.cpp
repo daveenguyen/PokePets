@@ -26,7 +26,7 @@ void printDividers();
 void gameIntro();
 void printDialogue(const string* dialogue, int indexes=1);
 void printPalletTown();
-void battleRival();
+void battleTrainer(const string* name, int dexNum, int level, const string* pre, const string* youWin, const string* youLose);
 void randomBattle();
 void printRoute1();
 void getPokePet();
@@ -295,7 +295,23 @@ void printPalletTown()
                 {
                     getPokePet();
                     if (myPokePetNum!=0)
-                        battleRival();
+                    {
+                        if (myPokePetNum==1)
+                        {
+                            rivalNum = 4;
+                        }
+                        else if (myPokePetNum == 4)
+                        {
+                            rivalNum = 7;
+                        }
+                        else if (myPokePetNum == 7)
+                        {
+                            rivalNum = 1;
+                        }
+
+                        // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[6], &rivalQuote[9]);
+                    }
                 }
                 break;
             }
@@ -395,40 +411,49 @@ void getPokePet()
         myPokemon->setNickname(petName);
         petName = myPokemon->getNickname();
         // test experience gain, leveling, evolving
-        while(true)
-        {
-            char x;
-            myPokemon->adjustExperience(myPokemon->getBaseExp(), myPokemon->getLevel(), myPokemon->isWild(), 1);
-            cin >> x;
-        }
+        // while(true)
+        // {
+        //     char x;
+        //     myPokemon->adjustExperience(myPokemon->getBaseExp(), myPokemon->getLevel(), myPokemon->isWild(), 1);
+        //     cin >> x;
+        // }
     }
 }
 
-void battleRival()
+void battleTrainer(const string* name, int dexNum, int level, const string* pre, const string* youWin, const string* youLose)
 {
-    int rivalNum = 0;
-    if (myPokePetNum==1)
-    {
-        rivalNum = 4;
-    }
-    else if (myPokePetNum == 4)
-    {
-        rivalNum = 7;
-    }
-    else if (myPokePetNum == 7)
-    {
-        rivalNum = 1;
-    }
-
-    Pokemon enemyPkmn(rivalNum, 5);
+    Pokemon enemyPkmn(dexNum, level);
     builder.setPokemon(&enemyPkmn);
     builder.initSpecies();
 
     enemyPkmn.reset();
     enemyPkmn.setIsWild(false);
 
-    PokemonBattle battle(myPokemon, &enemyPkmn, rivalName);
+    if (!(*pre).empty())
+    {
+        cout << *name << ": ";
+        printDialogue(pre);
+    }
+    PokemonBattle battle(myPokemon, &enemyPkmn, *name);
     battle.start();
+    if (myPokemon->getCurHP()>0)
+    {
+        // win
+        if (!(*youWin).empty())
+        {
+            cout << *name << ": ";
+            printDialogue(youWin);
+        }
+    }
+    else
+    {
+        // lose
+        if (!(*youLose).empty())
+        {
+            cout << *name << ": ";
+            printDialogue(youLose);
+        }
+    }
 }
 
 void printRoute1()
