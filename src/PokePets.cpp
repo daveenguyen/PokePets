@@ -15,6 +15,9 @@ using namespace std;
 #include "gameDialogue.h"
 #include "PokemonBuilder.h"
 #include "Pokemon.h"
+#include "Bulbasaur.h"
+#include "Charmander.h"
+#include "Squirtle.h"
 #include "PokemonBattle.h"
 
 #define DIVIDER_LENGTH 120
@@ -53,11 +56,6 @@ int main()
 
         }
     }
-
-    // then when you can actually do actions
-    // you go choose your starter
-    // and then battle your rival
-    // then from there on you go get badge
 }
 
 void printDialogue(const string* dialogue, int indexes)
@@ -281,7 +279,7 @@ void printPalletTown()
                 else
                 {
                     cout << "Mom: You and your PokePet look tired.  You guys should rest!" << endl;
-                    myPokemon.adjustHP(myPokemon.getStats(0)); // heal pokemon
+                    myPokemon->adjustHP(myPokemon->getStats(0)); // heal pokemon
                 }
                 break;
             case 2:
@@ -310,7 +308,7 @@ void printPalletTown()
                     cout << "Travelling to Route 1!" << endl;
                     curLocation = 1;
                 }
-                else if (myPokemon.getCurHP()==0)
+                else if (myPokemon->getCurHP()==0)
                 {
                     cout << "You need to heal your PokePet before going here." << endl;
                 }
@@ -370,15 +368,39 @@ void getPokePet()
 
         }
 
+        switch (myPokePetNum)
+        {
+            case 1:
+                myPokemon = new Bulbasaur(&builder);
+                break;
+            case 2:
+                myPokemon = new Charmander(&builder);
+                break;
+            case 3:
+                myPokemon = new Squirtle(&builder);
+                break;
+            default:
+                break;
+        }
+
         myPokePetNum = 1 + ((myPokePetNum-1)*3);
         // myPokemon = new Pokemon(myPokePetNum, 5);
-        myPokemon.setDexNum(myPokePetNum);
-        builder.setPokemon(&myPokemon);
-        builder.initSpecies();
-        myPokemon.reset();
-        myPokemon.setIsWild(false);
-        myPokemon.setNickname(petName);
-        petName = myPokemon.getNickname();
+
+
+        // myPokemon->setDexNum(myPokePetNum);
+        // builder.setPokemon(myPokemon);
+        // builder.initSpecies();
+        // myPokemon->reset();
+        myPokemon->setIsWild(false);
+        myPokemon->setNickname(petName);
+        petName = myPokemon->getNickname();
+        // test experience gain, leveling, evolving
+        while(true)
+        {
+            char x;
+            myPokemon->adjustExperience(myPokemon->getBaseExp(), myPokemon->getLevel(), myPokemon->isWild(), 1);
+            cin >> x;
+        }
     }
 }
 
@@ -405,7 +427,7 @@ void battleRival()
     enemyPkmn.reset();
     enemyPkmn.setIsWild(false);
 
-    PokemonBattle battle(&myPokemon, &enemyPkmn, rivalName);
+    PokemonBattle battle(myPokemon, &enemyPkmn, rivalName);
     battle.start();
 }
 
@@ -438,7 +460,7 @@ void printRoute1()
 
 void randomBattle()
 {
-    if (myPokemon.getCurHP()>0)
+    if (myPokemon->getCurHP()>0)
     {
         // generate random level from range
         int minLvl = levelRange[curLocation][0];
@@ -460,10 +482,10 @@ void randomBattle()
 
         // reset both pokemon
         enemyPkmn.reset();
-        myPokemon.reset();
+        myPokemon->reset();
 
         // start battle
-        PokemonBattle battle(&myPokemon, &enemyPkmn);
+        PokemonBattle battle(myPokemon, &enemyPkmn);
         battle.start();
     }
     else
@@ -481,51 +503,51 @@ void checkPet()
     switch(getInputPrompt("What would you like to do?", 5, tmpstring))
     {
         case 1:
-            cout << "___ " << myPokemon.getNickname() << "'s' INFO" << endl;\
-            cout << "  GENDER: " << myPokemon.getGender() << endl;
+            cout << "___ " << myPokemon->getNickname() << "'s' INFO" << endl;\
+            cout << "  GENDER: " << myPokemon->getGender() << endl;
 
-            // cout << " ABILITY: " << myPokemon.getAbility() << endl;
+            // cout << " ABILITY: " << myPokemon->getAbility() << endl;
 
-            cout << "  NATURE: " << myPokemon.getNature() << endl;
+            cout << "  NATURE: " << myPokemon->getNature() << endl;
 
-            cout << "   LEVEL: " << myPokemon.getLevel()  << endl;
-            cout << " CUR EXP: " << myPokemon.getCurExp() << " / " << myPokemon.getExpToLvl(myPokemon.getLevel()) << endl;
-            cout << "  CUR HP: " << myPokemon.getCurHP()  << " / " << myPokemon.getStats(0) << endl;
-            cout << "  STATUS: " << myPokemon.getStatus() << endl << endl;
+            cout << "   LEVEL: " << myPokemon->getLevel()  << endl;
+            cout << " CUR EXP: " << myPokemon->getCurExp() << " / " << myPokemon->getExpToLvl(myPokemon->getLevel()) << endl;
+            cout << "  CUR HP: " << myPokemon->getCurHP()  << " / " << myPokemon->getStats(0) << endl;
+            cout << "  STATUS: " << myPokemon->getStatus() << endl << endl;
 
-            cout << " TYPE[0]: " << myPokemon.getType(0).getIdentifier() << endl;
-            if (myPokemon.getType(1).getTypeNum() != myPokemon.getType(0).getTypeNum())
-                cout << " TYPE[1]: " << myPokemon.getType(1).getIdentifier() << endl;
+            cout << " TYPE[0]: " << myPokemon->getType(0).getIdentifier() << endl;
+            if (myPokemon->getType(1).getTypeNum() != myPokemon->getType(0).getTypeNum())
+                cout << " TYPE[1]: " << myPokemon->getType(1).getIdentifier() << endl;
             cout << endl;
             break;
         case 2:
-            cout << "___ " << myPokemon.getNickname() << "'s STATS" << endl;
-            cout << "      HP: " << myPokemon.getStats(0) << endl;
-            cout << "     ATK: " << myPokemon.getStats(1) << endl;
-            cout << "     DEF: " << myPokemon.getStats(2) << endl;
-            cout << "   S.ATK: " << myPokemon.getStats(3) << endl;
-            cout << "   S.DEF: " << myPokemon.getStats(4) << endl;
-            cout << "   SPEED: " << myPokemon.getStats(5) << endl << endl;
+            cout << "___ " << myPokemon->getNickname() << "'s STATS" << endl;
+            cout << "      HP: " << myPokemon->getStats(0) << endl;
+            cout << "     ATK: " << myPokemon->getStats(1) << endl;
+            cout << "     DEF: " << myPokemon->getStats(2) << endl;
+            cout << "   S.ATK: " << myPokemon->getStats(3) << endl;
+            cout << "   S.DEF: " << myPokemon->getStats(4) << endl;
+            cout << "   SPEED: " << myPokemon->getStats(5) << endl << endl;
             break;
         case 3:
-            cout << "___ " << myPokemon.getNickname() << "'s MOVES" << endl;
-            for (int i=0; i < 4 && myPokemon.getMove(i).getMoveNum() != 0; ++i) {
+            cout << "___ " << myPokemon->getNickname() << "'s MOVES" << endl;
+            for (int i=0; i < 4 && myPokemon->getMove(i).getMoveNum() != 0; ++i) {
                 cout << "___ ";
                 // Move myMove();
-                cout << myPokemon.getMove(i).getIdentifier() << endl;
-                cout << "    TYPE: " << myPokemon.getMove(i).getType().getIdentifier() << endl;
-                cout << "   POWER: " << myPokemon.getMove(i).getPower() << endl;
-                cout << "      PP: " << myPokemon.getMove(i).getPP() << endl;
-                cout << "Accuracy: " << myPokemon.getMove(i).getAccuracy() << endl << endl;
+                cout << myPokemon->getMove(i).getIdentifier() << endl;
+                cout << "    TYPE: " << myPokemon->getMove(i).getType().getIdentifier() << endl;
+                cout << "   POWER: " << myPokemon->getMove(i).getPower() << endl;
+                cout << "      PP: " << myPokemon->getMove(i).getPP() << endl;
+                cout << "Accuracy: " << myPokemon->getMove(i).getAccuracy() << endl << endl;
             }
             break;
         case 4:
             //Feed Pet
-            myPokemon.adjustHP(myPokemon.getStats(0)*0.2); // heal pokemon
+            myPokemon->adjustHP(myPokemon->getStats(0)*0.2); // heal pokemon
             break;
         case 5:
             //Play with Pet
-            cout << "** playing with " << myPokemon.getNickname() << " **" << endl;
+            cout << "** playing with " << myPokemon->getNickname() << " **" << endl;
         default:
             break;
     }

@@ -5,6 +5,8 @@ project(PokePets_src)
 
 # list of source that makes up PokePets!
 set(PP_OBJECTS
+    Bulbasaur
+    Charmander
     CSVReader
     Move
     Nature
@@ -12,6 +14,7 @@ set(PP_OBJECTS
     PokemonSpecies
     PokemonBattle
     PokemonBuilder
+    Squirtle
     Type)
 
 # make each PP_OBJECTS a library

@@ -16,7 +16,8 @@ bool   isBoy;
 int    myPokePetNum;
 string petName;
 
-Pokemon myPokemon(0,5);
+// Pokemon myPokemon(0,5);
+Pokemon*  myPokemon;
 CSVReader reader;
 PokemonBuilder builder;
 

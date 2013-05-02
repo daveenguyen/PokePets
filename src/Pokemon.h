@@ -116,6 +116,8 @@ class Pokemon : public PokemonSpecies
         virtual bool cureFrozen(int item);
         virtual bool cureBurn(int item);
         virtual bool curePoison(int item);
+
+        virtual void evolve();
 };
 
 #endif // POKEMON_H

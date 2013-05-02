@@ -418,6 +418,8 @@ void Pokemon::checkExperience()
         _curHP = (int)(hpRatio * getStats(0));
         cout << getNickname() << " grew to level " << _level << "!" << endl;
 
+        evolve();
+
         // count current number of moves
         int moveCount = 0;
         for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
@@ -432,60 +434,68 @@ void Pokemon::checkExperience()
             if (_level == getLevelUpMoves()[i]._level)
             {
                 Move tempmove(getLevelUpMoves()[i]._move_id);
-                int learnIndex;
-                if (moveCount < 4)
+
+                bool learned = false;
+                for (int k = 0; k < moveCount; ++k)
                 {
-                    learnIndex = moveCount;
-                }
-                else
-                {
-                    cout << getNickname() << " is trying to learn " << tempmove.getIdentifier() << endl;
-
-                    int moveCount = 0;
-                    for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
+                    if (_moves[k].getMoveNum() == tempmove.getMoveNum())
                     {
-                        ++moveCount;
+                        learned = true;
                     }
-                    for (int i=0; i < moveCount; ++i) {
-                        cout << i+1 << ". " << getMove(i).getIdentifier() << endl;;
-                    }
-                    cout << "5. Don't learn" << endl;
-                    cout << "Which should be forgotten?" << endl;
-
-                    int userInput = 0;
-
-                    while ( !(cin >> userInput) || (userInput <= 0 && userInput > 5) )
-                    {
-                        cout << "Invalid input!  Try again: ";
-                        cin.clear ();   // reset fail flag
-
-                        // skip past invalid input
-                        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
-                    }
-                    learnIndex = userInput-1;
                 }
 
-                if (learnIndex<4)
+                if (!learned)
                 {
-
-                    if (_moves[learnIndex].getMoveNum() != 0)
+                    int learnIndex;
+                    if (moveCount < 4)
                     {
-                        cout << "1, 2 and... poof! ";
-                        cout << getNickname() << " forgot " << _moves[learnIndex].getIdentifier() << " and";
+                        learnIndex = moveCount;
                     }
                     else
                     {
-                        cout << getNickname();
-                    }
-                    _moves[learnIndex].setMoveNum(getLevelUpMoves()[i]._move_id);
-                    _curPP[learnIndex] = _moves[learnIndex].getPP();
-                    cout << " learned " << _moves[learnIndex].getIdentifier() << "!" << endl;
-                }
-                else if (learnIndex==4)
-                {
-                    cout << getNickname() << " did not learn " << tempmove.getIdentifier() << "." << endl;
-                }
 
+                        cout << getNickname() << " is trying to learn " << tempmove.getIdentifier() << endl;
+
+                        for (int k=0; k < moveCount; ++k) {
+                            cout << k+1 << ". " << getMove(k).getIdentifier() << endl;;
+                        }
+                        cout << "5. Don't learn" << endl;
+                        cout << "Which should be forgotten?" << endl;
+
+                        int userInput = 0;
+
+                        while ( !(cin >> userInput) || (userInput <= 0 && userInput > 5) )
+                        {
+                            cout << "Invalid input!  Try again: ";
+                            cin.clear ();   // reset fail flag
+
+                            // skip past invalid input
+                            cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+                        }
+                        learnIndex = userInput-1;
+                    }
+
+                    if (learnIndex<4)
+                    {
+
+                        if (_moves[learnIndex].getMoveNum() != 0)
+                        {
+                            cout << "1, 2 and... poof! ";
+                            cout << getNickname() << " forgot " << _moves[learnIndex].getIdentifier() << " and";
+                        }
+                        else
+                        {
+                            cout << getNickname();
+                        }
+                        _moves[learnIndex].setMoveNum(getLevelUpMoves()[i]._move_id);
+                        _curPP[learnIndex] = _moves[learnIndex].getPP();
+                        cout << " learned " << _moves[learnIndex].getIdentifier() << "!" << endl;
+                    }
+                    else if (learnIndex==4)
+                    {
+                        cout << getNickname() << " did not learn " << tempmove.getIdentifier() << "." << endl;
+                    }
+                } // end if (!learned)
             }
             if (getLevelUpMoves()[i]._level > _level)
                 break;
@@ -987,4 +997,9 @@ void Pokemon::adjustEffort(int hp, int atk, int def, int satk, int sdef, int spd
             }
         }
     }
+}
+
+void Pokemon::evolve()
+{
+    // do nothing because not all pokemon evolve
 }
