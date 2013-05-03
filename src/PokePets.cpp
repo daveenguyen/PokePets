@@ -25,14 +25,47 @@ using namespace std;
 void printDividers();
 void gameIntro();
 void printDialogue(const string* dialogue, int indexes=1);
-void printPalletTown();
 void battleTrainer(const string* name, int dexNum, int level, const string* pre, const string* youWin, const string* youLose);
 void randomBattle();
-void printRoute1();
 void getPokePet();
-void checkPet();
 int  getInputPrompt(const string prompt, int numOptions, const string* options);
 
+void play();
+void feed();
+void clean();
+void checkPet();
+void quitGame();
+
+void PalletTown(int option);
+void Route1(int option);
+void ViridianCity(int option);
+void Route2(int option);
+void ViridianForest(int option);
+void PewterCity(int option);
+void Route3(int option);
+void Moon(int option);
+void CeruleanCity(int option);
+void Route4(int option);
+void Route5(int option);
+void toVermillion(int option);
+void VermillionCity(int option);
+void Route6(int option);
+void RockTunnel(int option);
+void LavendarTown(int option);
+void GhostTower(int option);
+void Route7(int option);
+void ToCeladon(int option);
+void CeladonCity(int option);
+void Route8(int option);
+void FuchsiaCity(int option);
+void Route9(int option);
+void Route10(int option);
+void SaffronCity(int option);
+void CinnebarIsland(int option);
+void Route11(int option);
+void Route12(int option);
+void CrystalCave(int option);
+void PokePetLeague(int option);
 
 int main()
 {
@@ -42,20 +75,143 @@ int main()
 
     curLocation  = 0;
     myPokePetNum = 0;
+    badgeCount = 0;
 
     // game starts with the intro dialogue
     gameIntro();
     while (true)
     {
-        switch(curLocation)
-        {
-            case 0:
-                printPalletTown();
-                break;
-            case 1:
-                printRoute1();
+        cout << "\nCurrent location: " << location[curLocation] << endl;
+        int option = 1;
 
+        if (myPokePetNum!=0)
+        {
+            option = getInputPrompt("What would you like to do?", 7, menuOption);
         }
+
+        switch (option)
+        {
+            // location independent
+            case 2: // play
+                play();
+                break;
+            case 3: // feed
+                feed();
+                break;
+            case 4: // clean
+                clean();
+                break;
+            case 5: // check pet
+                checkPet();
+                break;
+            case 7: // quit
+                quitGame();
+                break;
+
+            // location dependent
+            case 1: // travel
+            case 6: // battle
+            {
+                switch(curLocation)
+                {
+                    case 0: // Pallet Town
+                        PalletTown(option);
+                        break;
+                    case 1: // Route 1
+                        Route1(option);
+                        break;
+                    case 2: // Viridian City
+                        ViridianCity(option);
+                        break;
+                    case 3: // Route 2
+                        Route2(option);
+                        break;
+                    case 4: // Viridian Forest
+                        ViridianForest(option);
+                        break;
+                    case 5: // Pewter City
+                        PewterCity(option);
+                        break;
+                    case 6: // Route 3
+                        Route3(option);
+                        break;
+                    case 7: // Mt.Moon
+                        Moon(option);
+                        break;
+                    case 8: // Cerulean City
+                        CeruleanCity(option);
+                        break;
+                    case 9: // Route 4
+                        Route4(option);
+                        break;
+                    case 10: // Route 5
+                        Route5(option);
+                        break;
+                    case 11: // Underground Passage to Vermillion
+                        toVermillion(option);
+                        break;
+                    case 12: // Vermillion City
+                        VermillionCity(option);
+                        break;
+                    case 13: // Route 6
+                        Route6(option);
+                        break;
+                    case 14: // Rock Tunnel
+                        RockTunnel(option);
+                        break;
+                    case 15: // Lavendar Town
+                        LavendarTown(option);
+                        break;
+                    case 16: // Ghost Tower
+                        GhostTower(option);
+                        break;
+                    case 17: // Route 7
+                        Route7(option);
+                        break;
+                    case 18: // Underground Passage to Celadon
+                        ToCeladon(option);
+                        break;
+                    case 19: // Celadon City
+                        CeladonCity(option);
+                        break;
+                    case 20: // Route 8
+                        Route8(option);
+                        break;
+                    case 21: // Fuchsia City
+                        FuchsiaCity(option);
+                        break;
+                    case 22: // Route 9
+                        Route9(option);
+                        break;
+                    case 23: // Route 10
+                        Route10(option);
+                        break;
+                    case 24: // Saffron City
+                        SaffronCity(option);
+                        break;
+                    case 25: // Cinnebar Island
+                        CinnebarIsland(option);
+                        break;
+                    case 26: // Route 11
+                        Route11(option);
+                        break;
+                    case 27: // Route 12
+                        Route12(option);
+                        break;
+                    case 28: // Crystal Cave
+                        CrystalCave(option);
+                        break;
+                    case 29: // PokePet League
+                        PokePetLeague(option);
+                        break;
+                    case 30: // Done!
+                        break;
+                }
+                break;
+            }
+        }
+
+
     }
 }
 
@@ -260,87 +416,6 @@ int getInputPrompt(const string prompt, int numOptions, const string* options)
     return userInput;
 }
 
-void printPalletTown()
-{
-    while (curLocation == 0)
-    {
-        cout << "\nWelcome to " << location[curLocation] << endl;
-        string locActions[] = {"Visit Home", ("Visit "+rivalName+"'s home"), "Visit "+npcName[0]+"'s Lab", "Go to Route 1"};
-
-        switch (getInputPrompt("What would you like to do?", 4, locActions))
-        {
-            case 1:
-            // visit home
-                if (myPokePetNum==0)
-                {
-                    cout << "Mom: " << playerName <<
-                        "! Hurry go visit Prof Haney! " <<
-                        "He's been waiting for you!" << endl;
-                }
-                else
-                {
-                    cout << "Mom: You and your PokePet look tired.  You guys should rest!" << endl;
-                    myPokemon->adjustHP(myPokemon->getStats(0)); // heal pokemon
-                }
-                break;
-            case 2:
-            // visit rival's home
-                break;
-            case 3:
-            {
-
-            // visit prof haney's lab
-                // get pokepet
-                cout << npcName[0] << ": Hello " << playerName << "! Welcome to my Lab!" << endl;
-                if (myPokePetNum==0)
-                {
-                    getPokePet();
-                    if (myPokePetNum!=0)
-                    {
-                        if (myPokePetNum==1)
-                        {
-                            rivalNum = 4;
-                        }
-                        else if (myPokePetNum == 4)
-                        {
-                            rivalNum = 7;
-                        }
-                        else if (myPokePetNum == 7)
-                        {
-                            rivalNum = 1;
-                        }
-
-                        // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
-                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[6], &rivalQuote[9]);
-                    }
-                }
-                break;
-            }
-            case 4:
-            {
-
-            // go to route 1
-                if (myPokePetNum != 0)
-                {
-                    cout << "Travelling to Route 1!" << endl;
-                    curLocation = 1;
-                }
-                else if (myPokemon->getCurHP()==0)
-                {
-                    cout << "You need to heal your PokePet before going here." << endl;
-                }
-                else
-                {
-                    cout << "You need a PokePet to go here.  Try visiting Prof Haney's Lab." << endl;
-                }
-                break;
-            }
-            default:
-                break;
-        }
-    }
-}
-
 void getPokePet()
 {
     string pokeOptions[] = {"Bulbasaur","Charmander","Squirtle","I don't want to choose one right now"};
@@ -457,33 +532,6 @@ void battleTrainer(const string* name, int dexNum, int level, const string* pre,
     }
 }
 
-void printRoute1()
-{
-    while (curLocation == 1)
-    {
-        cout << "You're in " << location[curLocation] << endl;
-        string locActions[] = {"Go to Pallet Town", "Battle", "Check your pet"};
-
-        switch (getInputPrompt("What would you like to do?", 3, locActions))
-        {
-            case 1:
-                cout << "Travelling to Pallet Town!" << endl;
-                curLocation = 0;
-                break;
-            case 2:
-            // random battle
-                randomBattle();
-                break;
-            case 3:
-            // check pet
-                checkPet();
-                break;
-            default:
-                break;
-        }
-    }
-}
-
 void randomBattle()
 {
     if (myPokemon->getCurHP()>0)
@@ -516,8 +564,297 @@ void randomBattle()
     }
     else
     {
-        cout << "You need to heal your pet!" << endl;
+        cout << myPokemon->getNickname() << " is hungry! Look for food!" << endl;
     }
+}
+
+
+
+// option is either travel: 1 or battle: 6
+
+void PalletTown(int option)
+{
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {"Home", "Prof Haney's Lab", "Route 1"};
+        int input;
+        if (myPokePetNum!=0)
+            input = getInputPrompt("Where would you like to go?", 3, tempoptions);
+        else
+            input = getInputPrompt("Where would you like to go?", 2, tempoptions);
+
+        switch (input)
+        {
+            case 1:
+                // home
+                if (myPokePetNum==0)
+                {
+                    cout << "Mom: " << playerName <<
+                        "! Hurry go visit Prof Haney! " <<
+                        "He's been waiting for you!" << endl;
+                }
+                else
+                {
+                    cout << "Mom: You and your PokePet look hungry.  Eat!" << endl;
+                    myPokemon->adjustHP(myPokemon->getStats(0)); // feed pokemon
+                }
+                break;
+
+            case 2:
+                // go to lab
+                cout << npcName[0] << ": Hello " << playerName << "! Welcome to my Lab!" << endl;
+                if (myPokePetNum==0)
+                {
+                    getPokePet();
+                    if (myPokePetNum!=0)
+                    {
+                        if (myPokePetNum==1)
+                        {
+                            rivalNum = 4;
+                        }
+                        else if (myPokePetNum == 4)
+                        {
+                            rivalNum = 7;
+                        }
+                        else if (myPokePetNum == 7)
+                        {
+                            rivalNum = 1;
+                        }
+
+                        // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[6], &rivalQuote[9]);
+                    }
+                }
+                break;
+            case 3:
+                curLocation = 1; // route 1
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {
+        // battle
+        cout << "You cannot do that here!" << endl;
+    }
+}
+
+void Route1(int option)
+{
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[curLocation-1], location[curLocation+1], "Cancel"};
+
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Pallet town
+                curLocation--;
+                break;
+
+            case 2:
+                // Viridian City
+                curLocation++;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
+}
+
+
+void ViridianCity(int option)
+{
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[1], location[3], location[4], "Cancel"};
+
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Route 1
+                curLocation = 1;
+                break;
+
+            case 2:
+                // Viridian City
+                curLocation = 3;;
+                break;
+
+            case 3:
+                // Viridian City
+                curLocation = 4;;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {
+        // battle
+        // cout << "You cannot do that here!" << endl;
+        // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
+        if (badgeCount == 7)
+            battleTrainer(&gymLeader[7], 34, 55, &viridianCity[4], &viridianCity[5], &winLose[0]);
+            // battleTrainer(&gymLeader[7], 34, 55, &rivalQuote[0], &winLose[rand()%6 + 1], &winLose[0]);
+        else
+            cout << viridianCity[0] << endl;
+    }
+}
+
+void Route2(int option)
+{
+
+}
+
+void ViridianForest(int option)
+{
+
+}
+
+void PewterCity(int option)
+{
+
+}
+
+void Route3(int option)
+{
+
+}
+
+void Moon(int option)
+{
+
+}
+
+void CeruleanCity(int option)
+{
+
+}
+
+void Route4(int option)
+{
+
+}
+
+void Route5(int option)
+{
+
+}
+
+void toVermillion(int option)
+{
+
+}
+
+void VermillionCity(int option)
+{
+
+}
+
+void Route6(int option)
+{
+
+}
+
+void RockTunnel(int option)
+{
+
+}
+
+void LavendarTown(int option)
+{
+
+}
+
+void GhostTower(int option)
+{
+
+}
+
+void Route7(int option)
+{
+
+}
+
+void ToCeladon(int option)
+{
+
+}
+
+void CeladonCity(int option)
+{
+
+}
+
+void Route8(int option)
+{
+
+}
+
+void FuchsiaCity(int option)
+{
+
+}
+
+void Route9(int option)
+{
+
+}
+
+void Route10(int option)
+{
+
+}
+
+void SaffronCity(int option)
+{
+
+}
+
+void CinnebarIsland(int option)
+{
+
+}
+
+void Route11(int option)
+{
+
+}
+
+void Route12(int option)
+{
+
+}
+
+void CrystalCave(int option)
+{
+
+}
+
+void PokePetLeague(int option)
+{
+
+}
+
+
+
+void play()
+{
+
+}
+void feed()
+{
+
+}
+void clean()
+{
+
 }
 
 void checkPet()
@@ -539,15 +876,12 @@ void checkPet()
             cout << "   LEVEL: " << myPokemon->getLevel()  << endl;
             cout << " CUR EXP: " << myPokemon->getCurExp() << " / " << myPokemon->getExpToLvl(myPokemon->getLevel()) << endl;
             cout << "  CUR HP: " << myPokemon->getCurHP()  << " / " << myPokemon->getStats(0) << endl;
-            cout << "  STATUS: " << myPokemon->getStatus() << endl << endl;
-
+            // cout << "  STATUS: " << myPokemon->getStatus() << endl;
             cout << " TYPE[0]: " << myPokemon->getType(0).getIdentifier() << endl;
             if (myPokemon->getType(1).getTypeNum() != myPokemon->getType(0).getTypeNum())
                 cout << " TYPE[1]: " << myPokemon->getType(1).getIdentifier() << endl;
+
             cout << endl;
-            break;
-        case 2:
-            cout << "___ " << myPokemon->getNickname() << "'s STATS" << endl;
             cout << "      HP: " << myPokemon->getStats(0) << endl;
             cout << "     ATK: " << myPokemon->getStats(1) << endl;
             cout << "     DEF: " << myPokemon->getStats(2) << endl;
@@ -555,6 +889,74 @@ void checkPet()
             cout << "   S.DEF: " << myPokemon->getStats(4) << endl;
             cout << "   SPEED: " << myPokemon->getStats(5) << endl << endl;
             break;
+        case 2:
+        {
+                    cout << "___ " << myPokemon->getNickname() << "'s STATS" << endl;
+                    // health
+                    int curHP = myPokemon->getCurHP();
+                    int maxHP = myPokemon->getStats(0);
+                    double percentHp = double(curHP)/maxHP;
+
+                    // cout << "[" << C_BOLD;
+
+                    // if (hpPercent > 0.5)
+                    // {
+                    //     cout << C_GREEN;
+                    // }
+                    // else if (hpPercent > 0.2)
+                    // {
+                    //     cout << C_YELLOW;
+                    // }
+                    // else
+                    // {
+                    //     cout << C_RED;
+                    // }
+                    cout << "\nHealth: " << (percentHp*100) << "%" << endl;
+                    cout << "[" ;
+
+                    for (int i = 0; i < 30; ++i)
+                    {
+                        if (percentHp > 0)
+                            cout << '=';
+                        else
+                            cout << ' ';
+
+                        percentHp -= 0.03333333333;
+                    }
+                    // cout << C_RESET;
+                    cout << "]" << endl;
+
+
+                    // evs
+                    int curEVs =
+                        myPokemon->getEV(0) +
+                        myPokemon->getEV(1) +
+                        myPokemon->getEV(2) +
+                        myPokemon->getEV(3) +
+                        myPokemon->getEV(4) +
+                        myPokemon->getEV(5);
+                    int maxEVs = 510;
+                    double percentEv = double(curEVs)/maxEVs;
+
+
+                    cout << "\nEffort: " << (percentEv*100) << "%" << endl;
+                    cout << "[" ;
+
+                    for (int i = 0; i < 30; ++i)
+                    {
+                        if (percentEv > 0)
+                            cout << '=';
+                        else
+                            cout << ' ';
+
+                        percentEv -= 0.03333333333;
+                    }
+                    cout << "]" << endl;
+
+                    // happiness
+                    // status
+
+                    break;}
         case 3:
             cout << "___ " << myPokemon->getNickname() << "'s MOVES" << endl;
             for (int i=0; i < 4 && myPokemon->getMove(i).getMoveNum() != 0; ++i) {
@@ -577,4 +979,10 @@ void checkPet()
         default:
             break;
     }
+}
+
+void quitGame()
+{
+    // cout << "SAVE CODE"
+    exit(1);
 }

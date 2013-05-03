@@ -15,6 +15,7 @@ string rivalName;
 bool   isBoy;
 int    myPokePetNum;
 int    rivalNum;
+int    badgeCount;
 string petName;
 
 // Pokemon myPokemon(0,5);
@@ -23,6 +24,58 @@ CSVReader reader;
 PokemonBuilder builder;
 
 int curLocation;
+
+// menu strings
+const string yesNo[] = {
+	"Yes",
+	"No"
+};
+
+const string menuOption[] = {
+	"Travel",
+	"Play",
+	"Feed",
+	"Clean",
+	"Check Pet",
+	"Battle",
+	"Quit"
+};
+
+const string playMenu[] = {
+	"Rock Paper Scissors",
+	"Heads or Tails",
+	"Guessing Game",
+	"Cancel"
+};
+
+const string feedMenu[] = {
+	"Berries",
+	"Poffins",
+	"Ice Cream",
+	"Soda Pop",
+	"Lemonade",
+	"Water",
+	"Rare Candy",
+	"Cancel"
+};
+
+const string cleanMenu[] = {
+	"Antidote Spray",
+	"Awakening Spray",
+	"Anti-Paralyze Spray",
+	"Unburn Spray",
+	"Unfreeze Spray",
+	"Bathe",
+	"Cancel"
+};
+
+const string checkPetMenu[] = {
+	"Check Hunger",
+	"Check Growth",
+	"Check Condition",
+	"Cancel"
+};
+
 
 const string npcName[]={
 	"Prof Haney",
@@ -33,6 +86,23 @@ const string npcName[]={
 	"Musician",
 	"Dojo Master"
 };
+
+// game menu
+const string rpsMenu[] = {
+	"Rock",
+	"Paper",
+	"Scissors"
+};
+
+const string gameResult[] = {
+	"You Lose!",
+	"You Win!",
+	"Draw!"
+};
+
+
+
+// done menu strings
 
 const string badge[]={
 	"Rock Badge",
@@ -162,7 +232,7 @@ const string location[]={
 	"Route 1",
 	"Viridian City",
 	"Route 2",
-	"Viridian Forest"
+	"Viridian Forest",
 	"Pewter City",
 	"Route 3",
 	"Mt.Moon",
@@ -190,12 +260,6 @@ const string location[]={
 	"PokePet League"
 };
 
-
-const string yesNo[] = {
-	"Yes",
-	"No"
-};
-
 //things trainers say when they lose
 const string winLose[]={
 	"You blacked out!", //use this when Player loses
@@ -209,16 +273,16 @@ const string winLose[]={
 
 //things trainers say to Player before battle! or when encountered
 const string trainerQuote[]={
-	"Is that a PokePet? Lets battle!",
-	"I love bug-type PokePets!",
-	"I love rock-type PokePets!",
-	"I love water-type PokePets!",
-	"I love fire-type PokePets!",
-	"I love grass-type PokePets!",
-	"I love electric-type PokePets!",
-	"I love ghost-type PokePets!",
-	"I love ice-type PokePets!",
-	"I love psychic-type PokePets!",
+	// "Is that a PokePet? Lets battle!",
+	// "I love bug-type PokePets!",
+	// "I love rock-type PokePets!",
+	// "I love water-type PokePets!",
+	// "I love fire-type PokePets!",
+	// "I love grass-type PokePets!",
+	// "I love electric-type PokePets!",
+	// "I love ghost-type PokePets!",
+	// "I love ice-type PokePets!",
+	// "I love psychic-type PokePets!",
 	"Are you a trainer too? Can we battle?",
 	"You think you can beat me?"
 	"Check out my new PokePet!",
@@ -287,7 +351,7 @@ const string palletTown[]={
 
 const string viridianCity[]={
 	//need 7 badges for gym to open
-	"Gym is closed"
+	"Gym is closed",
 	//after 7 badges obtained
 	"Surprised to see me?",
 	"I am the Viridian City gym leader.",
