@@ -65,17 +65,15 @@ const string cleanMenu[] = {
 	"Anti-Paralyze Spray",
 	"Unburn Spray",
 	"Unfreeze Spray",
-	"Bathe",
+	"Bath",
 	"Cancel"
 };
 
 const string checkPetMenu[] = {
-	"Check Hunger",
-	"Check Growth",
-	"Check Condition",
+	"Check Pet Info",
+	"Check Pet Status",
 	"Cancel"
 };
-
 
 const string npcName[]={
 	"Prof Haney",

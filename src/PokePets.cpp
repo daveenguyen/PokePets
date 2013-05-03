@@ -843,29 +843,84 @@ void PokePetLeague(int option)
 }
 
 
-
+// location independent actions
 void play()
 {
+    switch(getInputPrompt("What would you like to play?", 4, playMenu))
+    {
+        case 1:
+            // rock paper scissors
+            // rockPaperScissors();
+            break;
+        case 2:
+            // heads or tails
+            //headsTails();
+            break;
+        case 3:
+            // guessing game
+            // guessGame();
+            break;
+    }
 
 }
 void feed()
 {
-
+    switch(getInputPrompt("What would you like to feed your pet?", 8, feedMenu))
+    {
+        case 1:
+            // Berries
+            break;
+        case 2:
+            // Poffins
+            break;
+        case 3:
+            // Ice Cream
+            break;
+        case 4:
+            // Soda Pop
+            break;
+        case 5:
+            // Lemonade
+            break;
+        case 6:
+            // Water
+            break;
+        case 7:
+            // Rare Candy
+            break;
+    }
 }
 void clean()
 {
-
+    switch(getInputPrompt("How would you like to clean your pet?", 7, cleanMenu))
+    {
+        case 1:
+            // Antidote Spray
+            break;
+        case 2:
+            // Awakening Spray
+            break;
+        case 3:
+            // Anti-Paralyze Spray
+            break;
+        case 4:
+            // Unburn Spray
+            break;
+        case 5:
+            // Unfreeze Spray
+            break;
+        case 6:
+            // Bath
+            break;
+    }
 }
 
 void checkPet()
 {
-    // view status
-    // feed
-    // play games
-    string tmpstring[] = {"View Pet's Info", "View Pet's Stats", "View Pet's Moves", "Feed Pet", "Play with Pet"};
-    switch(getInputPrompt("What would you like to do?", 5, tmpstring))
+    switch(getInputPrompt("What would you like to check?", 3, checkPetMenu))
     {
         case 1:
+            // info
             cout << "___ " << myPokemon->getNickname() << "'s' INFO" << endl;\
             cout << "  GENDER: " << myPokemon->getGender() << endl;
 
@@ -888,77 +943,8 @@ void checkPet()
             cout << "   S.ATK: " << myPokemon->getStats(3) << endl;
             cout << "   S.DEF: " << myPokemon->getStats(4) << endl;
             cout << "   SPEED: " << myPokemon->getStats(5) << endl << endl;
-            break;
-        case 2:
-        {
-                    cout << "___ " << myPokemon->getNickname() << "'s STATS" << endl;
-                    // health
-                    int curHP = myPokemon->getCurHP();
-                    int maxHP = myPokemon->getStats(0);
-                    double percentHp = double(curHP)/maxHP;
 
-                    // cout << "[" << C_BOLD;
-
-                    // if (hpPercent > 0.5)
-                    // {
-                    //     cout << C_GREEN;
-                    // }
-                    // else if (hpPercent > 0.2)
-                    // {
-                    //     cout << C_YELLOW;
-                    // }
-                    // else
-                    // {
-                    //     cout << C_RED;
-                    // }
-                    cout << "\nHealth: " << (percentHp*100) << "%" << endl;
-                    cout << "[" ;
-
-                    for (int i = 0; i < 30; ++i)
-                    {
-                        if (percentHp > 0)
-                            cout << '=';
-                        else
-                            cout << ' ';
-
-                        percentHp -= 0.03333333333;
-                    }
-                    // cout << C_RESET;
-                    cout << "]" << endl;
-
-
-                    // evs
-                    int curEVs =
-                        myPokemon->getEV(0) +
-                        myPokemon->getEV(1) +
-                        myPokemon->getEV(2) +
-                        myPokemon->getEV(3) +
-                        myPokemon->getEV(4) +
-                        myPokemon->getEV(5);
-                    int maxEVs = 510;
-                    double percentEv = double(curEVs)/maxEVs;
-
-
-                    cout << "\nEffort: " << (percentEv*100) << "%" << endl;
-                    cout << "[" ;
-
-                    for (int i = 0; i < 30; ++i)
-                    {
-                        if (percentEv > 0)
-                            cout << '=';
-                        else
-                            cout << ' ';
-
-                        percentEv -= 0.03333333333;
-                    }
-                    cout << "]" << endl;
-
-                    // happiness
-                    // status
-
-                    break;}
-        case 3:
-            cout << "___ " << myPokemon->getNickname() << "'s MOVES" << endl;
+            // cout << "___ " << myPokemon->getNickname() << "'s MOVES" << endl;
             for (int i=0; i < 4 && myPokemon->getMove(i).getMoveNum() != 0; ++i) {
                 cout << "___ ";
                 // Move myMove();
@@ -968,15 +954,89 @@ void checkPet()
                 cout << "      PP: " << myPokemon->getMove(i).getPP() << endl;
                 cout << "Accuracy: " << myPokemon->getMove(i).getAccuracy() << endl << endl;
             }
+
             break;
-        case 4:
-            //Feed Pet
-            myPokemon->adjustHP(myPokemon->getStats(0)*0.2); // heal pokemon
-            break;
-        case 5:
-            //Play with Pet
-            cout << "** playing with " << myPokemon->getNickname() << " **" << endl;
-        default:
+        case 2:
+            // status
+            cout << "___ " << myPokemon->getNickname() << "'s STATUS" << endl;
+
+            // hunger
+            int curHP = myPokemon->getCurHP();
+            int maxHP = myPokemon->getStats(0);
+            double percentHp = double(curHP)/maxHP;
+
+            cout << "\nHunger: " << (percentHp*100) << " %" << endl;
+            cout << "[" ;
+
+            for (int i = 0; i < 30; ++i)
+            {
+                if (percentHp > 0)
+                    cout << '=';
+                else
+                    cout << ' ';
+
+                percentHp -= 0.03333333333;
+            }
+            cout << "]" << endl;
+
+            // growth
+            int curEVs =
+                myPokemon->getEV(0) +
+                myPokemon->getEV(1) +
+                myPokemon->getEV(2) +
+                myPokemon->getEV(3) +
+                myPokemon->getEV(4) +
+                myPokemon->getEV(5);
+            int maxEVs = 510;
+            double percentEv = double(curEVs)/maxEVs;
+
+
+            cout << "\nGrowth: " << (percentEv*100) << " %" << endl;
+            cout << "[" ;
+
+            for (int i = 0; i < 30; ++i)
+            {
+                if (percentEv > 0)
+                    cout << '=';
+                else
+                    cout << ' ';
+
+                percentEv -= 0.03333333333;
+            }
+            cout << "]" << endl;
+
+
+            // condition
+            cout << "\nHealth Condition: ";
+            switch (myPokemon->getStatus())
+            {
+                case 0:
+                    // Healthy
+                    cout << "Healthy\n";
+                    break;
+                case 1:
+                    // Paralysis
+                    cout << "Paralyzed\n";
+                    break;
+                case 2:
+                    // Sleep
+                    cout << "Sleeping\n";
+                    break;
+                case 3:
+                    // Frozen
+                    cout << "Frozen\n";
+                    break;
+                case 4:
+                    // Burn
+                    cout << "Burned\n";
+                    break;
+                case 5:
+                    // Poison
+                    cout << "Poisoned\n";
+                    break;
+                default:
+                    break;
+            }
             break;
     }
 }
