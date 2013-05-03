@@ -709,7 +709,24 @@ void ViridianCity(int option)
 
 void Route2(int option)
 {
+     if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[2], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 2, tempoptions))
+        {
+            case 1:
+                // Route 1
+                curLocation = 2;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void ViridianForest(int option)
