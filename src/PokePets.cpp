@@ -778,7 +778,10 @@ void PewterCity(int option)
 
     }
     else if (option == 6)
-    {       
+    {   
+        //if (pokepet health == 0)
+        //cout<<pokepet is too hungry to battle<<endl;
+        //else
         battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
         //if player wins
         //badgeCount++
