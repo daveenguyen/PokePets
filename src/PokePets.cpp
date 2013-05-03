@@ -739,13 +739,13 @@ void ViridianForest(int option)
         switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
         {
             case 1:
-                // Route 1
+                // Viridian City
                 curLocation = 2;
                 break;
 
             case 2:
-                // Viridian City
-                curLocation = 3;
+                // Pewter City
+                curLocation = 5;
                 break;
         }
 
@@ -766,12 +766,12 @@ void PewterCity(int option)
         switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
         {
             case 1:
-                // Route 1
+                // Viridian Forest
                 curLocation = 4;
                 break;
 
             case 2:
-                // Viridian City
+                // Route 3
                 curLocation = 6;
                 break;
         }
@@ -782,7 +782,7 @@ void PewterCity(int option)
         battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
         //if player wins
         //badgeCount++
-        
+
     }
 }
 
