@@ -684,7 +684,7 @@ void ViridianCity(int option)
 
             case 2:
                 // Viridian City
-                curLocation = 3;;
+                curLocation = 3;
                 break;
 
             case 3:
@@ -731,12 +731,59 @@ void Route2(int option)
 
 void ViridianForest(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[2], location[5], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 1
+                curLocation = 2;
+                break;
+
+            case 2:
+                // Viridian City
+                curLocation = 3;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void PewterCity(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[4], location[6], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 1
+                curLocation = 4;
+                break;
+
+            case 2:
+                // Viridian City
+                curLocation = 6;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {       
+        battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
+        //if player wins
+        //badgeCount++
+        
+    }
 }
 
 void Route3(int option)
