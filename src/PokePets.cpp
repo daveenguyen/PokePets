@@ -867,7 +867,7 @@ void CeruleanCity(int option)
                 if (badgeCount>=5)
                     curLocation = 24;
                 else
-                    cout << "road is closed" << endl;
+                    cout << " Road is closed " << endl;
                 break;
         }
 
@@ -885,22 +885,118 @@ void CeruleanCity(int option)
 
 void Route4(int option)
 {
+     if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[8], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 2, tempoptions))
+        {
+            case 1:
+                // Cerulean City
+                curLocation = 8;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void Route5(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[8], location[11], location[14], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Cerulean City
+                curLocation = 8;
+                break;
+            case 2:
+                // Underground Passage
+                curLocation = 11;
+                break;
+            case 3:
+                // Rock Tunnel
+                if (badgeCount>=3)
+                    curLocation = 14;
+                else
+                    cout << " Road is blocked " << endl;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void toVermillion(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[10], location[12], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 5
+                curLocation = 10;
+                break;
+            case 2:
+                // Vermillion City
+                curLocation = 12;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        cout << " You can't do that here " << endl;
+    }
 }
 
 void VermillionCity(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[11], location[13], location[24], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Underground Passage
+                curLocation = 11;
+                break;
+            case 2:
+                // Route 6
+                curLocation = 13;
+                break;
+            case 3:
+                // Saffron City
+                if (badgeCount>=5)
+                    curLocation = 24;
+                else
+                    cout << " Road is closed " << endl;
+                break;
+        }
+    }
+    else if (option == 6)
+    {   
+        //if (pokepet health == 0)
+        //cout<<pokepet is too hungry to battle<<endl;
+        //else
+        battleTrainer(&gymLeader[2], 26, 26, &vermillionCity[0], &vermillionCity[4], &winLose[0]);
+        //if player wins
+        //badgeCount++
+    }
 }
 
 void Route6(int option)
