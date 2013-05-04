@@ -861,13 +861,13 @@ void CeruleanCity(int option)
                 //
                 curLocation = 10;
                 break;
-            case 3:
+            case 4:
                 //Saffron City
                 //need 5 badges to enter
                 if (badgeCount>=5)
                     curLocation = 24;
                 else
-                    cout << road is closed << endl;
+                    cout << "road is closed" << endl;
                 break;
         }
 
