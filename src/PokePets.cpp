@@ -498,37 +498,44 @@ void getPokePet()
 
 void battleTrainer(const string* name, int dexNum, int level, const string* pre, const string* youWin, const string* youLose)
 {
-    Pokemon enemyPkmn(dexNum, level);
-    builder.setPokemon(&enemyPkmn);
-    builder.initSpecies();
-
-    enemyPkmn.reset();
-    enemyPkmn.setIsWild(false);
-
-    if (!(*pre).empty())
-    {
-        cout << *name << ": ";
-        printDialogue(pre);
-    }
-    PokemonBattle battle(myPokemon, &enemyPkmn, *name);
-    battle.start();
     if (myPokemon->getCurHP()>0)
     {
-        // win
-        if (!(*youWin).empty())
+        Pokemon enemyPkmn(dexNum, level);
+        builder.setPokemon(&enemyPkmn);
+        builder.initSpecies();
+
+        enemyPkmn.reset();
+        enemyPkmn.setIsWild(false);
+
+        if (!(*pre).empty())
         {
             cout << *name << ": ";
-            printDialogue(youWin);
+            printDialogue(pre);
+        }
+        PokemonBattle battle(myPokemon, &enemyPkmn, *name);
+        battle.start();
+        if (myPokemon->getCurHP()>0)
+        {
+            // win
+            if (!(*youWin).empty())
+            {
+                cout << *name << ": ";
+                printDialogue(youWin);
+            }
+        }
+        else
+        {
+            // lose
+            if (!(*youLose).empty())
+            {
+                cout << *name << ": ";
+                printDialogue(youLose);
+            }
         }
     }
     else
     {
-        // lose
-        if (!(*youLose).empty())
-        {
-            cout << *name << ": ";
-            printDialogue(youLose);
-        }
+        cout << myPokemon->getNickname() << " is hungry! Look for food!" << endl;
     }
 }
 
@@ -782,8 +789,11 @@ void PewterCity(int option)
         //cout<<pokepet is too hungry to battle<<endl;
         //else
         battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
-        //if player wins
-        //badgeCount++
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+        }
     }
 }
 
@@ -877,8 +887,11 @@ void CeruleanCity(int option)
         //cout<<pokepet is too hungry to battle<<endl;
         //else
         battleTrainer(&gymLeader[1], 121, 21, &ceruleanCity[0], &ceruleanCity[2], &winLose[0]);
-        //if player wins
-        //badgeCount++
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+        }
     }
 }
 
@@ -993,8 +1006,11 @@ void VermillionCity(int option)
         //cout<<pokepet is too hungry to battle<<endl;
         //else
         battleTrainer(&gymLeader[2], 26, 26, &vermillionCity[0], &vermillionCity[4], &winLose[0]);
-        //if player wins
-        //badgeCount++
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+        }
     }
 }
 
