@@ -36,6 +36,8 @@ void clean();
 void checkPet();
 void quitGame();
 
+void rockPaperScissors();
+
 void PalletTown(int option);
 void Route1(int option);
 void ViridianCity(int option);
@@ -1098,7 +1100,7 @@ void play()
     {
         case 1:
             // rock paper scissors
-            // rockPaperScissors();
+            rockPaperScissors();
             break;
         case 2:
             // heads or tails
@@ -1111,6 +1113,26 @@ void play()
     }
 
 }
+
+void rockPaperScissors()
+{
+    int playerChoice = getInputPrompt("Which one do you pick?",3,rpsMenu) - 1;
+    int petChoice = rand()%3;
+    cout << rpsMenu[playerChoice] << " vs " << rpsMenu[petChoice] << endl;
+    if (playerChoice == petChoice)
+        cout << gameResult[2]; // draw
+    else if ((playerChoice == 0 && petChoice == 2)||
+             (playerChoice == 1 && petChoice == 0)||
+             (playerChoice == 2 && petChoice == 1))
+    {
+        cout << gameResult[1]; // win
+    }
+    else
+    {
+        cout << gameResult[0]; // lose
+    }
+}
+
 void feed()
 {
     switch(getInputPrompt("What would you like to feed your pet?", 8, feedMenu))
