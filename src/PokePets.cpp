@@ -785,9 +785,6 @@ void PewterCity(int option)
     }
     else if (option == 6)
     {
-        //if (pokepet health == 0)
-        //cout<<pokepet is too hungry to battle<<endl;
-        //else
         battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
         if (myPokemon->getCurHP()>0)
         {
@@ -883,9 +880,6 @@ void CeruleanCity(int option)
     }
     else if (option == 6)
     {
-        //if (pokepet health == 0)
-        //cout<<pokepet is too hungry to battle<<endl;
-        //else
         battleTrainer(&gymLeader[1], 121, 21, &ceruleanCity[0], &ceruleanCity[2], &winLose[0]);
         if (myPokemon->getCurHP()>0)
         {
@@ -1002,9 +996,6 @@ void VermillionCity(int option)
     }
     else if (option == 6)
     {
-        //if (pokepet health == 0)
-        //cout<<pokepet is too hungry to battle<<endl;
-        //else
         battleTrainer(&gymLeader[2], 26, 26, &vermillionCity[0], &vermillionCity[4], &winLose[0]);
         if (myPokemon->getCurHP()>0)
         {
