@@ -15,7 +15,7 @@ namespace {
         EXPECT_EQ(0, reader.getFieldSize());
         EXPECT_EQ(-1, reader.getFieldIndex());
         EXPECT_TRUE(reader.getLine().empty());
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         EXPECT_FALSE(reader.isOpen());
     }
 
@@ -26,7 +26,7 @@ namespace {
         EXPECT_NE(0, reader.getFieldSize());
         EXPECT_EQ(-1, reader.getFieldIndex());
         EXPECT_FALSE(reader.getLine().empty());
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         EXPECT_TRUE(reader.isOpen());
     }
 
@@ -51,7 +51,7 @@ namespace {
         EXPECT_EQ(0, reader.getFieldSize());
         EXPECT_EQ(-1, reader.getFieldIndex());
         EXPECT_TRUE(reader.getLine().empty());
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         EXPECT_FALSE(reader.isOpen());
 
         reader.openFile(IDEAL_CSV);
@@ -59,17 +59,17 @@ namespace {
         EXPECT_NE(0, reader.getFieldSize());
         EXPECT_EQ(-1, reader.getFieldIndex());
         EXPECT_FALSE(reader.getLine().empty());
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         EXPECT_TRUE(reader.isOpen());
         reader.readField();
         EXPECT_NE(-1, reader.getFieldIndex());
-        EXPECT_FALSE(reader.getField<string>().empty());
+        EXPECT_FALSE(reader.getCurField().empty());
 
         reader.reset();
         EXPECT_EQ(0, reader.getFieldSize());
         EXPECT_EQ(-1, reader.getFieldIndex());
         EXPECT_TRUE(reader.getLine().empty());
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         EXPECT_FALSE(reader.isOpen());
     }
 
@@ -77,7 +77,7 @@ namespace {
     {
         CSVReader reader;
 
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.openFile(IDEAL_CSV);
 
         reader.readLine();
@@ -91,20 +91,20 @@ namespace {
     {
         CSVReader reader;
 
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         EXPECT_EQ(0,reader.getField<int>());
         reader.openFile(IDEAL_CSV);
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
 
         reader.readField();
-        EXPECT_STREQ("move_id",reader.getField<string>().c_str());
+        EXPECT_STREQ("move_id",reader.getCurField().c_str());
 
         reader.readLine();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
         reader.readField();
         reader.readField();
-        EXPECT_STREQ("-1",reader.getField<string>().c_str());
+        EXPECT_STREQ("-1",reader.getCurField().c_str());
         EXPECT_EQ(2,reader.getFieldIndex());
     }
 
@@ -127,73 +127,73 @@ namespace {
     {
         CSVReader reader;
 
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.openFile(IDEAL_CSV);
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
 
         reader.readLine();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
 
         reader.readField();
-        EXPECT_STREQ("28",reader.getField<string>().c_str());
+        EXPECT_STREQ("28",reader.getCurField().c_str());
 
         reader.readField();
-        EXPECT_STREQ("7",reader.getField<string>().c_str());
+        EXPECT_STREQ("7",reader.getCurField().c_str());
 
         reader.readField();
-        EXPECT_STREQ("-1",reader.getField<string>().c_str());
+        EXPECT_STREQ("-1",reader.getCurField().c_str());
 
         reader.readField();
-        EXPECT_STREQ("ing",reader.getField<string>().c_str());
+        EXPECT_STREQ("ing",reader.getCurField().c_str());
     }
 
      TEST(CSVReaderGetterTests, getFieldSkip)
     {
         CSVReader reader;
 
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.openFile(SKIP_CSV);
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
 
         // line 2
         reader.readLine();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
-        EXPECT_STREQ("1",reader.getField<string>().c_str());
+        EXPECT_STREQ("1",reader.getCurField().c_str());
         reader.readField();
-        EXPECT_STREQ("9.0",reader.getField<string>().c_str());
+        EXPECT_STREQ("9.0",reader.getCurField().c_str());
         reader.readField();
-        EXPECT_STREQ("Pound it",reader.getField<string>().c_str());
+        EXPECT_STREQ("Pound it",reader.getCurField().c_str());
 
         // line 3
         reader.readLine();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
-        EXPECT_STREQ("3.5",reader.getField<string>().c_str());
+        EXPECT_STREQ("3.5",reader.getCurField().c_str());
         reader.readField();
-        EXPECT_STREQ("6",reader.getField<string>().c_str());
+        EXPECT_STREQ("6",reader.getCurField().c_str());
         reader.readField();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
 
         // line 4
         reader.readLine();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
-        EXPECT_STREQ("4",reader.getField<string>().c_str());
+        EXPECT_STREQ("4",reader.getCurField().c_str());
         reader.readField();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
-        EXPECT_STREQ("Yes",reader.getField<string>().c_str());
+        EXPECT_STREQ("Yes",reader.getCurField().c_str());
 
         // line 5
         reader.readLine();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
-        EXPECT_TRUE(reader.getField<string>().empty());
+        EXPECT_TRUE(reader.getCurField().empty());
         reader.readField();
-        EXPECT_STREQ("5",reader.getField<string>().c_str());
+        EXPECT_STREQ("5",reader.getCurField().c_str());
         reader.readField();
-        EXPECT_STREQ("No",reader.getField<string>().c_str());
+        EXPECT_STREQ("No",reader.getCurField().c_str());
     }
 
      TEST(CSVReaderGetterTests, getFieldSize)

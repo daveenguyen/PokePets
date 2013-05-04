@@ -41,15 +41,21 @@ endmacro()
 #############################################################################
 function(test_this NAME LIB)
     # Helper function from Google C++ Testing Framework
+    set(TEST_DEP ../src/${NAME})
+
+    foreach(obj ${ARGN})
+       set(TEST_DEP ${TEST_DEP} ../src/${obj})
+    endforeach(obj)
+
     cxx_executable(
-        ${NAME}Test . ${LIB})
+        ${NAME}Test . ${LIB} ${TEST_DEP})
     # link all dependencies
-    target_link_libraries(${NAME}Test ${NAME} ${ARGN})
+    # target_link_libraries(${NAME}Test ${NAME} ${ARGN})
     run_test(${NAME}Test)
 endfunction()
 
 #############################################################################
 # My Unit Tests
 #############################################################################
-test_this(PokemonSpecies gtest_main CSVReader)
+test_this(PokemonSpecies gtest_main CSVReader PokemonBuilder Type)
 test_this(CSVReader gtest)
