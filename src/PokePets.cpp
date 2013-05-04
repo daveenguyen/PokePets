@@ -785,23 +785,102 @@ void PewterCity(int option)
         battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
         //if player wins
         //badgeCount++
-
     }
 }
 
 void Route3(int option)
 {
+     if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[5], location[7], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Pewter City
+                curLocation = 5;
+                break;
+
+            case 2:
+                // Mt. Moon
+                curLocation = 7;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void Moon(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[6], location[8], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 3
+                curLocation = 6;
+                break;
+
+            case 2:
+                // Cerulean City
+                curLocation = 8;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void CeruleanCity(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[7], location[9], location[10], location[24], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 5, tempoptions))
+        {
+            case 1:
+                // Viridian Forest
+                curLocation = 7;
+                break;
+            case 2:
+                // Route 3
+                curLocation = 9;
+                break;
+            case 3:
+                //
+                curLocation = 10;
+                break;
+            case 3:
+                //Saffron City
+                //need 5 badges to enter
+                if (badgeCount>=5)
+                    curLocation = 24;
+                else
+                    cout << road is closed << endl;
+                break;
+        }
+
+    }
+    else if (option == 6)
+    {   
+        //if (pokepet health == 0)
+        //cout<<pokepet is too hungry to battle<<endl;
+        //else
+        battleTrainer(&gymLeader[1], 121, 21, &ceruleanCity[0], &ceruleanCity[2], &winLose[0]);
+        //if player wins
+        //badgeCount++
+    }
 }
 
 void Route4(int option)
