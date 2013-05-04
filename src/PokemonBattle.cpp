@@ -24,9 +24,8 @@ PokemonBattle::PokemonBattle(Pokemon* myPkmn, Pokemon* enemyPkmn, string enemyNa
 
 void PokemonBattle::start()
 {
-    delay(1750);
     printBattleInit();
-
+    delay(1750);
     while (!_battleDone)
     {
         printCommon();

@@ -81,6 +81,7 @@ int main()
     gameIntro();
     while (true)
     {
+        printDividers();
         cout << "\nCurrent location: " << location[curLocation] << endl;
         int option = 1;
 
@@ -387,7 +388,6 @@ void gameIntro()
     cout << endl;
 
     printDialogue(&introText[11]);
-    printDividers();
 }
 
 int getInputPrompt(const string prompt, int numOptions, const string* options)
@@ -591,8 +591,7 @@ void PalletTown(int option)
                 if (myPokePetNum==0)
                 {
                     cout << "Mom: " << playerName <<
-                        "! Hurry go visit Prof Haney! " <<
-                        "He's been waiting for you!" << endl;
+                        "! Prof Haney's been waiting for you!" << endl;
                 }
                 else
                 {
@@ -778,7 +777,7 @@ void PewterCity(int option)
 
     }
     else if (option == 6)
-    {   
+    {
         //if (pokepet health == 0)
         //cout<<pokepet is too hungry to battle<<endl;
         //else
@@ -873,7 +872,7 @@ void CeruleanCity(int option)
 
     }
     else if (option == 6)
-    {   
+    {
         //if (pokepet health == 0)
         //cout<<pokepet is too hungry to battle<<endl;
         //else
@@ -989,7 +988,7 @@ void VermillionCity(int option)
         }
     }
     else if (option == 6)
-    {   
+    {
         //if (pokepet health == 0)
         //cout<<pokepet is too hungry to battle<<endl;
         //else
@@ -1110,25 +1109,39 @@ void feed()
     switch(getInputPrompt("What would you like to feed your pet?", 8, feedMenu))
     {
         case 1:
-            // Berries
+            // Berries increases DEF
+            cout << myPokemon->getNickname() << " ate the berries!" << endl;
+            myPokemon->adjustEffort(0,0,1,0,0,0);
             break;
         case 2:
-            // Poffins
+            // Poffins increases ATK
+            cout << myPokemon->getNickname() << " ate the poffins!" << endl;
+            myPokemon->adjustEffort(0,1,0,0,0,0);
             break;
         case 3:
-            // Ice Cream
+            // Ice Cream increases HP
+            cout << myPokemon->getNickname() << " ate the ice cream!" << endl;
+            myPokemon->adjustEffort(1,0,0,0,0,0);
             break;
         case 4:
-            // Soda Pop
+            // Soda Pop increases SDEF
+            cout << myPokemon->getNickname() << " drank the soda pop!" << endl;
+            myPokemon->adjustEffort(0,0,0,0,1,0);
             break;
         case 5:
-            // Lemonade
+            // Lemonade increases SATK
+            cout << myPokemon->getNickname() << " drank the lemonade!" << endl;
+            myPokemon->adjustEffort(0,0,0,1,0,0);
             break;
         case 6:
-            // Water
+            // Water increases SPEED
+            cout << myPokemon->getNickname() << " drank the water!" << endl;
+            myPokemon->adjustEffort(0,0,0,0,0,1);
             break;
         case 7:
             // Rare Candy
+            cout << myPokemon->getNickname() << " ate the rare candy!" << endl;
+            myPokemon->setLevel(myPokemon->getLevel()+1);
             break;
     }
 }

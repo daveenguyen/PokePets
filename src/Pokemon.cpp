@@ -65,7 +65,13 @@ void Pokemon::reset()
 
 void Pokemon::setLevel(int i)
 {
-    _level = i;
+    if (i <= 100)
+    {
+        // _level = i;
+        _curExp = getExpToLvl(_level);
+        // cout << getNickname() << " grew to level " << i << "!\n";
+        checkExperience();
+    }
 }
 
 void Pokemon::setStatus(int i)
@@ -412,7 +418,7 @@ void Pokemon::initMoves()
 
 void Pokemon::checkExperience()
 {
-    while (_level < 100 && _curExp > getExpToLvl(_level)) {
+    while (_level < 100 && _curExp >= getExpToLvl(_level)) {
         float hpRatio = float(_curHP)/getStats(0);
         ++_level;
         _curHP = (int)(hpRatio * getStats(0));
@@ -1001,5 +1007,5 @@ void Pokemon::adjustEffort(int hp, int atk, int def, int satk, int sdef, int spd
 
 void Pokemon::evolve()
 {
-    // do nothing because not all pokemon evolve
+    // default implementation is to not evolve
 }
