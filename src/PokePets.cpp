@@ -1200,7 +1200,10 @@ void CeladonCity(int option)
                 break;
             case 2:
                 // Route 8
-                curLocation = 20;
+                if (badgeCount>=4)
+                    curLocation = 20;
+                else
+                    cout << " There's a gym leader in this town! " << endl;
                 break;
             case 3:
                 // Saffron City
@@ -1224,7 +1227,27 @@ void CeladonCity(int option)
 
 void Route8(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[19], location[22], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Celadon City
+                curLocation = 19;
+                break;
+            case 2:
+                // Route 9
+                curLocation = 22;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void FuchsiaCity(int option)
