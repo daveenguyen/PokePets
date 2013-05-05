@@ -547,7 +547,7 @@ void randomBattle()
     {
         // generate random level from range
         int minLvl = levelRange[curLocation][0];
-        int maxLvl = levelRange[curLocation][0];
+        int maxLvl = levelRange[curLocation][1];
 
         // add 1 due to "page counting"
         int numOfLvls = (maxLvl - minLvl + 1);
@@ -1118,18 +1118,21 @@ void rockPaperScissors()
 {
     int playerChoice = getInputPrompt("Which one do you pick?",3,rpsMenu) - 1;
     int petChoice = rand()%3;
+    cout << myPokemon->getNickname() << " chose " << rpsMenu[petChoice] << "!\n";
     cout << rpsMenu[playerChoice] << " vs " << rpsMenu[petChoice] << endl;
     if (playerChoice == petChoice)
-        cout << gameResult[2]; // draw
+        cout << gameResult[2] << endl; // draw
     else if ((playerChoice == 0 && petChoice == 2)||
              (playerChoice == 1 && petChoice == 0)||
              (playerChoice == 2 && petChoice == 1))
     {
-        cout << gameResult[1]; // win
+        cout << gameResult[1] << endl; // win
+        myPokemon->adjustEffort(0,4,0,0,0,0); // atk
     }
     else
     {
-        cout << gameResult[0]; // lose
+        cout << gameResult[0] << endl; // lose
+        myPokemon->adjustEffort(0,0,4,0,0,0); // def
     }
 }
 
@@ -1140,32 +1143,38 @@ void feed()
         case 1:
             // Berries increases DEF
             cout << myPokemon->getNickname() << " ate the berries!" << endl;
-            myPokemon->adjustEffort(0,0,1,0,0,0);
+            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+            myPokemon->adjustEffort(0,0,4,0,0,0);
             break;
         case 2:
             // Poffins increases ATK
             cout << myPokemon->getNickname() << " ate the poffins!" << endl;
-            myPokemon->adjustEffort(0,1,0,0,0,0);
+            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+            myPokemon->adjustEffort(0,4,0,0,0,0);
             break;
         case 3:
             // Ice Cream increases HP
             cout << myPokemon->getNickname() << " ate the ice cream!" << endl;
-            myPokemon->adjustEffort(1,0,0,0,0,0);
+            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+            myPokemon->adjustEffort(4,0,0,0,0,0);
             break;
         case 4:
             // Soda Pop increases SDEF
             cout << myPokemon->getNickname() << " drank the soda pop!" << endl;
-            myPokemon->adjustEffort(0,0,0,0,1,0);
+            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+            myPokemon->adjustEffort(0,0,0,0,4,0);
             break;
         case 5:
             // Lemonade increases SATK
             cout << myPokemon->getNickname() << " drank the lemonade!" << endl;
-            myPokemon->adjustEffort(0,0,0,1,0,0);
+            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+            myPokemon->adjustEffort(0,0,0,4,0,0);
             break;
         case 6:
             // Water increases SPEED
             cout << myPokemon->getNickname() << " drank the water!" << endl;
-            myPokemon->adjustEffort(0,0,0,0,0,1);
+            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+            myPokemon->adjustEffort(0,0,0,0,0,4);
             break;
         case 7:
             // Rare Candy
@@ -1247,7 +1256,7 @@ void checkPet()
             // hunger
             int curHP = myPokemon->getCurHP();
             int maxHP = myPokemon->getStats(0);
-            double percentHp = double(curHP)/maxHP;
+            double percentHp = 1 - (double(curHP)/maxHP);
 
             cout << "\nHunger: " << (percentHp*100) << " %" << endl;
             cout << "[" ;
