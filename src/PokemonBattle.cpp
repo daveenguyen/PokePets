@@ -8,11 +8,11 @@ using namespace std;
 
 //#define WINDOWS_OS // uncomment if using windows
 
-#ifdef WINDOWS_OS
-    #include <windows.h>
-#else
-    #include <unistd.h>
-#endif
+// #ifdef WINDOWS_OS
+//     #include <windows.h>
+// #else
+//     #include <unistd.h>
+// #endif
 
 #define DIVIDER_LENGTH 120
 
@@ -672,11 +672,16 @@ void PokemonBattle::doEndTurn()
 
 void PokemonBattle::delay(int ms)
 {
-    #ifdef WINDOWS_OS
-        Sleep(ms);
-    #else
-        usleep(ms*1000);
-    #endif
+    char userInput;
+    cout << "\n** Input a character to continue ** ";
+    if ( ! (cin >> userInput))
+    {
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
+    cout << endl;
 }
 
 
