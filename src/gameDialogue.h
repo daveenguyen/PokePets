@@ -196,31 +196,31 @@ const int levelRange[][2]={
 	{0},						//Pallet Town
 	{3,4},						//Route 1
 	{0},						//Viridian City
-	{6,6},						//Route 2
-	{8,11},						//Viridian Forest
+	{6,7},						//Route 2
+	{7,10},						//Viridian Forest
 	{0},						//Pewter City
-	{12,9},						//Route 3
-	{14,10},					//Mt Moon
+	{12,14},					//Route 3
+	{14,15},					//Mt Moon
 	{0},						//Cerulean City
-	{16,14},					//Route 4
+	{16,18},					//Route 4
 	{19,22},					//Route 5
 	{0},						//Underground Passage
 	{0},						//Vermillion City
 	{18,22}, 					//Route 6,snorlax(lvl30) is on this route; need pokeflute
-	{22,22}, 					//Rock Tunnel
+	{22,23}, 					//Rock Tunnel
 	{0},						//Lavendar Town
-	{24,21},					//Ghost Tower
+	{21,24},					//Ghost Tower
 	{21,24},					//Route 7
 	{0},						//Underground Passage, Player recieves fly from old man
 	{0},						//Celadon City
-	{28,26},					//Route 8
+	{28,33},					//Route 8
 	{0},						//Fuchsia City
-	{33,29},					//Route 9
-	{36,30},					//Route 10
+	{33,36},					//Route 9
+	{36,38},					//Route 10
 	{0},						//Saffron City
 	{0},						//Cinnebar Island
-	{38,22},					//Route 11
-	{40,40},					//Route 12
+	{38,40},					//Route 11
+	{40,42},					//Route 12
 	{43,45},					//Crystal Cave
 	{0},						//PokePet League
 };
