@@ -305,7 +305,7 @@ const string rivalQuote[]={
 	"I couldn't find it, so you should just give up.",
 	"Smell you later!",
 	//4th Rival Encounter
-
+	"I am the strongest trainer in the WORLD! I AM THE CHAMPION!",
 	//if Player wins
 	"You got lucky this time...",
 	"Why can't I win!",
@@ -497,7 +497,9 @@ const string Dale[]={
 	"Hmm...I'll buy that."
 };
 
-const string Davee[]={""
+const string Davee[]={
+	"Haha so you beat Dale? My name is Davee and I created this game! ",
+	"Damn I should of made this game harder"
 };
 
 const string Albert[]={
@@ -513,7 +515,7 @@ const string Angel[]={
 	"Damn just when I was going to go to sleep too...",
 	"Lets get this over with.",
 	//after win
-	"Props bro. Props"
+	"RIGHTEOUS bro"
 };
 
 #endif

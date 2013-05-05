@@ -632,7 +632,7 @@ void PalletTown(int option)
                         }
 
                         // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
-                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[6], &rivalQuote[9]);
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[7], &rivalQuote[9]);
                     }
                 }
                 break;
@@ -1488,7 +1488,48 @@ void CrystalCave(int option)
 
 void PokePetLeague(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[28], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 2, tempoptions))
+        {
+            case 1:
+                // Route 11
+                curLocation = 28;
+                break;
+        }
+    }
+    else if (option == 6 && badgeCount==8)
+    {
+        battleTrainer(&elitefour[0], 81, 56, &Dale[1], &Dale[3], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            battleTrainer(&elitefour[1], 130, 60, &Davee[0], &Davee[1], &winLose[0]);
+            if (myPokemon->getCurHP()>0)
+            {
+                // player won
+                battleTrainer(&elitefour[2], 149, 65, &Albert[0], &Albert[3], &winLose[0]);
+                if (myPokemon->getCurHP()>0)
+                {
+                    // player won
+                    battleTrainer(&elitefour[1], 94, 67, &Angel[0], &Angel[3], &winLose[0]);
+                    if (myPokemon->getCurHP()>0)
+                    {
+                        // player won
+                        cout << " You are now the champion! or...you would have been.. 
+                                there is one more trainer left to fight" << endl;
+
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[6], &rivalQuote[8], &rivalQuote[9]);                            
+                        
+                        cout << " CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION! " << endl; 
+                    }
+                }
+            }
+        }
+    }
 }
 
 
