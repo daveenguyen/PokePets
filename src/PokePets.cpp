@@ -1216,8 +1216,7 @@ void CeladonCity(int option)
     }
     else if (option == 6 && badgeCount==3)
     {
-        battleTrainer(&gymLeader[2], 26, 26, &vermillionCity[0], &vermillionCity[4], &winLose[0]);
-        if (myPokemon->getCurHP()>0)
+       battleTrainer(&gymLeader[3], 45, 34, &celadonCity[0], &celadonCity[3], &winLose[0]);
         {
             // player won
             badgeCount++;
@@ -1232,7 +1231,7 @@ void Route8(int option)
         // travel
         string tempoptions[] = {location[19], location[22], "Cancel"};
 
-        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
         {
             case 1:
                 // Celadon City
@@ -1252,22 +1251,131 @@ void Route8(int option)
 
 void FuchsiaCity(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[22], location[23], location[26], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Route 9
+                curLocation = 22;
+                break;
+            case 2:
+                // Route 10
+                if (badgeCount>=5)
+                    curLocation = 23;
+                else
+                    cout << " Why don't you challenge the gym leader " << endl;
+                break;
+            case 3:
+                // Route 11
+                if (badgeCount>=6)
+                    curLocation = 26;
+                else
+                    cout << " The road to Saffron City is now open! " << endl;
+                break;
+        }
+    }
+    else if (option == 6 && badgeCount==4)
+    {
+        battleTrainer(&gymLeader[4], 49, 40, &fuchsiaCity[0], &fuchsiaCity[3], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+        }
+    }
 }
 
 void Route9(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[20], location[21], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 8
+                curLocation = 20;
+                break;
+            case 2:
+                // Fuschia City
+                curLocation = 21;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void Route10(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[21], location[13], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Fuschia City
+                curLocation = 21;
+                break;
+            case 2:
+                // Route 6
+                curLocation = 13;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void SaffronCity(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[19], location[8], location[17], location[12], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 5, tempoptions))
+        {
+            case 1:
+                // Celadon City
+                curLocation = 19;
+                break;
+            case 2:
+                // Cerulean City
+                    curLocation = 8;
+                break;
+            case 3:
+                // Route 7
+                curLocation = 17;
+                break;
+            case 4:
+                //Vermillion City
+                curLocation = 12;
+                break;
+        }
+    }
+    else if (option == 6 && badgeCount==5)
+    {
+        battleTrainer(&gymLeader[5], 65, 46, &saffronCity[1], &saffronCity[5], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+            cout << " You can go visit Cinnebar Island now! " << endl;
+        }
+    }
 }
 
 void CinnebarIsland(int option)
