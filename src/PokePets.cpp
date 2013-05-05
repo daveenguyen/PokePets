@@ -780,12 +780,15 @@ void PewterCity(int option)
 
             case 2:
                 // Route 3
-                curLocation = 6;
+                if (badgeCount>=1)
+                    curLocation = 6;
+                else
+                    cout << " You should try fighting the gym leader first  " << endl;
                 break;
         }
 
     }
-    else if (option == 6)
+    else if (option == 6 && badgeCount==0)
     {
         battleTrainer(&gymLeader[0], 95, 12, &pewterCity[0], &pewterCity[4], &winLose[0]);
         if (myPokemon->getCurHP()>0)
@@ -866,7 +869,7 @@ void CeruleanCity(int option)
                 curLocation = 9;
                 break;
             case 3:
-                //
+                // Route 5
                 curLocation = 10;
                 break;
             case 4:
@@ -880,7 +883,7 @@ void CeruleanCity(int option)
         }
 
     }
-    else if (option == 6)
+    else if (option == 6 && badgeCount==1)
     {
         battleTrainer(&gymLeader[1], 121, 21, &ceruleanCity[0], &ceruleanCity[2], &winLose[0]);
         if (myPokemon->getCurHP()>0)
@@ -996,7 +999,7 @@ void VermillionCity(int option)
                 break;
         }
     }
-    else if (option == 6)
+    else if (option == 6 && badgeCount==2)
     {
         battleTrainer(&gymLeader[2], 26, 26, &vermillionCity[0], &vermillionCity[4], &winLose[0]);
         if (myPokemon->getCurHP()>0)
@@ -1009,27 +1012,150 @@ void VermillionCity(int option)
 
 void Route6(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[12], location[15], location[23], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Vermillion City
+                curLocation = 12;
+                break;
+            case 2:
+                // Lavendar Town
+                if (badgeCount>=4)
+                    curLocation = 15;
+                else
+                    cout << " Road is blocked " << endl;
+                break;
+            case 3:
+                // Route 10
+                if (badgeCount>=5)
+                    curLocation = 23;
+                else
+                    cout << " Road is blocked " << endl;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void RockTunnel(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[10], location[15], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 5
+                curLocation = 10;
+                break;
+            case 2:
+                // Lavendar Town
+                curLocation = 15;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void LavendarTown(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[14], location[17], location[16], location[13], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 5, tempoptions))
+        {
+            case 1:
+                // Rock Tunnel
+                curLocation = 14;
+                break;
+            case 2:
+                // Route 7
+                curLocation = 17;
+                break;
+            case 3:
+                // Ghost Tower
+                curLocation = 16;
+            case 4:
+                // Route 6
+                if (badgeCount>=4)
+                    curLocation = 13;
+                else
+                    cout << " Road is blocked " << endl;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        cout << " You can't do that here " << endl;
+    }
 }
 
 void GhostTower(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[15], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 2, tempoptions))
+        {
+            case 1:
+                // Lavendar Town
+                curLocation = 15;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void Route7(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[15], location[18], location[24], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Lavendar Town
+                curLocation = 15;
+                break;
+            case 2:
+                // Underground Passage
+                curLocation = 18;
+                break;
+            case 3:
+                // Saffron City
+                if (badgeCount>=5)
+                    curLocation = 24;
+                else
+                    cout << " Road is blocked " << endl;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void ToCeladon(int option)
