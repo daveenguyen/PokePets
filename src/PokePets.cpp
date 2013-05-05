@@ -703,16 +703,15 @@ void ViridianCity(int option)
         }
 
     }
-    else if (option == 6)
+    else if (option == 6 && badgeCount==7)
     {
-        // battle
-        // cout << "You cannot do that here!" << endl;
-        // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
-        if (badgeCount == 7)
-            battleTrainer(&gymLeader[7], 34, 55, &viridianCity[4], &viridianCity[5], &winLose[0]);
-            // battleTrainer(&gymLeader[7], 34, 55, &rivalQuote[0], &winLose[rand()%6 + 1], &winLose[0]);
-        else
-            cout << viridianCity[0] << endl;
+        battleTrainer(&gymLeader[7], 34, 54, &viridianCity[4], &viridianCity[6], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+            cout << " Maybe you can stand up against the ELITE FOUR " << endl;
+        }
     }
 }
 
@@ -1380,7 +1379,33 @@ void SaffronCity(int option)
 
 void CinnebarIsland(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[26], location[27], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 11
+                curLocation = 26;
+                break;
+            case 2:
+                // Route 12
+                    curLocation = 27;
+                break;
+        }
+    }
+    else if (option == 6 && badgeCount==6)
+    {
+        battleTrainer(&gymLeader[6], 126, 50, &cinnebarIsland[2], &cinnebarIsland[4], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+            cout << " I heard the gym in Viridian City is open again. " << endl;
+        }
+    }
 }
 
 void Route11(int option)
