@@ -1161,12 +1161,65 @@ void Route7(int option)
 
 void ToCeladon(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[17], location[19], "Cancel"};
+
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 7
+                curLocation = 17;
+                break;
+            case 2:
+                // Celadon City
+                curLocation = 19;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        cout << " You can't do that here " << endl;
+    }
 
 }
 
 void CeladonCity(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[18], location[20], location[24], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 4, tempoptions))
+        {
+            case 1:
+                // Underground Passage
+                curLocation = 18;
+                break;
+            case 2:
+                // Route 8
+                curLocation = 20;
+                break;
+            case 3:
+                // Saffron City
+                if (badgeCount>=5)
+                    curLocation = 24;
+                else
+                    cout << " Road is closed " << endl;
+                break;
+        }
+    }
+    else if (option == 6 && badgeCount==3)
+    {
+        battleTrainer(&gymLeader[2], 26, 26, &vermillionCity[0], &vermillionCity[4], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
+        {
+            // player won
+            badgeCount++;
+        }
+    }
 }
 
 void Route8(int option)
