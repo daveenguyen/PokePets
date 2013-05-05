@@ -16,11 +16,12 @@ bool   isBoy;
 int    myPokePetNum;
 int    rivalNum;
 int    badgeCount;
+int    itemCount[7];
 string petName;
 
 // Pokemon myPokemon(0,5);
-Pokemon*  myPokemon;
-CSVReader reader;
+Pokemon*       myPokemon;
+CSVReader      reader;
 PokemonBuilder builder;
 
 int curLocation;
