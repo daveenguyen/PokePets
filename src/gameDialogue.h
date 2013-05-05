@@ -195,34 +195,34 @@ const int wildPokePet[][8]={
 
 const int levelRange[][2]={
 	{0},						//Pallet Town
-	{2,4},						//Route 1
+	{3,4},						//Route 1
 	{0},						//Viridian City
-	{3,6},						//Route 2
-	{4,11},						//Viridian Forest
+	{6,6},						//Route 2
+	{8,11},						//Viridian Forest
 	{0},						//Pewter City
-	{7,9},						//Route 3
-	{8,10},						//Mt Moon
+	{12,9},						//Route 3
+	{14,10},					//Mt Moon
 	{0},						//Cerulean City
-	{10,14},					//Route 4
-	{16,22},					//Route 5
+	{16,14},					//Route 4
+	{19,22},					//Route 5
 	{0},						//Underground Passage
 	{0},						//Vermillion City
 	{18,22}, 					//Route 6,snorlax(lvl30) is on this route; need pokeflute
-	{18,22}, 					//Rock Tunnel
+	{22,22}, 					//Rock Tunnel
 	{0},						//Lavendar Town
-	{19,21},					//Ghost Tower
+	{24,21},					//Ghost Tower
 	{21,24},					//Route 7
 	{0},						//Underground Passage, Player recieves fly from old man
 	{0},						//Celadon City
-	{20,26},					//Route 8
+	{28,26},					//Route 8
 	{0},						//Fuchsia City
-	{25,29},					//Route 9
-	{26,30},					//Route 10
+	{33,29},					//Route 9
+	{36,30},					//Route 10
 	{0},						//Saffron City
 	{0},						//Cinnebar Island
-	{18,22},					//Route 11
-	{35,40},					//Route 12
-	{40,45},					//Crystal Cave
+	{38,22},					//Route 11
+	{40,40},					//Route 12
+	{43,45},					//Crystal Cave
 	{0},						//PokePet League
 };
 
