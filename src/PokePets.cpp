@@ -1392,7 +1392,10 @@ void CinnebarIsland(int option)
                 break;
             case 2:
                 // Route 12
+                if (badgeCount>=8)
                     curLocation = 27;
+                else
+                    cout << " The PokePet League is that way... I still need to obtain all badges first" << endl;
                 break;
         }
     }
@@ -1410,17 +1413,77 @@ void CinnebarIsland(int option)
 
 void Route11(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[21], location[25], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Fuschia City
+                curLocation = 21;
+                break;
+            case 2:
+                // Cinnebar Island
+                curLocation = 25;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void Route12(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[25], location[28], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // CInnebar Island
+                curLocation = 25;
+                break;
+            case 2:
+                // Crystal Cave
+                curLocation = 28;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void CrystalCave(int option)
 {
+    if (option == 1)
+    {
+        // travel
+        string tempoptions[] = {location[27], location[29], "Cancel"};
 
+        switch (getInputPrompt("Where would you like to go?", 3, tempoptions))
+        {
+            case 1:
+                // Route 12
+                curLocation = 27;
+                break;
+            case 2:
+                // League
+                curLocation = 29;
+                break;
+        }
+    }
+    else if (option == 6)
+    {
+        randomBattle();
+    }
 }
 
 void PokePetLeague(int option)
