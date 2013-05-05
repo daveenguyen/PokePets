@@ -395,7 +395,7 @@ void PokemonBattle::drawPokemons()
 
 void PokemonBattle::checkPP(int move)
 {
-    if (myPkmn->getMove(move-1).getPP() > 0)
+    if (myPkmn->getCurPP(move-1) > 0)
     {
         // do move
         _state = 2;
@@ -414,7 +414,7 @@ void PokemonBattle::checkPP(int move)
         bool noPPall = true;
         for(int i = 0; i < moveCount; ++i)
         {
-            if (myPkmn->getMove(i).getPP() > 0)
+            if (myPkmn->getCurPP(i) > 0)
             {
                 noPPall = false;
                 break;
@@ -424,12 +424,14 @@ void PokemonBattle::checkPP(int move)
         if (noPPall)
         {
             // use struggle
+            _state = 2;
             _playerMove = -1;
         }
         else
         {
             // not enough PP
             cout << "No more PP!" << endl;
+            delay(0);
         }
     }
 }
@@ -459,7 +461,7 @@ void PokemonBattle::doPlayerMove()
     else
     {
         // struggle
-        myPkmn->useMove(165, enemyPkmn);
+        myPkmn->useMove(-1, enemyPkmn);
     }
 }
 

@@ -518,112 +518,121 @@ void Pokemon::adjustHP(int i)
 
 void Pokemon::useMove(int i, Pokemon* target)
 {
-    cout << getNickname() << " used " << _moves[i].getIdentifier() << "!" << endl;
-
-    _curPP[i]--;
-    switch (_moves[i].getMeta_category_id())
+    if (i == -1)
     {
-        case 0:
+        Move struggle(165);
+        cout << getNickname() << " used " << struggle.getIdentifier() << "!" << endl;
+        doDamage(target, &struggle);
+    }
+    else
+    {
+        cout << getNickname() << " used " << _moves[i].getIdentifier() << "!" << endl;
+
+        _curPP[i]--;
+        switch (_moves[i].getMeta_category_id())
         {
-            // damage
-            doDamage(target, &_moves[i]);
-            break;
-        }
-        case 1:
-        {
-            // ailment
-            doAilment(target, &_moves[i]);
-            break;
-        }
-        case 2:
-        {
-            // net-good-stats
-            if (_moves[i].getTarget_id()==7)
+            case 0:
             {
-                doRaiseUserStat(&_moves[i]);
+                // damage
+                doDamage(target, &_moves[i]);
+                break;
             }
-            else
+            case 1:
             {
+                // ailment
+                doAilment(target, &_moves[i]);
+                break;
+            }
+            case 2:
+            {
+                // net-good-stats
+                if (_moves[i].getTarget_id()==7)
+                {
+                    doRaiseUserStat(&_moves[i]);
+                }
+                else
+                {
+                    doLowersTargetStat(target, &_moves[i]);
+                }
+                break;
+            }
+            case 3:
+            {
+                // heal
+                doHealUser(&_moves[i]);
+                break;
+            }
+            case 4:
+            {
+                // damage + ailment
+                doDamage(target, &_moves[i]);
+                doAilment(target, &_moves[i]);
+                break;
+            }
+            case 5:
+            {
+                // swagger
+                doAilment(target, &_moves[i]);
+                doRaiseTargetStat(target, &_moves[i]);
+                break;
+            }
+            case 6:
+            {
+                // damage + lower
+                doDamage(target, &_moves[i]);
                 doLowersTargetStat(target, &_moves[i]);
+                break;
             }
-            break;
-        }
-        case 3:
-        {
-            // heal
-            doHealUser(&_moves[i]);
-            break;
-        }
-        case 4:
-        {
-            // damage + ailment
-            doDamage(target, &_moves[i]);
-            doAilment(target, &_moves[i]);
-            break;
-        }
-        case 5:
-        {
-            // swagger
-            doAilment(target, &_moves[i]);
-            doRaiseTargetStat(target, &_moves[i]);
-            break;
-        }
-        case 6:
-        {
-            // damage + lower
-            doDamage(target, &_moves[i]);
-            doLowersTargetStat(target, &_moves[i]);
-            break;
-        }
-        case 7:
-        {
-            // damage + raise
-            doDamage(target, &_moves[i]);
-            doRaiseUserStat(&_moves[i]);
-            break;
-        }
-        case 8:
-        {
-            // damage + absorb heal
-            int absorb = target->getCurHP();
-            doDamage(target, &_moves[i]);
-            absorb -= target->getCurHP();
-            if (absorb > 0)
+            case 7:
             {
-                cout << getNickname() << " restored some health" << endl;
-                adjustHP(absorb);
+                // damage + raise
+                doDamage(target, &_moves[i]);
+                doRaiseUserStat(&_moves[i]);
+                break;
             }
-            break;
-        }
-        case 9:
-        {
-            // ohko
-            break;
-        }
-        case 10:
-        {
-            // whole field effect
-            break;
-        }
-        case 11:
-        {
-            // field effect
-            break;
-        }
-        case 12:
-        {
-            // force switch
-            break;
-        }
-        case 13:
-        {
-            // unique
-            break;
-        }
-        default:
-        {
-            //
-            break;
+            case 8:
+            {
+                // damage + absorb heal
+                int absorb = target->getCurHP();
+                doDamage(target, &_moves[i]);
+                absorb -= target->getCurHP();
+                if (absorb > 0)
+                {
+                    cout << getNickname() << " restored some health" << endl;
+                    adjustHP(absorb);
+                }
+                break;
+            }
+            case 9:
+            {
+                // ohko
+                break;
+            }
+            case 10:
+            {
+                // whole field effect
+                break;
+            }
+            case 11:
+            {
+                // field effect
+                break;
+            }
+            case 12:
+            {
+                // force switch
+                break;
+            }
+            case 13:
+            {
+                // unique
+                break;
+            }
+            default:
+            {
+                //
+                break;
+            }
         }
     }
 
