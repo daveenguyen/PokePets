@@ -33,6 +33,7 @@ int  getInputPrompt(const string prompt, int numOptions, const string* options);
 void play();
 void feed();
 void clean();
+void drawPetFront(int petNum);
 void checkPet();
 void quitGame();
 
@@ -1334,12 +1335,31 @@ void clean()
     }
 }
 
+void drawPetFront(int petNum)
+{
+    stringstream ss;
+    ss << petNum;
+    string str = ss.str();
+
+    string filePathStr = "../data/xterm/front/" + str + ".xterm";
+
+    ifstream reader;
+    reader.open(filePathStr.c_str());
+    for (int i = 0; i < 16; ++i)
+    {
+        getline(reader,filePathStr);
+        cout << filePathStr << endl;
+    }
+
+}
+
 void checkPet()
 {
     switch(getInputPrompt("What would you like to check?", 3, checkPetMenu))
     {
         case 1:
             // info
+            drawPetFront(myPokemon->getDexNum());
             cout << "___ " << myPokemon->getNickname() << "'s' INFO" << endl;\
             cout << "  GENDER: " << myPokemon->getGender() << endl;
 
@@ -1377,6 +1397,7 @@ void checkPet()
             break;
         case 2:
             // status
+            drawPetFront(myPokemon->getDexNum());
             cout << "___ " << myPokemon->getNickname() << "'s STATUS" << endl;
 
             // hunger
