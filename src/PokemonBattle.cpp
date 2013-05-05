@@ -82,7 +82,6 @@ void PokemonBattle::printBattleInit()
 
     _state = 0;
     _battleDone = false;
-    delay(1750);
 }
 
 
@@ -518,12 +517,13 @@ void PokemonBattle::doMove()
         }
     }
 
+    checkPrintFaint();
+
     if(!isDead(myPkmn)&&!isDead(enemyPkmn))
     {
         doEndTurn();
         _state = 0;
     }
-    checkPrintFaint();
 }
 
 bool PokemonBattle::meFirst()
