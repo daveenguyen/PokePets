@@ -647,7 +647,7 @@ void PalletTown(int option)
                         }
 
                         // string* name, int dexNum, int level, string* pre, string* youWin, string* youLose
-                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[7], &rivalQuote[9]);
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[0], &rivalQuote[7], &rivalQuote[10]);
                     }
                 }
                 break;
@@ -1536,7 +1536,7 @@ void PokePetLeague(int option)
                         // player won
                         cout << " You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
 
-                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[6], &rivalQuote[8], &rivalQuote[9]);
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[6], &rivalQuote[8], &rivalQuote[12]);
 
                         cout << " CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION! " << endl;
                     }
