@@ -376,6 +376,22 @@ int Pokemon::getCurPP(int i)
     return _curPP[i];
 }
 
+void Pokemon::resetPPs()
+{
+    int moveCount=0;
+
+    for (int j = 0; j < 4 && getMove(j).getMoveNum() != 0; ++j)
+    {
+        ++moveCount;
+    }
+
+    for (int i = 0; i < moveCount; ++i)
+    {
+        _curPP[i] = _moves[i].getPP();
+    }
+
+}
+
 void Pokemon::adjustExperience(int baseExp, int faintLvl, bool isWild, int participated)
 {
     double wild;

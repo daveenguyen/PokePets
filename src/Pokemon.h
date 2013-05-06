@@ -73,6 +73,8 @@ class Pokemon : public PokemonSpecies
 
         void   useMove(int i, Pokemon* target);
 
+        void   resetPPs();
+
         bool   cureStatus(int item);
 
     private:

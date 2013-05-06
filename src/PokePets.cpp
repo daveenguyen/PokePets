@@ -620,6 +620,7 @@ void PalletTown(int option)
                 else
                 {
                     cout << "Mom: You and your PokePet look hungry.  Eat!" << endl;
+                    myPokemon->resetPPs(); // reset PP
                     myPokemon->adjustHP(myPokemon->getStats(0)); // feed pokemon
                 }
                 break;
@@ -1766,6 +1767,7 @@ void clean()
             cout << "You gave " << myPokemon->getNickname() <<
                 " a " << cleanMenu[userChoice] << endl;
             myPokemon->cureStatus(userChoice);
+            myPokemon->resetPPs();
             break;
     }
 }
@@ -1865,6 +1867,36 @@ void petStatus()
     }
     cout << "]" << endl;
 
+
+
+    // Cleanliness
+    int    curCleanliness = 0;
+    int    maxCleanliness = 0;
+
+    for (int i=0; i < 4 && myPokemon->getMove(i).getMoveNum() != 0; ++i) {
+        maxCleanliness += myPokemon->getMove(i).getPP();
+        curCleanliness += myPokemon->getCurPP(i);
+    }
+
+    double percentClean = (double(curCleanliness)/maxCleanliness);
+
+    cout << "\nCleanliness: " << (percentClean*100) << " %" << endl;
+
+    cout << "[" ;
+
+    for (int i = 0; i < 30; ++i)
+    {
+        if (percentClean > 0)
+            cout << '=';
+        else
+            cout << ' ';
+
+        percentClean -= 0.03333333333;
+    }
+    cout << "]" << endl;
+
+
+
     // growth
     int curEVs =
         myPokemon->getEV(0) +
@@ -1890,6 +1922,7 @@ void petStatus()
         percentEv -= 0.03333333333;
     }
     cout << "]" << endl;
+
 
 
     // condition
