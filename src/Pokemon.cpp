@@ -950,8 +950,8 @@ bool Pokemon::cureParalysis(int item)
 
 bool Pokemon::cureSleep(int item)
 {
-    // Cured if using 1 Awakening(item 4) or Pokemon healing service(item -1)
-    if (item == 4 || item == -1)
+    // Cured if using 1 Awakening(item 2) or Pokemon healing service(item -1)
+    if (item == 2 || item == -1)
     {
         _status = 0;
         return true;
@@ -961,8 +961,8 @@ bool Pokemon::cureSleep(int item)
 
 bool Pokemon::cureFrozen(int item)
 {
-    // Cured if using 1 Paralyze Heal(item 6) or Pokemon healing service(item -1)
-    if (item == 6 || item == -1)
+    // Cured if using 1 Unfreeze Spray(item 5) or Pokemon healing service(item -1)
+    if (item == 5 || item == -1)
     {
         _status = 0;
         return true;
@@ -972,8 +972,8 @@ bool Pokemon::cureFrozen(int item)
 
 bool Pokemon::cureBurn(int item)
 {
-    // Cured if using 1 Paralyze Heal(item 5) or Pokemon healing service(item -1)
-    if (item == 5 || item == -1)
+    // Cured if using 1 Burn Heal(item 4) or Pokemon healing service(item -1)
+    if (item == 4 || item == -1)
     {
         _status = 0;
         return true;
@@ -983,8 +983,8 @@ bool Pokemon::cureBurn(int item)
 
 bool Pokemon::curePoison(int item)
 {
-    // Cured if using 1 Paralyze Heal(item 2) or Pokemon healing service(item -1)
-    if (item == 2 || item == -1)
+    // Cured if using 1 Poison Heal(item 1) or Pokemon healing service(item -1)
+    if (item == 1 || item == -1)
     {
         _status = 0;
         return true;

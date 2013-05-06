@@ -1674,25 +1674,27 @@ void feed()
 }
 void clean()
 {
-    switch(getInputPrompt("How would you like to clean your pet?", 7, cleanMenu))
+    switch(int userChoice = getInputPrompt("How would you like to clean your pet?", 7, cleanMenu))
     {
         case 1:
             // Antidote Spray
-            break;
         case 2:
             // Awakening Spray
-            break;
         case 3:
             // Anti-Paralyze Spray
-            break;
         case 4:
             // Unburn Spray
-            break;
         case 5:
             // Unfreeze Spray
+            cout << "You cleaned " << myPokemon->getNickname() <<
+                " with " << cleanMenu[userChoice] << endl;
+            cureStatus(userChoice);
             break;
         case 6:
             // Bath
+            cout << "You gave " << myPokemon->getNickname() <<
+                " a " << cleanMenu[userChoice] << endl;
+            cureStatus(userChoice);
             break;
     }
 }
