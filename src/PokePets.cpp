@@ -37,7 +37,12 @@ void drawPetFront(int petNum);
 void checkPet();
 void quitGame();
 
+void petInfo();
+void petStatus();
+
 void rockPaperScissors();
+void headsTails();
+void guessGame();
 
 void PalletTown(int option);
 void Route1(int option);
@@ -1521,9 +1526,9 @@ void PokePetLeague(int option)
                         // player won
                         cout << " You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
 
-                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[6], &rivalQuote[8], &rivalQuote[9]);                            
-                        
-                        cout << " CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION! " << endl; 
+                        battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[6], &rivalQuote[8], &rivalQuote[9]);
+
+                        cout << " CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION! " << endl;
                     }
                 }
             }
@@ -1543,11 +1548,11 @@ void play()
             break;
         case 2:
             // heads or tails
-            //headsTails();
+            headsTails();
             break;
         case 3:
             // guessing game
-            // guessGame();
+            guessGame();
             break;
     }
 
@@ -1572,6 +1577,51 @@ void rockPaperScissors()
     {
         cout << gameResult[0] << endl; // lose
         myPokemon->adjustEffort(0,0,4,0,0,0); // def
+    }
+}
+
+
+void headsTails()
+{
+    int playerChoice = getInputPrompt("Which one do you pick?",2,htMenu) - 1;
+    int coinSide = rand()%2;
+    cout << myPokemon->getNickname() << " flips a coin...\nIt landed " << htMenu[coinSide] << "!\n";
+    cout << "You chose " << htMenu[playerChoice] << "... ";
+    if (playerChoice == coinSide)
+    {
+        cout << gameResult[1] << endl; // win
+        myPokemon->adjustEffort(0,0,0,4,0,0); // satk
+    }
+    else
+    {
+        cout << gameResult[0] << endl; // lose
+        myPokemon->adjustEffort(0,0,0,0,4,0); // sdef
+    }
+}
+
+void guessGame()
+{
+    cout << myPokemon->getNickname() << ": I'm thinking of a number between 1 and 5!\n\tWhat do you think it is: ";
+    int guessNum = (rand()%5)+1;
+    int userInput;
+    while ( !(cin >> userInput) || userInput < 1 || userInput > 5 || cin.get() != '\n' )
+    {
+        cout << "\tInvalid input!  Try again: ";
+        cin.clear ();   // reset fail flag
+
+        // skip past invalid input
+        cin.ignore (1000, '\n');  // Skip to next newline or 1000 chars
+    }
+    cout << "The number was " << guessNum << "... ";
+    if (userInput == guessNum)
+    {
+        cout << gameResult[1] << endl; // win
+        myPokemon->adjustEffort(4,0,0,0,0,0); // satk
+    }
+    else
+    {
+        cout << gameResult[0] << endl; // lose
+        myPokemon->adjustEffort(0,0,0,0,0,4); // sdef
     }
 }
 
@@ -1670,125 +1720,134 @@ void checkPet()
     switch(getInputPrompt("What would you like to check?", 3, checkPetMenu))
     {
         case 1:
-            // info
-            drawPetFront(myPokemon->getDexNum());
-            cout << "___ " << myPokemon->getNickname() << "'s' INFO" << endl;\
-            cout << "  GENDER: " << myPokemon->getGender() << endl;
-
-            // cout << " ABILITY: " << myPokemon->getAbility() << endl;
-
-            cout << "  NATURE: " << myPokemon->getNature() << endl;
-
-            cout << "   LEVEL: " << myPokemon->getLevel()  << endl;
-            cout << " CUR EXP: " << myPokemon->getCurExp() << " / " << myPokemon->getExpToLvl(myPokemon->getLevel()) << endl;
-            cout << "  CUR HP: " << myPokemon->getCurHP()  << " / " << myPokemon->getStats(0) << endl;
-            // cout << "  STATUS: " << myPokemon->getStatus() << endl;
-            cout << " TYPE[0]: " << myPokemon->getType(0).getIdentifier() << endl;
-            if (myPokemon->getType(1).getTypeNum() != myPokemon->getType(0).getTypeNum())
-                cout << " TYPE[1]: " << myPokemon->getType(1).getIdentifier() << endl;
-
-            cout << endl;
-            cout << "      HP: " << myPokemon->getStats(0) << endl;
-            cout << "     ATK: " << myPokemon->getStats(1) << endl;
-            cout << "     DEF: " << myPokemon->getStats(2) << endl;
-            cout << "   S.ATK: " << myPokemon->getStats(3) << endl;
-            cout << "   S.DEF: " << myPokemon->getStats(4) << endl;
-            cout << "   SPEED: " << myPokemon->getStats(5) << endl << endl;
-
-            // cout << "___ " << myPokemon->getNickname() << "'s MOVES" << endl;
-            for (int i=0; i < 4 && myPokemon->getMove(i).getMoveNum() != 0; ++i) {
-                cout << "___ ";
-                // Move myMove();
-                cout << myPokemon->getMove(i).getIdentifier() << endl;
-                cout << "    TYPE: " << myPokemon->getMove(i).getType().getIdentifier() << endl;
-                cout << "   POWER: " << myPokemon->getMove(i).getPower() << endl;
-                cout << "      PP: " << myPokemon->getMove(i).getPP() << endl;
-                cout << "Accuracy: " << myPokemon->getMove(i).getAccuracy() << endl << endl;
-            }
-
+            petInfo();
             break;
         case 2:
-            // status
-            drawPetFront(myPokemon->getDexNum());
-            cout << "___ " << myPokemon->getNickname() << "'s STATUS" << endl;
+            petStatus();
+            break;
+    }
+}
 
-            // hunger
-            int curHP = myPokemon->getCurHP();
-            int maxHP = myPokemon->getStats(0);
-            double percentHp = 1 - (double(curHP)/maxHP);
+void petInfo()
+{
+    // info
+    drawPetFront(myPokemon->getDexNum());
+    cout << "___ " << myPokemon->getNickname() << "'s' INFO" << endl;\
+    cout << "  GENDER: " << myPokemon->getGender() << endl;
 
-            cout << "\nHunger: " << (percentHp*100) << " %" << endl;
-            cout << "[" ;
+    // cout << " ABILITY: " << myPokemon->getAbility() << endl;
 
-            for (int i = 0; i < 30; ++i)
-            {
-                if (percentHp > 0)
-                    cout << '=';
-                else
-                    cout << ' ';
+    cout << "  NATURE: " << myPokemon->getNature() << endl;
 
-                percentHp -= 0.03333333333;
-            }
-            cout << "]" << endl;
+    cout << "   LEVEL: " << myPokemon->getLevel()  << endl;
+    cout << " CUR EXP: " << myPokemon->getCurExp() << " / " << myPokemon->getExpToLvl(myPokemon->getLevel()) << endl;
+    cout << "  CUR HP: " << myPokemon->getCurHP()  << " / " << myPokemon->getStats(0) << endl;
+    // cout << "  STATUS: " << myPokemon->getStatus() << endl;
+    cout << " TYPE[0]: " << myPokemon->getType(0).getIdentifier() << endl;
+    if (myPokemon->getType(1).getTypeNum() != myPokemon->getType(0).getTypeNum())
+        cout << " TYPE[1]: " << myPokemon->getType(1).getIdentifier() << endl;
 
-            // growth
-            int curEVs =
-                myPokemon->getEV(0) +
-                myPokemon->getEV(1) +
-                myPokemon->getEV(2) +
-                myPokemon->getEV(3) +
-                myPokemon->getEV(4) +
-                myPokemon->getEV(5);
-            int maxEVs = 510;
-            double percentEv = double(curEVs)/maxEVs;
+    cout << endl;
+    cout << "      HP: " << myPokemon->getStats(0) << endl;
+    cout << "     ATK: " << myPokemon->getStats(1) << endl;
+    cout << "     DEF: " << myPokemon->getStats(2) << endl;
+    cout << "   S.ATK: " << myPokemon->getStats(3) << endl;
+    cout << "   S.DEF: " << myPokemon->getStats(4) << endl;
+    cout << "   SPEED: " << myPokemon->getStats(5) << endl << endl;
+
+    // cout << "___ " << myPokemon->getNickname() << "'s MOVES" << endl;
+    for (int i=0; i < 4 && myPokemon->getMove(i).getMoveNum() != 0; ++i) {
+        cout << "___ ";
+        // Move myMove();
+        cout << myPokemon->getMove(i).getIdentifier() << endl;
+        cout << "    TYPE: " << myPokemon->getMove(i).getType().getIdentifier() << endl;
+        cout << "   POWER: " << myPokemon->getMove(i).getPower() << endl;
+        cout << "      PP: " << myPokemon->getMove(i).getPP() << endl;
+        cout << "Accuracy: " << myPokemon->getMove(i).getAccuracy() << endl << endl;
+    }
+}
+
+void petStatus()
+{
+    // status
+    drawPetFront(myPokemon->getDexNum());
+    cout << "___ " << myPokemon->getNickname() << "'s STATUS" << endl;
+
+    // hunger
+    int curHP = myPokemon->getCurHP();
+    int maxHP = myPokemon->getStats(0);
+    double percentHp = 1 - (double(curHP)/maxHP);
+
+    cout << "\nHunger: " << (percentHp*100) << " %" << endl;
+    cout << "[" ;
+
+    for (int i = 0; i < 30; ++i)
+    {
+        if (percentHp > 0)
+            cout << '=';
+        else
+            cout << ' ';
+
+        percentHp -= 0.03333333333;
+    }
+    cout << "]" << endl;
+
+    // growth
+    int curEVs =
+        myPokemon->getEV(0) +
+        myPokemon->getEV(1) +
+        myPokemon->getEV(2) +
+        myPokemon->getEV(3) +
+        myPokemon->getEV(4) +
+        myPokemon->getEV(5);
+    int maxEVs = 510;
+    double percentEv = double(curEVs)/maxEVs;
 
 
-            cout << "\nGrowth: " << (percentEv*100) << " %" << endl;
-            cout << "[" ;
+    cout << "\nGrowth: " << (percentEv*100) << " %" << endl;
+    cout << "[" ;
 
-            for (int i = 0; i < 30; ++i)
-            {
-                if (percentEv > 0)
-                    cout << '=';
-                else
-                    cout << ' ';
+    for (int i = 0; i < 30; ++i)
+    {
+        if (percentEv > 0)
+            cout << '=';
+        else
+            cout << ' ';
 
-                percentEv -= 0.03333333333;
-            }
-            cout << "]" << endl;
+        percentEv -= 0.03333333333;
+    }
+    cout << "]" << endl;
 
 
-            // condition
-            cout << "\nHealth Condition: ";
-            switch (myPokemon->getStatus())
-            {
-                case 0:
-                    // Healthy
-                    cout << "Healthy\n";
-                    break;
-                case 1:
-                    // Paralysis
-                    cout << "Paralyzed\n";
-                    break;
-                case 2:
-                    // Sleep
-                    cout << "Sleeping\n";
-                    break;
-                case 3:
-                    // Frozen
-                    cout << "Frozen\n";
-                    break;
-                case 4:
-                    // Burn
-                    cout << "Burned\n";
-                    break;
-                case 5:
-                    // Poison
-                    cout << "Poisoned\n";
-                    break;
-                default:
-                    break;
-            }
+    // condition
+    cout << "\nHealth Condition: ";
+    switch (myPokemon->getStatus())
+    {
+        case 0:
+            // Healthy
+            cout << "Healthy\n";
+            break;
+        case 1:
+            // Paralysis
+            cout << "Paralyzed\n";
+            break;
+        case 2:
+            // Sleep
+            cout << "Sleeping\n";
+            break;
+        case 3:
+            // Frozen
+            cout << "Frozen\n";
+            break;
+        case 4:
+            // Burn
+            cout << "Burned\n";
+            break;
+        case 5:
+            // Poison
+            cout << "Poisoned\n";
+            break;
+        default:
             break;
     }
 }

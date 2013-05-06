@@ -93,6 +93,13 @@ const string rpsMenu[] = {
 	"Scissors"
 };
 
+const string htMenu[] = {
+	"Head",
+	"Tail"
+};
+
+
+
 const string gameResult[] = {
 	"You Lose!",
 	"You Win!",
