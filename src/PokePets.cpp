@@ -529,6 +529,8 @@ void battleTrainer(const string* name, int dexNum, int level, const string* pre,
             {
                 cout << *name << ": ";
                 printDialogue(youWin);
+                cout << *name << ": Here are some rare candies for winning...\n";
+                itemCount[6]+=(rand()%4 + 2);
             }
         }
         else
@@ -576,6 +578,13 @@ void randomBattle()
         // start battle
         PokemonBattle battle(myPokemon, &enemyPkmn);
         battle.start();
+        if (myPokemon->getCurHP()>0)
+        {
+            // if pokemon won battle give random item
+            int randItem = rand()%6; // no rare candy
+            cout << myPokemon->getNickname() << " found some " << feedMenu[randItem] << "!\n";
+            ++itemCount[randItem];
+        }
     }
     else
     {
@@ -1627,48 +1636,110 @@ void guessGame()
 
 void feed()
 {
-    switch(getInputPrompt("What would you like to feed your pet?", 8, feedMenu))
+    cout << "Items you currently have: \n";
+    bool noItem = true;
+    for (int i = 0; i < 7; i++)
+    {
+        if (itemCount[i]>0)
+        {
+            cout << "\t" << feedMenu[i] << ": " << itemCount[i] << endl;
+            noItem = false;
+        }
+    }
+    if (noItem)
+        cout << "\tNone\n";
+
+    switch(int userChoice = getInputPrompt("What would you like to feed your pet?", 8, feedMenu))
     {
         case 1:
             // Berries increases DEF
-            cout << myPokemon->getNickname() << " ate the berries!" << endl;
-            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
-            myPokemon->adjustEffort(0,0,4,0,0,0);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " ate the berries!" << endl;
+                myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+                myPokemon->adjustEffort(0,0,4,0,0,0);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
         case 2:
             // Poffins increases ATK
-            cout << myPokemon->getNickname() << " ate the poffins!" << endl;
-            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
-            myPokemon->adjustEffort(0,4,0,0,0,0);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " ate the poffins!" << endl;
+                myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+                myPokemon->adjustEffort(0,4,0,0,0,0);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
         case 3:
             // Ice Cream increases HP
-            cout << myPokemon->getNickname() << " ate the ice cream!" << endl;
-            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
-            myPokemon->adjustEffort(4,0,0,0,0,0);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " ate the ice cream!" << endl;
+                myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+                myPokemon->adjustEffort(4,0,0,0,0,0);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
         case 4:
             // Soda Pop increases SDEF
-            cout << myPokemon->getNickname() << " drank the soda pop!" << endl;
-            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
-            myPokemon->adjustEffort(0,0,0,0,4,0);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " drank the soda pop!" << endl;
+                myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+                myPokemon->adjustEffort(0,0,0,0,4,0);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
         case 5:
             // Lemonade increases SATK
-            cout << myPokemon->getNickname() << " drank the lemonade!" << endl;
-            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
-            myPokemon->adjustEffort(0,0,0,4,0,0);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " drank the lemonade!" << endl;
+                myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+                myPokemon->adjustEffort(0,0,0,4,0,0);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
         case 6:
             // Water increases SPEED
-            cout << myPokemon->getNickname() << " drank the water!" << endl;
-            myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
-            myPokemon->adjustEffort(0,0,0,0,0,4);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " drank the water!" << endl;
+                myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
+                myPokemon->adjustEffort(0,0,0,0,0,4);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
         case 7:
             // Rare Candy
-            cout << myPokemon->getNickname() << " ate the rare candy!" << endl;
-            myPokemon->setLevel(myPokemon->getLevel()+1);
+            if (itemCount[userChoice-1] > 0)
+            {
+                cout << myPokemon->getNickname() << " ate the rare candy!" << endl;
+                myPokemon->setLevel(myPokemon->getLevel()+1);
+            }
+            else
+            {
+                cout << "You don't have any " << feedMenu[userChoice-1] << ".\n";
+            }
             break;
     }
 }
@@ -1688,13 +1759,13 @@ void clean()
             // Unfreeze Spray
             cout << "You cleaned " << myPokemon->getNickname() <<
                 " with " << cleanMenu[userChoice] << endl;
-            cureStatus(userChoice);
+            myPokemon->cureStatus(userChoice);
             break;
         case 6:
             // Bath
             cout << "You gave " << myPokemon->getNickname() <<
                 " a " << cleanMenu[userChoice] << endl;
-            cureStatus(userChoice);
+            myPokemon->cureStatus(userChoice);
             break;
     }
 }

@@ -147,19 +147,20 @@ const string action[]={
 	"Surf to"
 };
 
-const string item[]={
-	"Potion",
-	"Max Potion",
-	"Antidote",
-	"Paralyze Heal",
-	"Awakening",
-	"Burn Heal",
-	"Ice Heal",
-	"Full Heal"
-	"Ether",
-	"Max Ether",
-	"Full Restore"
-};
+// not using
+// const string item[]={
+// 	"Potion",
+// 	"Max Potion",
+// 	"Antidote",
+// 	"Paralyze Heal",
+// 	"Awakening",
+// 	"Burn Heal",
+// 	"Ice Heal",
+// 	"Full Heal"
+// 	"Ether",
+// 	"Max Ether",
+// 	"Full Restore"
+// };
 
 const string specialItem[]={
 	"HM Fly",
