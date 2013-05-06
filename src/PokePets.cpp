@@ -1656,6 +1656,7 @@ void feed()
             // Berries increases DEF
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " ate the berries!" << endl;
                 myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
                 myPokemon->adjustEffort(0,0,4,0,0,0);
@@ -1669,6 +1670,7 @@ void feed()
             // Poffins increases ATK
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " ate the poffins!" << endl;
                 myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
                 myPokemon->adjustEffort(0,4,0,0,0,0);
@@ -1682,6 +1684,7 @@ void feed()
             // Ice Cream increases HP
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " ate the ice cream!" << endl;
                 myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
                 myPokemon->adjustEffort(4,0,0,0,0,0);
@@ -1695,6 +1698,7 @@ void feed()
             // Soda Pop increases SDEF
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " drank the soda pop!" << endl;
                 myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
                 myPokemon->adjustEffort(0,0,0,0,4,0);
@@ -1708,6 +1712,7 @@ void feed()
             // Lemonade increases SATK
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " drank the lemonade!" << endl;
                 myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
                 myPokemon->adjustEffort(0,0,0,4,0,0);
@@ -1721,6 +1726,7 @@ void feed()
             // Water increases SPEED
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " drank the water!" << endl;
                 myPokemon->adjustHP((int)(myPokemon->getStats(0)*0.3));
                 myPokemon->adjustEffort(0,0,0,0,0,4);
@@ -1734,6 +1740,7 @@ void feed()
             // Rare Candy
             if (itemCount[userChoice-1] > 0)
             {
+                --itemCount[userChoice-1];
                 cout << myPokemon->getNickname() << " ate the rare candy!" << endl;
                 myPokemon->setLevel(myPokemon->getLevel()+1);
             }
