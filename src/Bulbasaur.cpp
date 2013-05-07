@@ -30,7 +30,7 @@ void Bulbasaur::evolve()
         evolving = true;
     }
     // evolve into blastoise at 36
-    else if (getDexNum()==2 && getLevel() >= 33)
+    else if (getDexNum()==2 && getLevel() >= 32)
     {
         setDexNum(3);
         evolving = true;
