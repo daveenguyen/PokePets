@@ -1766,7 +1766,7 @@ void clean()
         case 5:
             // Unfreeze Spray
             cout << "You cleaned " << myPokemon->getNickname() <<
-                " with " << cleanMenu[userChoice] << endl;
+                " with " << cleanMenu[userChoice-1] << endl;
             myPokemon->cureStatus(userChoice);
             break;
         case 6:
