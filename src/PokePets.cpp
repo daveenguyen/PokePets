@@ -1772,7 +1772,7 @@ void clean()
         case 6:
             // Bath
             cout << "You gave " << myPokemon->getNickname() <<
-                " a " << cleanMenu[userChoice] << endl;
+                " a " << cleanMenu[userChoice-1] << endl;
             myPokemon->cureStatus(userChoice);
             myPokemon->resetPPs();
             break;
