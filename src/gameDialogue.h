@@ -71,7 +71,7 @@ const string cleanMenu[] = {
 };
 
 const string checkPetMenu[] = {
-	"Check Pet Info",
+	"Check Pet Battle Info",
 	"Check Pet Status",
 	"Cancel"
 };
