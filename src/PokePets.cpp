@@ -1230,7 +1230,9 @@ void CeladonCity(int option)
     }
     else if (option == 6 && badgeCount==3)
     {
-       battleTrainer(&gymLeader[3], 45, 34, &celadonCity[0], &celadonCity[3], &winLose[0]);
+
+        battleTrainer(&gymLeader[3], 45, 34, &celadonCity[0], &celadonCity[3], &winLose[0]);
+        if (myPokemon->getCurHP()>0)
         {
             // player won
             badgeCount++;
