@@ -6,12 +6,6 @@
 
 using namespace std;
 
-
-//#define WINDOWS_OS // uncomment if using windows
-#ifdef WINDOWS_OS
-    #include <windows.h>
-#endif
-
 #include "gameDialogue.h"
 #include "PokemonBuilder.h"
 #include "Pokemon.h"
@@ -75,6 +69,9 @@ void Route12(int option);
 void CrystalCave(int option);
 void PokePetLeague(int option);
 
+void saveCode();
+bool loadCode();
+
 int main()
 {
     // initialize game stuff
@@ -84,9 +81,22 @@ int main()
     curLocation  = 0;
     myPokePetNum = 0;
     badgeCount = 0;
+    for (int i = 0; i < 7; i++)
+        itemCount[i] = 0;
 
     // game starts with the intro dialogue
-    gameIntro();
+    if (getInputPrompt("Do you have a load code?", 2, yesNo) == 1)
+    {
+        if (!loadCode())
+        {
+            gameIntro();
+        }
+    }
+    else
+    {
+        gameIntro();
+    }
+
     while (true)
     {
         printDividers();
@@ -1975,5 +1985,387 @@ void petStatus()
 void quitGame()
 {
     // cout << "SAVE CODE"
+    saveCode();
     exit(1);
+}
+
+void saveCode()
+{
+    // print names
+    cout << "Player's Name: " << playerName << endl;
+    cout << "Rival's Name: " << rivalName << endl;
+
+
+    // generate random numbers
+    int randCount = 10;
+    int randNum[randCount];
+    for (int i = 0; i < randCount; ++i)
+    {
+        randNum[i] = (rand()%32) + 1;
+    }
+
+    cout << "\n\nUse this save code to continue where you left off!\n\n" <<
+
+// first 10 numbers
+        randNum[0] <<
+        " " <<
+        randNum[1] <<
+        " " <<
+        // item counts
+        (itemCount[0] + randNum[0]) <<
+        " " <<
+        (itemCount[1] + randNum[1]) <<
+        " " <<
+        randNum[2] <<
+        " " <<
+        randNum[3] <<
+        " " <<
+        (itemCount[2] + randNum[2]) <<
+        " " <<
+        (itemCount[3] + randNum[3]) <<
+        " " <<
+        randNum[4] <<
+        " " <<
+        randNum[5] <<
+        " " <<
+
+// second 10 numbers
+        (itemCount[4] + randNum[4]) <<
+        " " <<
+        (itemCount[5] + randNum[5]) <<
+        " " <<
+        randNum[6] <<
+        " " <<
+        (itemCount[6] + randNum[6]) <<
+        " " <<
+        (randNum[3] + randNum[4] + randNum[5]) <<
+        " " <<
+
+        // trainer's gender and badge
+        ((isBoy)?(randNum[6]+1):(randNum[6]+2)) <<
+        " " <<
+        (badgeCount+randNum[7]) <<
+        " " <<
+
+        // current location
+        (curLocation + randNum[4]) <<
+        " " <<
+        randNum[7] <<
+        " " <<
+        randNum[8] <<
+
+        " " <<
+// third 10 numbers
+        // pet's info
+        // gender
+        (myPokemon->getGenderValue() + randNum[8] + randNum[7]) <<
+        " " <<
+        // nature
+        (myPokemon->getNatureNum() + randNum[9]) <<
+        " " <<
+        randNum[9] <<
+        " " <<
+        (myPokemon->getLevel() + randNum[0] + randNum[1]) <<
+        " " <<
+        (myPokemon->getCurExp() + randNum[2] + randNum[3]) <<
+        " " <<
+
+
+        // ivs
+
+        (myPokemon->getIV(0) + randNum[5]) <<
+        " " <<
+        (myPokemon->getIV(1) + randNum[4]) <<
+        " " <<
+        (myPokemon->getIV(2) + randNum[3]) <<
+        " " <<
+        (myPokemon->getIV(3) + randNum[2]) <<
+        " " <<
+        (myPokemon->getIV(4) + randNum[1]) <<
+
+
+        " " <<
+// fourth 10 numbers
+        (myPokemon->getIV(5) + randNum[0]) <<
+        " " <<
+
+        // evs
+        (myPokemon->getEV(0) + randNum[9] + randNum[0]) <<
+        " " <<
+        (myPokemon->getEV(1) + randNum[8] + randNum[1]) <<
+        " " <<
+        (myPokemon->getEV(2) + randNum[7] + randNum[2]) <<
+        " " <<
+        (myPokemon->getEV(3) + randNum[6] + randNum[3]) <<
+        " " <<
+        (myPokemon->getEV(4) + randNum[5] + randNum[4]) <<
+        " " <<
+        (myPokemon->getEV(5) + randNum[4] + randNum[5]) <<
+        " " <<
+
+
+        myPokemon->getCurHP() + randNum[9] <<
+        " " <<
+
+        // status
+        (myPokemon->getStatus() + randNum[8]) <<
+        " " <<
+
+        randNum[7] <<
+
+        " " <<
+// fifth row of 10 numbers
+        (randNum[8] * randNum[7]) <<
+        " " <<
+        // wild not needed
+        ((myPokemon->isWild())?(randNum[6]+1):(randNum[6]+2)) <<
+        " " <<
+
+        (randNum[5] * randNum[4] * randNum[3]) <<
+        " " <<
+        // current location
+
+        // pet dex and moves
+        (randNum[3] * randNum[2] * randNum[1] * randNum[0]) <<
+        " " <<
+        myPokemon->getDexNum() + randNum[4] <<
+        " " <<
+        myPokemon->getMove(3).getMoveNum() + randNum[3] <<
+        " " <<
+        myPokemon->getMove(2).getMoveNum() + randNum[2] <<
+        " " <<
+        myPokemon->getMove(1).getMoveNum() + randNum[1] <<
+        " " <<
+        myPokemon->getMove(0).getMoveNum() + randNum[0] <<
+        " " <<
+        randNum[5] << endl << endl << endl;
+}
+
+bool loadCode()
+{
+    int loadInts[50],
+        randNum[10];
+
+    int _iv[6],
+        _ev[6],
+        _moves[4];
+
+    int _genderValue,
+        _natureNum,
+        _level,
+        _curExp,
+        _status,
+        _dexNum,
+        _curHP,
+        _badgeCount,
+        _curLocation;
+
+    bool _isWild;
+
+    bool error = false;
+
+    cout << "Please paste or enter the save code (input character to cancel)\n";
+
+    for (int i = 0; i < 50; i++)
+    {
+        cin >> loadInts[i];
+    }
+
+    randNum[0] = loadInts[0];
+    randNum[1] = loadInts[1];
+    randNum[2] = loadInts[4];
+    randNum[3] = loadInts[5];
+    randNum[4] = loadInts[8];
+    randNum[5] = loadInts[9];
+    randNum[6] = loadInts[12];
+    randNum[7] = loadInts[18];
+    randNum[8] = loadInts[19];
+    randNum[9] = loadInts[22];
+
+
+// index 0-9
+    // tests
+    if (loadInts[0] != randNum[0]) error = true;
+    if (loadInts[1] != randNum[1]) error = true;
+    if (loadInts[4] != randNum[2]) error = true;
+    if (loadInts[5] != randNum[3]) error = true;
+    if (loadInts[8] != randNum[4]) error = true;
+    if (loadInts[9] != randNum[5]) error = true;
+    // set
+    itemCount[0] = loadInts[2] - randNum[0];     // itemCount[0] + randNum[0]
+    itemCount[1] = loadInts[3] - randNum[1];     // itemCount[1] + randNum[1]
+    itemCount[2] = loadInts[6] - randNum[2];     // itemCount[2] + randNum[2]
+    itemCount[3] = loadInts[7] - randNum[3];     // itemCount[3] + randNum[3]
+
+// index 10-19
+    // tests
+    if (loadInts[12] != randNum[6]) error = true;
+    if (loadInts[14] != (randNum[3] + randNum[4] + randNum[5])) error = true;
+    if (loadInts[18] != randNum[7]) error = true;
+    if (loadInts[19] != randNum[8]) error = true;
+    // set
+    itemCount[4] = loadInts[10] - randNum[4]; // itemCount[4] + randNum[4]
+    itemCount[5] = loadInts[11] - randNum[5]; // itemCount[5] + randNum[5]
+    itemCount[6] = loadInts[13] - randNum[6]; // itemCount[6] + randNum[6]
+    _badgeCount  = loadInts[16] - randNum[7]; // badgeCount+randNum[7]
+    _curLocation  = loadInts[17] - randNum[4]; // curLocation + randNum[4]
+    if (loadInts[15]-randNum[6] == 1) isBoy = true; // ((isBoy)?(randNum[6]+1):(randNum[6]+2))
+    else if(loadInts[15]-randNum[6] == 2) isBoy = false;
+    else error = true;
+
+// index 20-29
+    // tests
+    if (loadInts[22] != randNum[9]) error = true;
+
+    // set
+    _genderValue = loadInts[20] - randNum[8] - randNum[7]; // getGenderValue() + randNum[8] + randNum[7]
+    _natureNum   = loadInts[21] - randNum[9];           // getNatureNum() + randNum[9]
+    _level = loadInts[23] - randNum[0] - randNum[1];    // getLevel() + randNum[0] + randNum[1]
+    _curExp = loadInts[24] - randNum[2] - randNum[3];   // getCurExp() + randNum[2] + randNum[3]
+    _iv[0] = loadInts[25] - randNum[5];                 // getIV(0) + randNum[5]
+    _iv[1] = loadInts[26] - randNum[4];                 // getIV(1) + randNum[4]
+    _iv[2] = loadInts[27] - randNum[3];                 // getIV(2) + randNum[3]
+    _iv[3] = loadInts[28] - randNum[2];                 // getIV(3) + randNum[2]
+    _iv[4] = loadInts[29] - randNum[1];                 // getIV(4) + randNum[1]
+
+// index 30-39
+    // tests
+    if (loadInts[39] != randNum[7]) error = true;
+
+    // set
+    _iv[5]  = loadInts[30] - randNum[0];                // getIV(5) + randNum[0]
+    _ev[0]  = loadInts[31] - randNum[9] - randNum[0];   // getEV(0) + randNum[9] + randNum[0]
+    _ev[1]  = loadInts[32] - randNum[8] - randNum[1];   // getEV(1) + randNum[8] + randNum[1]
+    _ev[2]  = loadInts[33] - randNum[7] - randNum[2];   // getEV(2) + randNum[7] + randNum[2]
+    _ev[3]  = loadInts[34] - randNum[6] - randNum[3];   // getEV(3) + randNum[6] + randNum[3]
+    _ev[4]  = loadInts[35] - randNum[5] - randNum[4];   // getEV(4) + randNum[5] + randNum[4]
+    _ev[5]  = loadInts[36] - randNum[4] - randNum[5];   // getEV(5) + randNum[4] + randNum[5]
+    _curHP  = loadInts[37] - randNum[9];                // getCurHP() + randNum[9]
+    _status = loadInts[38] - randNum[8];                // getStatus() + randNum[8]
+
+// index 40-49
+    // tests
+    if (loadInts[40] != (randNum[8] * randNum[7])) error = true;
+    if (loadInts[42] != (randNum[5] * randNum[4] * randNum[3])) error = true;
+    if (loadInts[43] != (randNum[3] * randNum[2] * randNum[1] * randNum[0])) error = true;
+    if (loadInts[49] != randNum[5]) error = true;
+
+    // set
+    if (loadInts[41] - randNum[6] == 1) _isWild = true; // ((isWild())?(randNum[6]+1):(randNum[6]+2))
+    else if (loadInts[41] - randNum[6] == 2) _isWild = false;
+    else error = true;
+
+    _dexNum   = loadInts[44] - randNum[4];          // getDexNum() + randNum[4]
+    _moves[3] = loadInts[45] - randNum[3];          // getMove(3).getMoveNum() + randNum[3]
+    _moves[2] = loadInts[46] - randNum[2];          // getMove(2).getMoveNum() + randNum[2]
+    _moves[1] = loadInts[47] - randNum[1];          // getMove(1).getMoveNum() + randNum[1]
+    _moves[0] = loadInts[48] - randNum[0];          // getMove(0).getMoveNum() + randNum[0]
+
+
+
+    // for (int i = 0; i < 50; i++)
+    // {
+    //     if (i%10 == 0) cout << endl;
+    //     cout << loadInts[i] << " ";
+    // }
+    // cout << endl;
+
+    if (error)
+    {
+        cerr << "Invalid code" << endl;
+        return false;
+    }
+    else
+    {
+        badgeCount  = _badgeCount;
+        curLocation = _curLocation;
+        // enter name, rival's name, pet's name
+        bool done = false;
+
+        while (!done)
+        {
+            if (getInputPrompt("Valid code! Are you ready?", 2, yesNo)==1) done = true;
+        }
+
+        do
+        {
+            cout << "\n\tPlease enter your name: ";
+            getline(cin, playerName);
+
+            string tmpPrompt = playerName + " is your name. Is that correct?";
+            if (getInputPrompt(tmpPrompt, 2, yesNo)==1) done = true;
+        }while (!done);
+        done = false;
+        do
+        {
+            cout << "\n\tPlease enter your rival's name: ";
+            getline(cin, rivalName);
+
+
+            string tmpPrompt = rivalName + " is your rival's name.  Is that correct?";
+            if (getInputPrompt(tmpPrompt, 2, yesNo)==1) done = true;
+
+        }while (!done);
+        done = false;
+        do
+        {
+            cout << "\n\tPlease enter your pet's nickname(if none, leave empty): ";
+            getline(cin, petName);
+
+            string tmpPrompt = petName + " is your pet's nickname. Is that correct?";
+            if ((getInputPrompt(tmpPrompt, 2, yesNo))==1)
+            {
+                done = true;
+            }
+
+        }while (!done);
+
+        myPokePetNum = _dexNum;
+        switch (myPokePetNum)
+        {
+            case 1:
+            case 2:
+            case 3:
+                myPokemon = new Bulbasaur(&builder);
+                break;
+            case 4:
+            case 5:
+            case 6:
+                myPokemon = new Charmander(&builder);
+                break;
+            case 7:
+            case 8:
+            case 9:
+                myPokemon = new Squirtle(&builder);
+                break;
+            default:
+                break;
+        }
+
+
+        myPokemon->setIsWild(false);
+        myPokemon->setNickname(petName);
+        petName = myPokemon->getNickname();
+        myPokemon->setGenderValue(_genderValue);
+        myPokemon->setNature(_natureNum);
+        myPokemon->setLevel(_level);
+        myPokemon->setCurExp(_curExp);
+        myPokemon->setStatus(_status);
+
+        for (int i = 0; i < 6; i++)
+        {
+            myPokemon->setIV(i, _iv[i]);
+            myPokemon->setEV(i, _ev[i]);
+            if (i < 4)
+            {
+                myPokemon->setMove(i, _moves[i]);
+            }
+        }
+
+        myPokemon->adjustHP(_curHP - myPokemon->getCurHP());
+
+        myPokemon->reset();
+        cout << "Load Successful!" << endl;
+        return true;
+    }
 }

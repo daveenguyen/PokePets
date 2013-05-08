@@ -20,8 +20,10 @@ class Pokemon : public PokemonSpecies
         void   setNickname(string i);
         string getNickname();
 
-        void   setNature(string i);
+        void   setNature(int i);
         string getNature();
+        int    getNatureNum();
+
 
         void   setLevel(int i);
         int    getLevel();
@@ -35,7 +37,7 @@ class Pokemon : public PokemonSpecies
         void   setEV(int i, int x);
         int    getEV(int i);
 
-        void   setMove(int i, Move x);
+        void   setMove(int i, int x);
         Move   getMove(int i);
 
         void   setStatus(int i);
@@ -67,6 +69,8 @@ class Pokemon : public PokemonSpecies
 
         int    getCurPP(int i);
 
+        int    getGenderValue();
+        void   setGenderValue(int i);
         string getGender();
 
         int    getAbility();
@@ -84,6 +88,7 @@ class Pokemon : public PokemonSpecies
         int _genderValue;
         int _abilityIndex;
 
+        int    _natureNum;
         Nature _nature;
 
         int _level;

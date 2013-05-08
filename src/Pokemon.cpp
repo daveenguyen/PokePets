@@ -14,7 +14,8 @@ Pokemon::Pokemon(int dexNum, int level) : PokemonSpecies(dexNum)
     _nickname     = "";
     _genderValue  = rand() % 256;
     _abilityIndex = rand() % 2;
-    _nature.setNatureNum(rand() % 25);
+    _natureNum    = rand() % 25;
+    _nature.setNatureNum(_natureNum);
     _level        = level;
     _curExp       = 0;
 
@@ -108,6 +109,16 @@ string Pokemon::getNickname()
 void Pokemon::setNickname(string i)
 {
     _nickname = i;
+}
+
+int Pokemon::getGenderValue()
+{
+    return _genderValue;
+}
+
+void Pokemon::setGenderValue(int i)
+{
+    _genderValue = i;
 }
 
 string Pokemon::getGender()
@@ -229,6 +240,17 @@ int Pokemon::getAbility(){
     return getSpeciesAbility(_abilityIndex);
 }
 
+int Pokemon::getNatureNum()
+{
+    return _natureNum;
+}
+
+void Pokemon::setNature(int i)
+{
+    _natureNum = i;
+    _nature.setNatureNum(_natureNum);
+}
+
 string Pokemon::getNature()
 {
     return _nature.toString();
@@ -239,10 +261,19 @@ int Pokemon::getLevel()
     return _level;
 }
 
+void Pokemon::setCurExp(int i)
+{
+    _curExp = i;
+}
+
 int Pokemon::getCurExp()
 {
     if (_curExp == 0) _curExp = getExpToLvl(_level-1);
     return _curExp;
+}
+void Pokemon::setIV(int i, int x)
+{
+    _IVs[i] = x;
 }
 
 int Pokemon::getIV(int i)
@@ -250,9 +281,20 @@ int Pokemon::getIV(int i)
     return _IVs[i];
 }
 
+void Pokemon::setEV(int i, int x)
+{
+    _EVs[i] = x;
+}
+
 int Pokemon::getEV(int i)
 {
     return _EVs[i];
+}
+
+void Pokemon::setMove(int i, int x)
+{
+    _moves[i].setMoveNum(x);
+    _curPP[i] = _moves[i].getPP();
 }
 
 Move Pokemon::getMove(int i)
