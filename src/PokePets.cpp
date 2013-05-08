@@ -2121,7 +2121,7 @@ void saveCode()
         ((myPokemon->isWild())?(randNum[6]+1):(randNum[6]+2)) <<
         " " <<
 
-        (randNum[5] * randNum[4] * randNum[3]) <<
+        (myPokemon->getIV(0)+myPokemon->getIV(1)+myPokemon->getIV(2)+myPokemon->getIV(3)+myPokemon->getIV(4)+myPokemon->getIV(5)+myPokemon->getEV(0)+myPokemon->getEV(1)+myPokemon->getEV(2)+myPokemon->getEV(3)+myPokemon->getEV(4)+myPokemon->getEV(5)) <<
         " " <<
         // current location
 
@@ -2234,6 +2234,7 @@ bool loadCode()
 
     // set
     _iv[5]  = loadInts[30] - randNum[0];                // getIV(5) + randNum[0]
+    // cout << _iv[0] << " " << _iv[1] << " " << _iv[2] << " " << _iv[3] << " " << _iv[4] << " " << _iv[5] << endl;
     _ev[0]  = loadInts[31] - randNum[9] - randNum[0];   // getEV(0) + randNum[9] + randNum[0]
     _ev[1]  = loadInts[32] - randNum[8] - randNum[1];   // getEV(1) + randNum[8] + randNum[1]
     _ev[2]  = loadInts[33] - randNum[7] - randNum[2];   // getEV(2) + randNum[7] + randNum[2]
@@ -2246,7 +2247,7 @@ bool loadCode()
 // index 40-49
     // tests
     if (loadInts[40] != (randNum[8] * randNum[7])) error = true;
-    if (loadInts[42] != (randNum[5] * randNum[4] * randNum[3])) error = true;
+    if (loadInts[42] != (_iv[0]+_iv[1]+_iv[2]+_iv[3]+_iv[4]+_iv[5]+_ev[0]+_ev[1]+_ev[2]+_ev[3]+_ev[4]+_ev[5])) error = true;
     if (loadInts[43] != (randNum[3] * randNum[2] * randNum[1] * randNum[0])) error = true;
     if (loadInts[49] != randNum[5]) error = true;
 
@@ -2261,7 +2262,39 @@ bool loadCode()
     _moves[1] = loadInts[47] - randNum[1];          // getMove(1).getMoveNum() + randNum[1]
     _moves[0] = loadInts[48] - randNum[0];          // getMove(0).getMoveNum() + randNum[0]
 
-
+    if (_level < 5 ||
+        _level > 100 ||
+        _dexNum < 1 ||
+        _dexNum > 9 ||
+        _badgeCount < 0 ||
+        _badgeCount > 8 ||
+        _curLocation < 0 ||
+        _iv[0] < 0 ||
+        _iv[1] < 0 ||
+        _iv[2] < 0 ||
+        _iv[3] < 0 ||
+        _iv[4] < 0 ||
+        _iv[5] < 0 ||
+        _iv[0] > 31 ||
+        _iv[1] > 31 ||
+        _iv[2] > 31 ||
+        _iv[3] > 31 ||
+        _iv[4] > 31 ||
+        _iv[5] > 31 ||
+        _ev[0] < 0 ||
+        _ev[1] < 0 ||
+        _ev[2] < 0 ||
+        _ev[3] < 0 ||
+        _ev[4] < 0 ||
+        _ev[5] < 0 ||
+        _ev[0] > 255 ||
+        _ev[1] > 255 ||
+        _ev[2] > 255 ||
+        _ev[3] > 255 ||
+        _ev[4] > 255 ||
+        _ev[5] > 255 ||
+        _genderValue < 0 ||
+        _genderValue > 255) error = true;
 
     // for (int i = 0; i < 50; i++)
     // {
@@ -2365,7 +2398,8 @@ bool loadCode()
         myPokemon->adjustHP(_curHP - myPokemon->getCurHP());
 
         myPokemon->reset();
-        cout << "Load Successful!" << endl;
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" <<
+            "Load Successful!" << endl;
         return true;
     }
 }

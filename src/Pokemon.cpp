@@ -68,9 +68,8 @@ void Pokemon::setLevel(int i)
 {
     if (i <= 100)
     {
-        // _level = i;
-        _curExp = getExpToLvl(_level);
-        // cout << getNickname() << " grew to level " << i << "!\n";
+        _level = i-2;
+        _curExp = getExpToLvl(i-1);
         checkExperience();
     }
 }
