@@ -718,15 +718,20 @@ void ViridianCity(int option)
         }
 
     }
-    else if (option == 6 && badgeCount==7)
+    else if (option == 6)
     {
-        battleTrainer(&gymLeader[7], 34, 54, &viridianCity[4], &viridianCity[6], &winLose[0]);
-        if (myPokemon->getCurHP()>0)
+        if (badgeCount==7)
         {
-            // player won
-            badgeCount++;
-            cout << " Maybe you can stand up against the ELITE FOUR " << endl;
+            battleTrainer(&gymLeader[7], 34, 54, &viridianCity[4], &viridianCity[6], &winLose[0]);
+            if (myPokemon->getCurHP()>0)
+            {
+                // player won
+                badgeCount++;
+                cout << " Maybe you can stand up against the ELITE FOUR " << endl;
+            }
         }
+        else
+            cout << " Gym is closed " << endl;
     }
 }
 
