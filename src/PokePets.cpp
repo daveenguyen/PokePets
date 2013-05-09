@@ -737,7 +737,7 @@ void ViridianCity(int option)
             {
                 // player won
                 badgeCount++;
-                cout << "Maybe you can stand up against the ELITE FOUR" << endl;
+                cout << gymLeader[7] << ": Maybe you can stand up against the ELITE FOUR" << endl;
             }
         }
         else
