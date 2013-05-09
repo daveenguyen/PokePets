@@ -828,7 +828,6 @@ void PewterCity(int option)
         {
             // player won
             badgeCount++;
-            cout << gymLeader[0] << ": The next gym is in Cerulean City, you can get there via Mt. Moon" << endl;
         }
     }
 }
