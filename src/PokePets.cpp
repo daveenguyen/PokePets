@@ -1260,7 +1260,6 @@ void CeladonCity(int option)
         {
             // player won
             badgeCount++;
-            cout << gymLeader[3] << ": Fuschia City is your next destination" << endl;
         }
     }
 }
@@ -1315,7 +1314,7 @@ void FuchsiaCity(int option)
                 if (badgeCount>=6)
                     curLocation = 26;
                 else
-                    cout << "The road to Saffron City is now open!" << endl;
+                    cout << "The ocean waves look nice...you can see Cinnebar Island in the Distance" << endl;
                 break;
         }
     }
