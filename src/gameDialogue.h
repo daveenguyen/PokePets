@@ -489,7 +489,7 @@ const string abandonedLab[]={
 const string cinnebarIsland[]={
 	"Is it just me..or is it hot in here?",
 	"Oh wait, its probably just my fire-type PokePets",
-	"I hope you brought some burn heals"
+	"I hope you brought some burn heals",
 	//After win
 	"I can sense the flames in your passion for battling",
 	"Careful with this badge, its HOT!",
