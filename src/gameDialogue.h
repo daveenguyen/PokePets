@@ -363,7 +363,7 @@ const string viridianCity[]={
 	"Surprised to see me?",
 	"I am the Viridian City gym leader.",
 	"Even though you stopped my plans, I still have a duty to do as a gym leader",
-	"You won't be getting this last badge!"
+	"You won't be getting this last badge!",
 	//after win
 	"Fascinating...your PokePets seem to find power through a different way....",
 	"As much as I hate to do it, I have to give you this badge"
