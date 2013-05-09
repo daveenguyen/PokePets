@@ -1561,7 +1561,7 @@ void PokePetLeague(int option)
                     if (myPokemon->getCurHP()>0)
                     {
                         // player won
-                        cout << "You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
+                        cout << eliteFour[3] << ": You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
 
                         battleTrainer(&rivalName, rivalNum, 70, &rivalQuote[6], &rivalQuote[8], &rivalQuote[12]);
 
