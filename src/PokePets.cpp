@@ -1545,7 +1545,7 @@ void PokePetLeague(int option)
     }
     else if (option == 6 && badgeCount==8)
     {
-        battleTrainer(&eliteFour[0], 81, 56, &Dale[1], &Dale[3], &winLose[0]);
+        battleTrainer(&eliteFour[0], 82, 56, &Dale[1], &Dale[3], &winLose[0]);
         if (myPokemon->getCurHP()>0)
         {
             // player won

@@ -500,7 +500,7 @@ const string cinnebarIsland[]={
 const string Dale[]={
 	"Welcome to the Elite Four.",
 	"My name is Dale and I will show you that my electric-type PokePets are the strongest you'll ever fight.",
-	"Let me teach you things you'll surely forget!"
+	"Let me teach you things you'll surely forget!",
 	//after win
 	"Hmm...I'll buy that."
 };
