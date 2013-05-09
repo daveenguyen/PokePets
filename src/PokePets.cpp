@@ -540,7 +540,7 @@ void battleTrainer(const string* name, int dexNum, int level, const string* pre,
                 cout << *name << ": ";
                 printDialogue(youWin);
                 cout << *name << ": Here are some rare candies for winning...\n";
-                itemCount[6]+=(rand()%4 + 2);
+                itemCount[6]+=(4);
             }
         }
         else
@@ -737,11 +737,14 @@ void ViridianCity(int option)
             {
                 // player won
                 badgeCount++;
-                cout << " Maybe you can stand up against the ELITE FOUR " << endl;
+                cout << "Maybe you can stand up against the ELITE FOUR" << endl;
             }
         }
         else
-            cout << " Gym is closed " << endl;
+        {    
+            cout << " Gym is closed" << endl;
+            cout << " Go to Pewter City via Viridian Forest" << endl;
+        }
     }
 }
 
@@ -813,7 +816,7 @@ void PewterCity(int option)
                 if (badgeCount>=1)
                     curLocation = 6;
                 else
-                    cout << " You should try fighting the gym leader first  " << endl;
+                    cout << "You should try fighting the gym leader first" << endl;
                 break;
         }
 
@@ -825,6 +828,7 @@ void PewterCity(int option)
         {
             // player won
             badgeCount++;
+            cout << gymLeader[0] << ": The next gym is in Cerulean City, you can get there via Mt. Moon" << endl;
         }
     }
 }
@@ -891,16 +895,19 @@ void CeruleanCity(int option)
         switch (getInputPrompt("Where would you like to go?", 5, tempoptions))
         {
             case 1:
-                // Viridian Forest
+                // Mt. Moon
                 curLocation = 7;
                 break;
             case 2:
-                // Route 3
+                // Route 4
                 curLocation = 9;
                 break;
             case 3:
                 // Route 5
-                curLocation = 10;
+                if (badgeCount>=2)
+                    curLocation = 10;
+                else
+                    cout << "Wait!!! There's a gym leader in this town!" << endl;
                 break;
             case 4:
                 //Saffron City
@@ -908,7 +915,7 @@ void CeruleanCity(int option)
                 if (badgeCount>=5)
                     curLocation = 24;
                 else
-                    cout << " Road is closed " << endl;
+                    cout << "Road is closed" << endl;
                 break;
         }
 
@@ -920,6 +927,7 @@ void CeruleanCity(int option)
         {
             // player won
             badgeCount++;
+            cout << gymLeader[1] << ": I think there's a passage that leads to Vermillion City via Route 5" << endl;
         }
     }
 }
@@ -968,7 +976,7 @@ void Route5(int option)
                 if (badgeCount>=3)
                     curLocation = 14;
                 else
-                    cout << " Road is blocked " << endl;
+                    cout << "Road is blocked" << endl;
                 break;
         }
     }
@@ -999,7 +1007,7 @@ void toVermillion(int option)
     }
     else if (option == 6)
     {
-        cout << " You can't do that here " << endl;
+        cout << "You can't do that here" << endl;
     }
 }
 
@@ -1025,7 +1033,7 @@ void VermillionCity(int option)
                 if (badgeCount>=5)
                     curLocation = 24;
                 else
-                    cout << " Road is closed " << endl;
+                    cout << "Road is closed" << endl;
                 break;
         }
     }
@@ -1036,6 +1044,8 @@ void VermillionCity(int option)
         {
             // player won
             badgeCount++;
+            cout << gymLeader[2] << ": Celadon City is where the next gym Leader is..." << endl;
+            cout << gymLeader[2] << ": Go to Lavendar Town via Rock Tunnel and find an alternative route there" << endl;
         }
     }
 }
@@ -1058,14 +1068,14 @@ void Route6(int option)
                 if (badgeCount>=4)
                     curLocation = 15;
                 else
-                    cout << " Road is blocked " << endl;
+                    cout << "Road is blocked" << endl;
                 break;
             case 3:
                 // Route 10
                 if (badgeCount>=5)
                     curLocation = 23;
                 else
-                    cout << " Road is blocked " << endl;
+                    cout << "Road is blocked" << endl;
                 break;
         }
     }
@@ -1125,13 +1135,13 @@ void LavendarTown(int option)
                 if (badgeCount>=4)
                     curLocation = 13;
                 else
-                    cout << " Road is blocked " << endl;
+                    cout << "Road is blocked" << endl;
                 break;
         }
     }
     else if (option == 6)
     {
-        cout << " You can't do that here " << endl;
+        cout << "There is no gym leader here" << endl;
     }
 }
 
@@ -1178,7 +1188,7 @@ void Route7(int option)
                 if (badgeCount>=5)
                     curLocation = 24;
                 else
-                    cout << " Road is blocked " << endl;
+                    cout << "Road is blocked" << endl;
                 break;
         }
     }
@@ -1209,7 +1219,7 @@ void ToCeladon(int option)
     }
     else if (option == 6)
     {
-        cout << " You can't do that here " << endl;
+        cout << "You can't do that here" << endl;
     }
 
 }
@@ -1232,14 +1242,14 @@ void CeladonCity(int option)
                 if (badgeCount>=4)
                     curLocation = 20;
                 else
-                    cout << " There's a gym leader in this town! " << endl;
+                    cout << "There's a gym leader in this town!" << endl;
                 break;
             case 3:
                 // Saffron City
                 if (badgeCount>=5)
                     curLocation = 24;
                 else
-                    cout << " Road is closed " << endl;
+                    cout << "Road is closed" << endl;
                 break;
         }
     }
@@ -1251,6 +1261,7 @@ void CeladonCity(int option)
         {
             // player won
             badgeCount++;
+            cout << gymLeader[3] << ": Fuschia City is your next destination" << endl;
         }
     }
 }
@@ -1298,14 +1309,14 @@ void FuchsiaCity(int option)
                 if (badgeCount>=5)
                     curLocation = 23;
                 else
-                    cout << " Why don't you challenge the gym leader " << endl;
+                    cout << "Why don't you challenge the gym leader" << endl;
                 break;
             case 3:
                 // Route 11
                 if (badgeCount>=6)
                     curLocation = 26;
                 else
-                    cout << " The road to Saffron City is now open! " << endl;
+                    cout << "The road to Saffron City is now open!" << endl;
                 break;
         }
     }
@@ -1316,6 +1327,7 @@ void FuchsiaCity(int option)
         {
             // player won
             badgeCount++;
+            cout << gymLeader[4] << ": I heard the roads to Saffron City are no longer blocked" << endl;
         }
     }
 }
@@ -1404,7 +1416,7 @@ void SaffronCity(int option)
         {
             // player won
             badgeCount++;
-            cout << " You can go visit Cinnebar Island now! " << endl;
+            cout << gymLeader[5] << ": You can go visit Cinnebar Island now!" << endl;
         }
     }
 }
@@ -1427,7 +1439,7 @@ void CinnebarIsland(int option)
                 if (badgeCount>=8)
                     curLocation = 27;
                 else
-                    cout << " The PokePet League is that way... I still need to obtain all badges first" << endl;
+                    cout << "The PokePet League is that way... I still need to obtain all badges first" << endl;
                 break;
         }
     }
@@ -1438,7 +1450,7 @@ void CinnebarIsland(int option)
         {
             // player won
             badgeCount++;
-            cout << " I heard the gym in Viridian City is open again. " << endl;
+            cout << "I heard the gym in Viridian City is open again" << endl;
         }
     }
 }
@@ -1551,11 +1563,11 @@ void PokePetLeague(int option)
                     if (myPokemon->getCurHP()>0)
                     {
                         // player won
-                        cout << " You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
+                        cout << "You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
 
                         battleTrainer(&rivalName, rivalNum, 5, &rivalQuote[6], &rivalQuote[8], &rivalQuote[12]);
 
-                        cout << " CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION! " << endl;
+                        cout << "CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION!" << endl;
                     }
                 }
             }
