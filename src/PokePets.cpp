@@ -1563,7 +1563,8 @@ void PokePetLeague(int option)
                         // player won
                         cout << eliteFour[3] << ": You are now the champion! or...you would have been.. there is one more trainer left to fight" << endl;
 
-                        battleTrainer(&rivalName, rivalNum, 70, &rivalQuote[6], &rivalQuote[8], &rivalQuote[12]);
+                        
+                        battleTrainer(&rivalName, (((myPokemon->getDexNum() +2) % 9) + 1), 70, &rivalQuote[6], &rivalQuote[8], &rivalQuote[12]);
 
                         cout << "CONGRADUALTIONS! YOU ARE NOW THE POKEPET CHAMPION!" << endl;
                     }
